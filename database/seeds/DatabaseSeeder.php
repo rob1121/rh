@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+		$this->call(omegaListSeeder::class);
+		$this->command->info('omega table seeded!');
     }
 }

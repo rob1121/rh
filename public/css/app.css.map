@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.sass"],"names":[],"mappings":"AAAA;EACC,UAAU;EACV,WAAW,EAAG;;AAEf;EACC,oBAAoB,EAGA;EAJrB;IAIE,cAAc,EAAG","file":"app.css","sourcesContent":["* {\n\tmargin: 0;\n\tpadding: 0; }\n\nbody, html {\n\tbackground: #F8F8FF;\n\n\t&:focus {\n\t\toutline: none; } }\n"],"sourceRoot":"/source/"}
