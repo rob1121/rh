@@ -1,5 +1,7 @@
 <?php namespace App\omega\Repo;
 
+use App\omega\models\status;
+
 /**
 * get content of defined url
 */
@@ -7,36 +9,34 @@ class StatusRepository
 {
 	public $content;
 	public $url;
+    public $site;
 	public $temp;
 	public $rh;
 
 	public function statusOf($url)
 	{
 		$this->url = $url;
+        $this->site = "http://{$url}/postReadHtml?a";
 
-
-		if($socket =@ fsockopen($this->url, 80, $errno, $errstr, 30)) {
-			return  'online!';
-		} else {
-			return  'offline.';
-		}
-
-		return $this->content()->temp()->humid()->get();
+		return $this->content()
+            ->temp()
+            ->humid()
+            ->get();
 	}
 
     public function content()
     {
-    	$this->content = file_get_contents("http://{$this->url}/postReadHtml?a", true);
+        $this->content = Static::isDeviceRunning($this->site)
+            ? file_get_contents($this->site)
+            : '';
 
-    	if ($this->content === false)  return [$this->url => ['temp' => 'No Response', 'rh' => 'No Response']];
-
-    	return $this;
+        return $this;
     }
 
     public function temp()
     {
 		$this->temp = '' == $this->content
-			? 'No Response'
+			? 'Offline'
 			: substr($this->content, strpos($this->content, 'Temperature') + 11, 5) . " &deg;C";
 
     	return $this;
@@ -45,13 +45,27 @@ class StatusRepository
     public function humid()
     {
     	$this->rh = '' == $this->content
-    		? 'No Response'
+    		? 'Offline'
     		: substr($this->content, strpos($this->content, 'Humidity') + 8, 5) . " %";
 
     	return $this;
     }
-
     public function get() {
-    	return [$this->url => ['temp' => $this->temp, 'rh' => $this->rh]];
+
+    	return [
+            'ip' => $this->url,
+            'location' => status::location($this->url),
+            'temp' => $this->temp,
+            'rh' => $this->rh
+        ];
+    }
+
+    public static function isDeviceRunning($site)
+    {
+        $socket =@ fsockopen($site, 80, $errno, $errstr, 30);
+
+        if ($socket) fclose($socket);
+
+        return $socket;
     }
 }

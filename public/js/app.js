@@ -11846,37 +11846,78 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _vue2.default.use(require('vue-resource'));
 
 new _vue2.default({
-	el: "#app",
+    el: "#app",
 
-	data: {
-		omegas: omegas
-	},
+    data: {
+        omegas: omegas
+    },
 
-	components: { card: _card2.default }
+    components: { card: _card2.default },
+
+    ready: function ready() {
+        var _this = this;
+
+        setInterval(function () {
+            return _this.updateStatus();
+        }, 5000);
+    },
+
+
+    methods: {
+        updateStatus: function updateStatus() {
+            var _this2 = this;
+
+            var self = this;
+
+            self.$http.get('/status').then(function (response) {
+                return _this2.$set('omegas', response.json());
+            });
+        }
+    }
 
 });
 
 },{"./components/card.vue":7,"vue":4,"vue-resource":3}],7:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("#title {\n  color: #3b4e32;\n  text-align: center;\n  font-weight: bold;\n  font-size: 24px;\n  margin-bottom: 24px;\n}\n.cards {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.card {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 0;\n  width: 180px;\n  height: 180px;\n  background: #bcfe6d;\n  border: 1px solid #3b4e32;\n  box-shadow: 0px 2px 5px 0px #3b4e32;\n}\n.title {\n  padding-left: 5px;\n  font-size: 14px;\n  margin-bottom: 20px;\n  text-transform: uppercase;\n  background: rgba(255,255,255,0.7);\n  font-weight: bold;\n  color: #3b4e32;\n}\n.card-content {\n  padding: 1px 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-size: 24px;\n}\n.card-content div {\n  width: 100%;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  font-weight: bold;\n}\n.card-content .name {\n  color: #3b4e32;\n  padding-right: 10px;\n  text-align: right;\n}\n.card-content .value {\n  color: #3b4e32;\n  padding-left: 2px;\n  background: rgba(255,255,255,0.7);\n}\n.card-footer {\n  padding: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  padding-top: 15px;\n  font-size: 14px;\n  color: #3b4e32;\n  text-transform: capitalize;\n  -webkit-box-align: end;\n      -ms-flex-align: end;\n          align-items: flex-end;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert(".alert-green {\n  background: #bcfe6d;\n}\n.alert-green .content .card-content .name {\n  color: #3b4e32;\n}\n.alert-red {\n  background: #b22222;\n}\n.alert-red .content .card-content .name {\n  color: #ec9b9b;\n}\n.alert-red .card-footer {\n  color: #ec9b9b;\n}\n#title {\n  color: #3b4e32;\n  text-align: center;\n  font-weight: bold;\n  font-size: 24px;\n  margin-bottom: 24px;\n}\n.cards {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.card {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 0;\n  width: 180px;\n  height: 180px;\n  border: 1px solid #3b4e32;\n  box-shadow: 0px 2px 5px 0px #3b4e32;\n}\n.title {\n  padding-left: 5px;\n  font-size: 14px;\n  margin-bottom: 20px;\n  text-transform: uppercase;\n  background: rgba(255,255,255,0.7);\n  font-weight: bold;\n  color: #3b4e32;\n}\n.card-content {\n  padding: 1px 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-size: 24px;\n}\n.card-content div {\n  width: 100%;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  font-weight: bold;\n}\n.card-content .name {\n  color: #3b4e32;\n  padding-right: 10px;\n  text-align: right;\n}\n.card-content .value {\n  color: #3b4e32;\n  padding-left: 2px;\n  background: rgba(255,255,255,0.7);\n}\n.card-footer {\n  padding: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  padding-top: 15px;\n  font-size: 14px;\n  color: #3b4e32;\n  text-transform: capitalize;\n  -webkit-box-align: end;\n      -ms-flex-align: end;\n          align-items: flex-end;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 exports.default = {
+	data: function data() {
+		return {
+			alert: 'alert-green'
+		};
+	},
 
-	props: ['omegas']
+
+	props: ['omegas'],
+
+	methods: {
+		status: function status(rh, temp) {
+			var self = this;
+
+			if (temp == "Offline" || rh == "Offline") {
+				self.alert = 'alert-red';
+			} else {
+				self.alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5 ? 'alert-red' : 'alert-green';
+			}
+
+			return self.alert;
+		}
+	}
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"box\"><div id=\"title\"><slot></slot></div><div class=\"cards\"><div v-for=\"device in omegas\" class=\"card\"><div class=\"title\"> {{ device.location }}:</div><div class=\"content\"><div class=\"card-content\"><div class=\"name\">RH:</div><div class=\"value\">00.00</div></div><div class=\"card-content\"><div class=\"name\">TEMP:</div><div class=\"value\">00.00</div></div></div><div class=\"card-footer\"><p>recording: yes</p></div></div></div></div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"box\"><div id=\"title\"><slot></slot></div><div class=\"cards\"><div v-for=\"device in omegas\" v-bind:class=\"status(device.rh, device.temp)\" class=\"card\"><div class=\"title\"> {{ device.location }}:</div><div class=\"content\"><div class=\"card-content\"><div class=\"name\">RH:</div><div class=\"value\">{{ device.rh }}</div></div><div class=\"card-content\"><div class=\"name\">TEMP:</div><div class=\"value\">{{ device.temp }}</div></div></div><div class=\"card-footer\"><p>recording: yes</p></div></div></div></div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["#title {\n  color: #3b4e32;\n  text-align: center;\n  font-weight: bold;\n  font-size: 24px;\n  margin-bottom: 24px;\n}\n.cards {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.card {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 0;\n  width: 180px;\n  height: 180px;\n  background: #bcfe6d;\n  border: 1px solid #3b4e32;\n  box-shadow: 0px 2px 5px 0px #3b4e32;\n}\n.title {\n  padding-left: 5px;\n  font-size: 14px;\n  margin-bottom: 20px;\n  text-transform: uppercase;\n  background: rgba(255,255,255,0.7);\n  font-weight: bold;\n  color: #3b4e32;\n}\n.card-content {\n  padding: 1px 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-size: 24px;\n}\n.card-content div {\n  width: 100%;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  font-weight: bold;\n}\n.card-content .name {\n  color: #3b4e32;\n  padding-right: 10px;\n  text-align: right;\n}\n.card-content .value {\n  color: #3b4e32;\n  padding-left: 2px;\n  background: rgba(255,255,255,0.7);\n}\n.card-footer {\n  padding: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  padding-top: 15px;\n  font-size: 14px;\n  color: #3b4e32;\n  text-transform: capitalize;\n  -webkit-box-align: end;\n      -ms-flex-align: end;\n          align-items: flex-end;\n}\n"] = false
+    __vueify_insert__.cache[".alert-green {\n  background: #bcfe6d;\n}\n.alert-green .content .card-content .name {\n  color: #3b4e32;\n}\n.alert-red {\n  background: #b22222;\n}\n.alert-red .content .card-content .name {\n  color: #ec9b9b;\n}\n.alert-red .card-footer {\n  color: #ec9b9b;\n}\n#title {\n  color: #3b4e32;\n  text-align: center;\n  font-weight: bold;\n  font-size: 24px;\n  margin-bottom: 24px;\n}\n.cards {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.card {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 0;\n  width: 180px;\n  height: 180px;\n  border: 1px solid #3b4e32;\n  box-shadow: 0px 2px 5px 0px #3b4e32;\n}\n.title {\n  padding-left: 5px;\n  font-size: 14px;\n  margin-bottom: 20px;\n  text-transform: uppercase;\n  background: rgba(255,255,255,0.7);\n  font-weight: bold;\n  color: #3b4e32;\n}\n.card-content {\n  padding: 1px 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-size: 24px;\n}\n.card-content div {\n  width: 100%;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  font-weight: bold;\n}\n.card-content .name {\n  color: #3b4e32;\n  padding-right: 10px;\n  text-align: right;\n}\n.card-content .value {\n  color: #3b4e32;\n  padding-left: 2px;\n  background: rgba(255,255,255,0.7);\n}\n.card-footer {\n  padding: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  padding-top: 15px;\n  font-size: 14px;\n  color: #3b4e32;\n  text-transform: capitalize;\n  -webkit-box-align: end;\n      -ms-flex-align: end;\n          align-items: flex-end;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {

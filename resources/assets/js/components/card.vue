@@ -5,18 +5,18 @@
 		#title
 			slot
 		.cards
-			.card(v-for="device in omegas")
+			.card(v-for="device in omegas" v-bind:class="status(device.rh, device.temp)")
 
 				.title  {{ device.location }}:
 
 				.content
 					.card-content
 						.name RH:
-						.value 00.00
+						.value {{ device.rh }}
 
 					.card-content
 						.name TEMP:
-						.value 00.00
+						.value {{ device.temp }}
 
 				.card-footer
 					p recording: yes
@@ -30,7 +30,23 @@ $red = firebrick
 $border-green = #3B4E32
 
 $label-green = #3B4E32
-$label-red = #49010F
+$label-red = lighten($red, 60%)
+
+.alert-green
+	background: $green
+
+	.content .card-content .name
+		color: $label-green
+
+.alert-red
+	background: $red
+
+	.content .card-content .name
+		color: $label-red
+
+	.card-footer
+		color: $label-red
+
 
 #title
 	color: $label-green
@@ -51,7 +67,6 @@ $label-red = #49010F
 	margin: 5px 0
 	width:180px
 	height: 180px
-	background: $green
 	border: 1px solid $border-green
 	box-shadow: 0px 2px 5px 0px $border-green
 
@@ -100,9 +115,37 @@ $label-red = #49010F
 
 <script>
 	export default {
+		data( ){
+			return {
+				alert: 'alert-green'
+			}
+		},
 
-		props: ['omegas']
+		props: ['omegas'],
 
+		methods: {
+
+	        status(rh, temp) {
+	            var self = this;
+
+		        if ( temp == "Offline" || rh == "Offline" )
+		        {
+		            self.alert = 'alert-red';
+		        }
+
+		        else
+		        {
+		            self.alert = temp > 25.6
+		                || temp < 19.5
+		                || rh > 55.6
+		                || rh < 44.5
+		                ? 'alert-red'
+		                : 'alert-green';
+		        }
+
+		        return self.alert;
+	        }
+		}
 
 	}
 </script>

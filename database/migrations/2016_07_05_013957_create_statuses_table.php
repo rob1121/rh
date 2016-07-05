@@ -17,6 +17,7 @@ class CreateStatusesTable extends Migration
             $table->string('ip');
             $table->string('location');
             $table->string('rh');
+            $table->string('temp');
             $table->timestamps();
         });
     }

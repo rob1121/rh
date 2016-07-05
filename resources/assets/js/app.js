@@ -10,7 +10,23 @@ new Vue({
 		omegas: omegas
 	},
 
-	components: { card }
+	components: { card },
+
+    ready() {
+        setInterval(() => this.updateStatus(), 5000);
+    },
+
+    methods: {
+        updateStatus() {
+            var self = this;
+
+            self.$http.get('/status')
+                .then(response => this.$set('omegas', response.json()));
+
+        }
+
+    }
+
 
 
 });
