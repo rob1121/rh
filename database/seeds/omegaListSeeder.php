@@ -41,7 +41,9 @@ class omegaListSeeder extends Seeder
     	foreach ($collections as $collection) {
     		status::create([
     			'ip'    => $collection['ip'],
-    			'location'       => $collection['location']
+    			'location'       => $collection['location'],
+                'rh' => 'Offline',
+                'temp' => 'Offline'
     		]);
     	}
     }
