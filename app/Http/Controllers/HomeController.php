@@ -18,7 +18,10 @@ class HomeController extends Controller
 
     public function index()
     {
+        JavaScript::put("test", "test");
         JavaScript::put("omegas", status::all());
+        dd(status::all());
+        // JavaScript::put("omegas", status::all());
         return view('welcome');
     }
 
