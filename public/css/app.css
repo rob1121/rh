@@ -8,9 +8,10 @@ body, html {
     outline: none; }
 
 #app .box {
+  font-family: "Bitstream Vera Sans Mono", "Consolas", "Courier", monospace;
   overflow: hidden; }
   #app .box .cards {
-    animation: slideup 1s; }
+    animation: slideup 2s; }
 
 @keyframes slideup {
   from {

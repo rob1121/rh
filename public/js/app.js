@@ -11855,23 +11855,23 @@ new _vue2.default({
     components: { card: _card2.default },
 
     ready: function ready() {
-        var _this = this;
-
-        setInterval(function () {
-            return _this.updateStatus();
-        }, 5000);
+        this.updateStatus();
     },
 
 
     methods: {
         updateStatus: function updateStatus() {
-            var _this2 = this;
+            var _this = this;
 
             var self = this;
 
             self.$http.get('/status').then(function (response) {
-                return _this2.$set('omegas', response.json());
+                return _this.$set('omegas', response.json());
             });
+
+            setTimeout(function () {
+                return _this.updateStatus();
+            }, 5000);
         }
     }
 

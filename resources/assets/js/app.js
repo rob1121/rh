@@ -13,7 +13,7 @@ new Vue({
 	components: { card },
 
     ready() {
-        setInterval(() => this.updateStatus(), 5000);
+        this.updateStatus();
     },
 
     methods: {
@@ -22,6 +22,8 @@ new Vue({
 
             self.$http.get('/status')
                 .then(response => this.$set('omegas', response.json()));
+
+            setTimeout(() => this.updateStatus(), 5000);
 
         }
 
