@@ -7,3 +7,18 @@ body, html
 
 	&:focus
 		outline: none
+
+#app .box
+    overflow: hidden
+
+    .cards
+        animation: slideup 1s
+
+@keyframes slideup
+    from
+        transform: translateY(50px)
+        opacity: 0
+
+    to
+        transform: translateY(0px)
+        opacity: 1

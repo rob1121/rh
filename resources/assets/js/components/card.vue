@@ -40,6 +40,8 @@ $label-red = lighten($red, 60%)
 
 .alert-red
 	background: $red
+	animation: shake .82s cubic-bezier(.36,.07,.19,.97) both 1s
+	transform: translate3d(0, 0, 0)
 
 	.content .card-content .name
 		color: $label-red
@@ -96,6 +98,7 @@ $label-red = lighten($red, 60%)
 		text-align: right
 
 	.value
+		transition: all 1s ease-in-out
 		color: $label-green
 		padding-left: 2px
 		background: $fade-white
@@ -111,6 +114,35 @@ $label-red = lighten($red, 60%)
 	color: $label-green
 	text-transform: capitalize
 	align-items: flex-end
+
+
+
+@keyframes shake {
+	10%, 90% {
+		transform: translate3d(-1px, 0, 0);
+	}
+
+	20%, 80% {
+		transform: translate3d(2px, 0, 0);
+	}
+
+	30%, 50%, 70% {
+		transform: translate3d(-4px, 0, 0);
+	}
+
+	40%, 60% {
+		transform: translate3d(4px, 0, 0);
+	}
+
+	50% {
+		box-shadow: 0px 5px 10px 0px  $border-green
+	}
+
+	100% {
+		box-shadow: 0px 2px 5px 0px  $border-green
+	}
+}
+
 </style>
 
 <script>

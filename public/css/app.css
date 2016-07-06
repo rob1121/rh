@@ -7,4 +7,17 @@ body, html {
   body:focus, html:focus {
     outline: none; }
 
+#app .box {
+  overflow: hidden; }
+  #app .box .cards {
+    animation: slideup 1s; }
+
+@keyframes slideup {
+  from {
+    transform: translateY(50px);
+    opacity: 0; }
+  to {
+    transform: translateY(0px);
+    opacity: 1; } }
+
 /*# sourceMappingURL=app.css.map */
