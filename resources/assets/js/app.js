@@ -24,7 +24,7 @@ var rhTemp = new Vue({
 
             self.$http.get(development)
                 .then(response => this.$set('omegas', response.json()));
-            setTimeout(() => this.updateStatus(), 5000);
+            // setTimeout(() => this.updateStatus(), 5000); // for local server deployment
         }
 
     }

@@ -11871,9 +11871,7 @@ var rhTemp = new _vue2.default({
             self.$http.get(development).then(function (response) {
                 return _this.$set('omegas', response.json());
             });
-            setTimeout(function () {
-                return _this.updateStatus();
-            }, 5000);
+            // setTimeout(() => this.updateStatus(), 5000); // for local server deployment
         }
     }
 
