@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>RH TEMP</title>
-	<link rel="stylesheet" type="text/css" href="/css/app.css">
+	<link rel="stylesheet" type="text/css" href="{{ env('CSS_LINK', '') }}/css/app.css">
 </head>
 <body>
 
@@ -11,6 +11,6 @@
 </div>
 
 @include('layouts.footer')
-<script src="/js/app.js"></script>
+<script src="{{ env('JS_LINK', '') }}/js/app.js"></script>
 </body>
 </html>

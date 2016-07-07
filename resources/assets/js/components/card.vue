@@ -1,22 +1,20 @@
 <template lang="jade">
-
-
 	.box
 		#title
 			slot
 		.cards
-			.card(v-for="device in omegas" v-bind:class="status(device.rh, device.temp)")
+			.card(v-for="device in omegas" v-bind:class="device  | filterClasses")
 
 				.title  {{ device.location }}:
 
 				.content
 					.card-content
 						.name RH:
-						.value {{ device.rh }}
+						.value {{ device.rh != "Offline" ? device.rh + " %" : "Offline" }}
 
 					.card-content
 						.name TEMP:
-						.value {{ device.temp }}
+						.value {{ device.temp != "Offline" ? device.temp + " &deg;C" : "Offline" }}
 
 				.card-footer
 					p recording: yes
@@ -85,7 +83,7 @@ $label-red = lighten($red, 60%)
 .card-content
 	padding: 1px 5px
 	display: flex
-	font-size: 24px
+	font-size: 20px
 
 	div
 		width: 100%
@@ -147,7 +145,7 @@ $label-red = lighten($red, 60%)
 
 <script>
 	export default {
-		data( ){
+		data(){
 			return {
 				alert: 'alert-green'
 			}
@@ -155,29 +153,31 @@ $label-red = lighten($red, 60%)
 
 		props: ['omegas'],
 
-		methods: {
+		filters: {
+			filterClasses(Obj) {
+				var self = this;
 
+				return self.status(Obj.rh, Obj.temp);
+			}
+		},
+
+		methods: {
 	        status(rh, temp) {
-	            var self = this;
+	            var self = this,
+	            	alert = "";
 
 		        if ( temp == "Offline" || rh == "Offline" )
 		        {
-		            self.alert = 'alert-red';
+		            alert = 'alert-red';
 		        }
 
 		        else
 		        {
-		            self.alert = temp > 25.6
-		                || temp < 19.5
-		                || rh > 55.6
-		                || rh < 44.5
-		                ? 'alert-red'
-		                : 'alert-green';
+		            alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5 ? 'alert-red' : 'alert-green';
 		        }
 
-		        return self.alert;
+		        return alert;
 	        }
 		}
-
 	}
 </script>

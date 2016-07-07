@@ -3,7 +3,7 @@ import card from './components/card.vue';
 
 Vue.use(require('vue-resource'));
 
-new Vue({
+var rhTemp = new Vue({
 	el: "#app",
 
 	data: {
@@ -18,13 +18,13 @@ new Vue({
 
     methods: {
         updateStatus() {
-            var self = this;
+            var self = this,
+            	development = '/status', // for laragon connections
+            	production = '/rh-temp/public/status'; // form local server connections
 
-            self.$http.get('/status')
+            self.$http.get(development)
                 .then(response => this.$set('omegas', response.json()));
-
             setTimeout(() => this.updateStatus(), 5000);
-
         }
 
     }

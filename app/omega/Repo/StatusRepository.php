@@ -10,8 +10,12 @@ class StatusRepository
 	public $content;
 	public $url;
     public $site;
-	public $temp;
-	public $rh;
+	public $temp = "Offline";
+	public $rh = "Offline";
+
+	public function __construct() {
+		set_time_limit (0);
+	}
 
 	public function statusOf($url)
 	{
@@ -26,30 +30,28 @@ class StatusRepository
 
     public function content()
     {
-        $this->content = Static::isDeviceRunning($this->site)
-            ? file_get_contents($this->site)
-            : '';
+        if( Static::isSiteAvailable($this->site) )
+        	$this->content = file_get_contents($this->site);
 
         return $this;
     }
 
     public function temp()
     {
-		$this->temp = '' == $this->content
-			? 'Offline'
-			: substr($this->content, strpos($this->content, 'Temperature') + 11, 5) . " &deg;C";
+		if(  Static::isSiteAvailable($this->site) )
+			$this->temp = substr($this->content, strpos($this->content, 'Temperature') + 11, 5);
 
     	return $this;
     }
 
     public function humid()
     {
-    	$this->rh = '' == $this->content
-    		? 'Offline'
-    		: substr($this->content, strpos($this->content, 'Humidity') + 8, 5) . " %";
+    	if(  Static::isSiteAvailable($this->site) )
+    		$this->rh = substr($this->content, strpos($this->content, 'Humidity') + 8, 5);
 
     	return $this;
     }
+
     public function get() {
 
     	return [
@@ -60,12 +62,26 @@ class StatusRepository
         ];
     }
 
-    public static function isDeviceRunning($site)
+    public static function isSiteAvailable($url)
     {
-        $socket =@ fsockopen($site, 80, $errno, $errstr, 30);
+	    //check, if a valid url is provided
+	    if(!filter_var($url, FILTER_VALIDATE_URL))
+	    {
+	    return false;
+	    }
 
-        if ($socket) fclose($socket);
+	    //make the connection with curl
+	    $cl = curl_init($url);
+	    curl_setopt($cl,CURLOPT_CONNECTTIMEOUT,5);
+	    curl_setopt($cl,CURLOPT_HEADER,true);
+	    curl_setopt($cl,CURLOPT_NOBODY,true);
+	    curl_setopt($cl,CURLOPT_RETURNTRANSFER,true);
 
-        return $socket;
+	    //get response
+	    $response = curl_exec($cl);
+
+	    curl_close($cl);
+
+	    return $response ? true : false;
     }
 }
