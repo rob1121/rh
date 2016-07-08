@@ -7,22 +7,24 @@ var rhTemp = new Vue({
 	el: "#app",
 
 	data: {
-		omegas: omegas
+		omegas: omegas,
+        atReady: false
 	},
 
 	components: { card },
 
     ready() {
-        this.updateStatus();
+        var self = this;
+
+        self.updateStatus();
+        self.atReady = true;
     },
 
     methods: {
         updateStatus() {
-            var self = this,
-            	development = '/status', // for laragon connections
-            	production = '/rh-temp/public/status'; // form local server connections
+            var self = this
 
-            self.$http.get(development)
+            self.$http.get(env_server + '/status')
                 .then(response => this.$set('omegas', response.json()));
             // setTimeout(() => this.updateStatus(), 5000); // for local server deployment
         }

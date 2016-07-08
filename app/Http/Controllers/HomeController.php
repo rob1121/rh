@@ -5,27 +5,26 @@ namespace App\Http\Controllers;
 use JavaScript;
 use App\Http\Requests;
 use App\omega\models\status;
-use Illuminate\Http\Request;
 use App\omega\Repo\StatusRepository;
+use App\omega\Repo\DbTrans;
 
 class HomeController extends Controller
 {
-	private $omega;
-	public function __construct(StatusRepository $omega)
-	{
-		$this->omega = $omega;
-	}
-
     public function index()
     {
         JavaScript::put(["omegas" => status::all()]);
         return view('welcome');
     }
 
-    public function status()
+    public function status(StatusRepository $omega)
     {
-    	return status::all()->map(function($item) {
-    		return $this->omega->statusOf($item->ip);
+    	return status::all()->map(function($item) use($omega){
+    		return $omega->statusOf($item->ip);
     	});
+    }
+
+    public function exportToCsv(DbTrans $db)
+    {
+        $db->toExcel();
     }
 }

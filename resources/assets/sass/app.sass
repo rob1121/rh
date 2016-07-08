@@ -1,27 +1,9 @@
+@import "./partials/reset"
 @import "node_modules/bourbon/app/assets/stylesheets/bourbon"
-
-*
-	margin: 0
-	padding: 0
+@import "resources/assets/vendor/font-awesome/scss/font-awesome"
 
 body, html
 	background: #F8F8FF
 
-	&:focus
-		outline: none
-
-#app .box
-    font-family: $monospace
-    overflow: hidden
-
-    .cards
-        animation: slideup 2s
-
-@keyframes slideup
-    from
-        transform: translateY(50px)
-        opacity: 0
-
-    to
-        transform: translateY(0px)
-        opacity: 1
+#app
+  font-family: $monospace

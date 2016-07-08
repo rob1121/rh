@@ -2,15 +2,15 @@
 <html>
 <head>
 	<title>RH TEMP</title>
-	<link rel="stylesheet" type="text/css" href="{{ env('CSS_LINK', '') }}/css/app.css">
+	<link rel="stylesheet" type="text/css" href="{{ $server }}/css/app.css">
 </head>
 <body>
 
-<div id="app">
+<div id="app" v-show="atReady">
 	@yield('content')
 </div>
 
 @include('layouts.footer')
-<script src="{{ env('JS_LINK', '') }}/js/app.js"></script>
+<script src="{{ $server }}/js/app.js"></script>
 </body>
 </html>
