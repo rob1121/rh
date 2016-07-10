@@ -6,12 +6,22 @@ elixir(function(mix) {
 });
 
 elixir(function(mix) {
-    mix.sass('app.sass')
-    .browserify('app.js')
-    .browserSync({
-    	proxy: 'rh-temp.me'
+    mix.sass('bootstrap.sass')
+        .scripts([
+            './resources/assets/vendor/jquery/dist/jquery.min.js',
+            './resources/assets/vendor/bootstrap/dist/js/bootstrap.min.js'],
+            'public/js/bootstrap.js')
+
+        .sass('app.sass')
+        .browserify('app.js')
+
+        .sass('vue-device.sass')
+        .browserify('vue-device.js')
+
+        .browserSync({
+            proxy: 'rh-temp.me'
+        });
     });
-});
 
 
 

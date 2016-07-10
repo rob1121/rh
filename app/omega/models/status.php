@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class status extends Model
 {
-    protected $fillable = ['ip','location','rh','temp'];
+    protected $fillable = ['rh','temp','is_recording'];
+    
+    public function device()
+    {
+        return $this->belongsTo('App\omega\models\device');
+    }
 
     public static function location($ip)
     {

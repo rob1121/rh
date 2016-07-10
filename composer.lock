@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "880f71ecac602d0e64e7dce49fbddb17",
-    "content-hash": "b7fb6d77c6630f7f38e28120af59c3b1",
+    "hash": "820a3d215bfa1123a1e739ac7875e449",
+    "content-hash": "ce8bab67c8c93b87b0457be94b33511f",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -478,6 +478,51 @@
                 "laravel"
             ],
             "time": "2016-06-17 19:25:12"
+        },
+        {
+            "name": "laravelcollective/bus",
+            "version": "v5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelCollective/bus.git",
+                "reference": "e48b4d44d49f820e1b85ff16b9402e01c770c83a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelCollective/bus/zipball/e48b4d44d49f820e1b85ff16b9402e01c770c83a",
+                "reference": "e48b4d44d49f820e1b85ff16b9402e01c770c83a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/container": "5.2.*",
+                "illuminate/contracts": "5.2.*",
+                "illuminate/pipeline": "5.2.*",
+                "illuminate/support": "5.2.*",
+                "php": ">=5.5.9"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Collective\\Bus\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "The Laravel Bus (5.1) package for use in Laravel 5.2.",
+            "homepage": "http://laravelcollective.com",
+            "time": "2015-12-23 07:43:33"
         },
         {
             "name": "league/flysystem",

@@ -1,87 +1,132 @@
 <?php namespace App\omega\Repo;
 
-use App\omega\models\status;
-
 /**
 * get content of defined url
 */
-class StatusRepository
-{
+class StatusRepository {
 	public $content;
-	public $url;
+	public $ip;
+	public $location;
     public $site;
 	public $temp = "Offline";
 	public $rh = "Offline";
+    public $isRecording = "Offline";
 
-	public function __construct() {
+    /**
+     * StatusRepository constructor.
+     */
+    public function __construct()
+    {
 		set_time_limit (0);
 	}
 
-	public function statusOf($url)
+    /**
+     * @param $device
+     * @return array
+     */
+    public function statusOf($device)
 	{
-		$this->url = $url;
-        $this->site = "http://{$url}/postReadHtml?a";
+		$this->ip = $device->ip;
+		$this->location = $device->location;
+        $this->site = "http://{$device->ip}/postReadHtml?a";
 
-		return $this->content()
-            ->temp()
-            ->humid()
-            ->get();
+        return static::isSiteAvailable($this->site)
+            ? $this->content()->temp()->humid()->record()->get()
+            : $this->get();
 	}
 
-    public function content()
+    /**
+     * @param $url
+     * @return bool
+     */
+    public static function isSiteAvailable($url)
     {
-        if( Static::isSiteAvailable($this->site) )
-        	$this->content = file_get_contents($this->site);
+        //check, if a valid url is provided
+        if(!filter_var($url, FILTER_VALIDATE_URL))
+        {
+            return false;
+        }
+
+        //make the connection with curl
+        $cl = curl_init($url);
+        curl_setopt($cl,CURLOPT_CONNECTTIMEOUT,5);
+        curl_setopt($cl,CURLOPT_HEADER,true);
+        curl_setopt($cl,CURLOPT_NOBODY,true);
+        curl_setopt($cl,CURLOPT_RETURNTRANSFER,true);
+
+        //get response
+        $response = curl_exec($cl);
+
+        curl_close($cl);
+
+        return $response ? true : false;
+    }
+
+    /**
+     * @return array
+     */
+    public function get()
+    {
+
+    	return [
+            'ip' => $this->ip,
+            'location' => $this->location,
+            'temp' => $this->temp,
+            'rh' => $this->rh,
+            'isRecording' => $this->isRecording
+        ];
+    }
+
+    /**
+     * @return $this
+     */
+    public function record()
+    {
+        $this->isRecording =  $this->getValue('Recording', 9, 3);
 
         return $this;
     }
 
-    public function temp()
-    {
-		if(  Static::isSiteAvailable($this->site) )
-			$this->temp = substr($this->content, strpos($this->content, 'Temperature') + 11, 5);
-
-    	return $this;
-    }
-
+    /**
+     * @return $this
+     */
     public function humid()
     {
-    	if(  Static::isSiteAvailable($this->site) )
-    		$this->rh = substr($this->content, strpos($this->content, 'Humidity') + 8, 5);
+        $this->rh = $this->getValue('Humidity', 8, 5);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function temp()
+    {
+        $this->temp = $this->getValue('Temperature', 11, 5);
 
     	return $this;
     }
 
-    public function get() {
+    /**
+     * @return $this
+     */
+    public function content()
+    {
+        $this->content = file_get_contents($this->site);
 
-    	return [
-            'ip' => $this->url,
-            'location' => status::location($this->url),
-            'temp' => $this->temp,
-            'rh' => $this->rh
-        ];
+        return $this;
     }
 
-    public static function isSiteAvailable($url)
+    /**
+     * @param $keyword
+     * @param $keyword_count
+     * @param $end
+     * @return string
+     */
+    protected function getValue($keyword, $keyword_count, $end)
     {
-	    //check, if a valid url is provided
-	    if(!filter_var($url, FILTER_VALIDATE_URL))
-	    {
-	    return false;
-	    }
+        $start = strpos($this->content, $keyword) + $keyword_count;
 
-	    //make the connection with curl
-	    $cl = curl_init($url);
-	    curl_setopt($cl,CURLOPT_CONNECTTIMEOUT,5);
-	    curl_setopt($cl,CURLOPT_HEADER,true);
-	    curl_setopt($cl,CURLOPT_NOBODY,true);
-	    curl_setopt($cl,CURLOPT_RETURNTRANSFER,true);
-
-	    //get response
-	    $response = curl_exec($cl);
-
-	    curl_close($cl);
-
-	    return $response ? true : false;
+        return substr($this->content, $start, $end);
     }
 }

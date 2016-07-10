@@ -12,6 +12,7 @@
     "stylus": "^0.54.5",
     "vue": "^1.0.26",
     "vue-chunk": "^1.0.0",
-    "vue-resource": "^0.9.3"
+    "vue-resource": "^0.9.3",
+    "vuex": "^1.0.0-rc.2"
   }
 }

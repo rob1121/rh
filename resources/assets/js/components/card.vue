@@ -10,14 +10,14 @@
 				.content
 					.card-content
 						.name RH:
-						.value {{ device.rh != "Offline" ? device.rh + " %" : "Offline" }}
+						.value {{ device.rh | isNull | isUndefined | suffix "%"}}
 
 					.card-content
 						.name TEMP:
-						.value {{ device.temp != "Offline" ? device.temp + " &deg;C" : "Offline" }}
+						.value {{ device.temp | isNull | isUndefined | suffix "&deg;C"}}
 
 				.card-footer
-					p recording: yes
+					p recording: {{ device.isRecording | isNull | isUndefined }}
 
 </template>
 
@@ -163,21 +163,38 @@ $label-red = lighten($red, 60%)
 
 		filters: {
 			filterClasses(Obj) {
-				var self = this;
+				return this.status(Obj.rh, Obj.temp);
+			},
 
-				return self.status(Obj.rh, Obj.temp);
-			}
+            isUndefined( value ) {
+                if(typeof value == "undefined" ) return "Offline";
+
+                return value;
+            },
+
+            isNull( value ) {
+                if( value === null ) return "Offline";
+
+                return value;
+            },
+
+            suffix( value , suffix ) {
+                if( value == 'Offline' ) return "Offline";
+
+                return `${value} ${suffix}`;
+            }
 		},
 
 		methods: {
 	        status(rh, temp) {
-	            var self = this,
-	            	alert = "";
+	            var alert = "";
 
-		        if ( temp == "Offline" || rh == "Offline" )
-		        {
+		        if ( typeof temp == "undefined"
+                        || typeof rh == "undefined"
+                        || temp == "Offline"
+                        || rh == "Offline"
+                )
 		            alert = 'alert-red';
-		        }
 
 		        else
 		        {

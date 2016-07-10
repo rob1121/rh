@@ -1,19 +1,23 @@
 <?php namespace App\omega\Repo;
 
 use App\omega\models\status;
-use Carbon\Carbon;
-use Maatwebsite\Excel\Facades\Excel;
+use App\omega\Traits\DateTime;
+use Excel;
 
 class DbTrans
 {
+    use DateTime;
 
     public function toExcel()
     {
         $db = status::all();
+        $today = DateTime::today();
 
-        Excel::create('rh-temp', function($excel) use($db)
+        Excel::create("rh-temp {$today}", function($excel) use($db)
         {
-            $excel->sheet(Carbon::year(), function($sheet) use($db)
+            $year = DateTime::year();
+
+            $excel->sheet("{$year}", function($sheet) use($db)
             {
                 $sheet->fromArray($db);
             });

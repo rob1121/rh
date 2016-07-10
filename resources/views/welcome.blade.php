@@ -1,8 +1,13 @@
 @extends('layouts.layout')
+
+@push('style')
+    <link rel="stylesheet" type="text/css" href="{{ $server }}/css/app.css">
+@endpush
+
 @section('content')
-    {{--<div class="export">--}}
-        {{--<a href="" class="export">Export to Excel</a>--}}
-        {{--{{ route('exportToCsv') }}--}}
-    {{--</div>--}}
-<card :omegas="omegas">TSPI RH & Temp. Monitoring</card>
+    <card :omegas="omegas">TSPI RH & Temp. Monitoring</card>
 @endsection
+
+@push('script')
+    <script src="{{ $server }}/js/app.js"></script>
+@endpush

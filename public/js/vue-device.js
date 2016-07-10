@@ -11831,127 +11831,6 @@ exports.insert = function (css) {
 }
 
 },{}],6:[function(require,module,exports){
-'use strict';
-
-var _vue = require('vue');
-
-var _vue2 = _interopRequireDefault(_vue);
-
-var _card = require('./components/card.vue');
-
-var _card2 = _interopRequireDefault(_card);
-
-var _toggleGear = require('./components/toggleGear.vue');
-
-var _toggleGear2 = _interopRequireDefault(_toggleGear);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_vue2.default.use(require('vue-resource'));
-
-new _vue2.default({
-    el: "#app",
-
-    data: {
-        omegas: omegas,
-        atReady: false
-    },
-
-    components: { card: _card2.default, toggleGear: _toggleGear2.default },
-
-    ready: function ready() {
-        var self = this;
-
-        self.updateStatus();
-        self.atReady = true;
-    },
-
-
-    methods: {
-        updateStatus: function updateStatus() {
-            var self = this;
-
-            self.$http.get(env_server + '/status').then(function (response) {
-
-                self.$set('omegas', response.json());
-                setTimeout(function () {
-                    return self.updateStatus();
-                }, 60 * 60 * 1000); // for local server deployment
-            }, function (response) {
-                return self.updateStatus();
-            });
-        }
-    }
-});
-
-},{"./components/card.vue":7,"./components/toggleGear.vue":8,"vue":4,"vue-resource":3}],7:[function(require,module,exports){
-var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert(".alert-green {\n  background: #bcfe6d;\n}\n.alert-green .content .card-content .name {\n  color: #3b4e32;\n}\n.alert-red {\n  background: #b22222;\n  -webkit-animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both 1s;\n          animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both 1s;\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n}\n.alert-red .content .card-content .name {\n  color: #ec9b9b;\n}\n.alert-red .card-footer {\n  color: #ec9b9b;\n}\n.box {\n  overflow: hidden;\n}\n#title {\n  color: #3b4e32;\n  text-align: center;\n  font-weight: bold;\n  font-size: 24px;\n  margin-bottom: 24px;\n}\n.cards {\n  -webkit-animation: slideup 2s;\n          animation: slideup 2s;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.card {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 0;\n  width: 180px;\n  height: 180px;\n  border: 1px solid #3b4e32;\n  box-shadow: 0px 2px 5px 0px #3b4e32;\n}\n.title {\n  padding-left: 5px;\n  font-size: 14px;\n  margin-bottom: 20px;\n  text-transform: uppercase;\n  background: rgba(255,255,255,0.7);\n  font-weight: bold;\n  color: #3b4e32;\n}\n.card-content {\n  padding: 1px 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-size: 20px;\n}\n.card-content div {\n  width: 100%;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  font-weight: bold;\n}\n.card-content .name {\n  color: #3b4e32;\n  padding-right: 10px;\n  text-align: right;\n}\n.card-content .value {\n  -webkit-transition: all 1s ease-in-out;\n  transition: all 1s ease-in-out;\n  color: #3b4e32;\n  padding-left: 2px;\n  background: rgba(255,255,255,0.7);\n}\n.card-footer {\n  padding: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  padding-top: 15px;\n  font-size: 14px;\n  color: #3b4e32;\n  text-transform: capitalize;\n  -webkit-box-align: end;\n      -ms-flex-align: end;\n          align-items: flex-end;\n}\n@-moz-keyframes slideup {\n  from {\n    transform: translateY(50px);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@-webkit-keyframes slideup {\n  from {\n    -webkit-transform: translateY(50px);\n            transform: translateY(50px);\n    opacity: 0;\n  }\n  to {\n    -webkit-transform: translateY(0px);\n            transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@-o-keyframes slideup {\n  from {\n    transform: translateY(50px);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@keyframes slideup {\n  from {\n    -webkit-transform: translateY(50px);\n            transform: translateY(50px);\n    opacity: 0;\n  }\n  to {\n    -webkit-transform: translateY(0px);\n            transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@-moz-keyframes shake {\n  10%, 90% {\n    transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n@-webkit-keyframes shake {\n  10%, 90% {\n    -webkit-transform: translate3d(-1px, 0, 0);\n            transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    -webkit-transform: translate3d(2px, 0, 0);\n            transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    -webkit-transform: translate3d(-4px, 0, 0);\n            transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n@-o-keyframes shake {\n  10%, 90% {\n    transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n@keyframes shake {\n  10%, 90% {\n    -webkit-transform: translate3d(-1px, 0, 0);\n            transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    -webkit-transform: translate3d(2px, 0, 0);\n            transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    -webkit-transform: translate3d(-4px, 0, 0);\n            transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n")
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.default = {
-	data: function data() {
-		return {
-			alert: 'alert-green'
-		};
-	},
-
-
-	props: ['omegas'],
-
-	filters: {
-		filterClasses: function filterClasses(Obj) {
-			return this.status(Obj.rh, Obj.temp);
-		},
-		isUndefined: function isUndefined(value) {
-			if (typeof value == "undefined") return "Offline";
-
-			return value;
-		},
-		isNull: function isNull(value) {
-			if (value === null) return "Offline";
-
-			return value;
-		},
-		suffix: function suffix(value, _suffix) {
-			if (value == 'Offline') return "Offline";
-
-			return value + ' ' + _suffix;
-		}
-	},
-
-	methods: {
-		status: function status(rh, temp) {
-			var alert = "";
-
-			if (typeof temp == "undefined" || typeof rh == "undefined" || temp == "Offline" || rh == "Offline") alert = 'alert-red';else {
-				alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5 ? 'alert-red' : 'alert-green';
-			}
-
-			return alert;
-		}
-	}
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"box\"><div id=\"title\"><slot></slot></div><div class=\"cards\"><div v-for=\"device in omegas\" v-bind:class=\"device  | filterClasses\" class=\"card\"><div class=\"title\"> {{ device.location }}:</div><div class=\"content\"><div class=\"card-content\"><div class=\"name\">RH:</div><div class=\"value\">{{ device.rh | isNull | isUndefined | suffix \"%\"}}</div></div><div class=\"card-content\"><div class=\"name\">TEMP:</div><div class=\"value\">{{ device.temp | isNull | isUndefined | suffix \"&deg;C\"}}</div></div></div><div class=\"card-footer\"><p>recording: {{ device.isRecording | isNull | isUndefined }}</p></div></div></div></div>"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  module.hot.dispose(function () {
-    __vueify_insert__.cache[".alert-green {\n  background: #bcfe6d;\n}\n.alert-green .content .card-content .name {\n  color: #3b4e32;\n}\n.alert-red {\n  background: #b22222;\n  -webkit-animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both 1s;\n          animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both 1s;\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n}\n.alert-red .content .card-content .name {\n  color: #ec9b9b;\n}\n.alert-red .card-footer {\n  color: #ec9b9b;\n}\n.box {\n  overflow: hidden;\n}\n#title {\n  color: #3b4e32;\n  text-align: center;\n  font-weight: bold;\n  font-size: 24px;\n  margin-bottom: 24px;\n}\n.cards {\n  -webkit-animation: slideup 2s;\n          animation: slideup 2s;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.card {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 0;\n  width: 180px;\n  height: 180px;\n  border: 1px solid #3b4e32;\n  box-shadow: 0px 2px 5px 0px #3b4e32;\n}\n.title {\n  padding-left: 5px;\n  font-size: 14px;\n  margin-bottom: 20px;\n  text-transform: uppercase;\n  background: rgba(255,255,255,0.7);\n  font-weight: bold;\n  color: #3b4e32;\n}\n.card-content {\n  padding: 1px 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-size: 20px;\n}\n.card-content div {\n  width: 100%;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  font-weight: bold;\n}\n.card-content .name {\n  color: #3b4e32;\n  padding-right: 10px;\n  text-align: right;\n}\n.card-content .value {\n  -webkit-transition: all 1s ease-in-out;\n  transition: all 1s ease-in-out;\n  color: #3b4e32;\n  padding-left: 2px;\n  background: rgba(255,255,255,0.7);\n}\n.card-footer {\n  padding: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  padding-top: 15px;\n  font-size: 14px;\n  color: #3b4e32;\n  text-transform: capitalize;\n  -webkit-box-align: end;\n      -ms-flex-align: end;\n          align-items: flex-end;\n}\n@-moz-keyframes slideup {\n  from {\n    transform: translateY(50px);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@-webkit-keyframes slideup {\n  from {\n    -webkit-transform: translateY(50px);\n            transform: translateY(50px);\n    opacity: 0;\n  }\n  to {\n    -webkit-transform: translateY(0px);\n            transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@-o-keyframes slideup {\n  from {\n    transform: translateY(50px);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@keyframes slideup {\n  from {\n    -webkit-transform: translateY(50px);\n            transform: translateY(50px);\n    opacity: 0;\n  }\n  to {\n    -webkit-transform: translateY(0px);\n            transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@-moz-keyframes shake {\n  10%, 90% {\n    transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n@-webkit-keyframes shake {\n  10%, 90% {\n    -webkit-transform: translate3d(-1px, 0, 0);\n            transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    -webkit-transform: translate3d(2px, 0, 0);\n            transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    -webkit-transform: translate3d(-4px, 0, 0);\n            transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n@-o-keyframes shake {\n  10%, 90% {\n    transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n@keyframes shake {\n  10%, 90% {\n    -webkit-transform: translate3d(-1px, 0, 0);\n            transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    -webkit-transform: translate3d(2px, 0, 0);\n            transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    -webkit-transform: translate3d(-4px, 0, 0);\n            transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n"] = false
-    document.head.removeChild(__vueify_style__)
-  })
-  if (!module.hot.data) {
-    hotAPI.createRecord("_v-59d60084", module.exports)
-  } else {
-    hotAPI.update("_v-59d60084", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],8:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert(".export {\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: 2;\n  padding: 10px;\n}\n.export label[for=\"toggle-drop-down\"] {\n  cursor: pointer;\n  float: right;\n  font-weight: bold;\n  color: #999;\n  -webkit-transition: all 0.3s ease-in-out;\n  transition: all 0.3s ease-in-out;\n}\n.export label[for=\"toggle-drop-down\"]:hover {\n  color: #333;\n}\n#toggle-drop-down {\n  opacity: 0;\n}\n#toggle-drop-down:checked + .dropdown-box>.dropdown {\n  opacity: 1;\n  top: 0;\n}\n")
 "use strict";
@@ -11993,6 +11872,40 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-d8d4ac9e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}]},{},[6]);
+},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],7:[function(require,module,exports){
+'use strict';
 
-//# sourceMappingURL=app.js.map
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _toggleGear = require('./components/toggleGear.vue');
+
+var _toggleGear2 = _interopRequireDefault(_toggleGear);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Created by LEGASPI on 7/10/2016.
+ */
+
+_vue2.default.use(require('vue-resource'));
+
+new _vue2.default({
+    el: "#app",
+
+    data: {
+        atReady: false
+    },
+
+    ready: function ready() {
+        this.atReady = true;
+    },
+
+
+    components: { toggleGear: _toggleGear2.default }
+});
+
+},{"./components/toggleGear.vue":6,"vue":4,"vue-resource":3}]},{},[7]);
+
+//# sourceMappingURL=vue-device.js.map

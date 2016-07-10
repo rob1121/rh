@@ -2,11 +2,15 @@
 
 use Illuminate\Contracts\View\View;
 use JavaScript;
+
 class GlobalVariables
 {
     public function compose(View $view)
     {
-        $view->with('server', "/rh-temp/public");
-        JavaScript::put('env_server', "/rh-temp/public");
+        $server = "";
+        $server = "/rh-temp/public";
+
+        $view->with('server', $server);
+        JavaScript::put('env_server', $server);
     }
 }

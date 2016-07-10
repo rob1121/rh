@@ -155,6 +155,8 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Collective\Bus\BusServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         App\Providers\ComposerGlobalServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class
 
@@ -203,7 +205,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'JavaScript' => Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class
+        'JavaScript' => Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class
 
     ],
 

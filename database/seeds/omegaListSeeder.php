@@ -1,5 +1,5 @@
 <?php
-use App\omega\models\status;
+use App\omega\models\device;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,6 +13,7 @@ class omegaListSeeder extends Seeder
     public function run()
     {
 		DB::table('statuses')->delete();
+		DB::table('devices')->delete();
 
 		$collections = [
 			['ip' => '192.168.1.181', 'location' => 'TNR L-2 '],
@@ -39,12 +40,15 @@ class omegaListSeeder extends Seeder
 		];
 
     	foreach ($collections as $collection) {
-    		status::create([
-    			'ip'    => $collection['ip'],
-    			'location'       => $collection['location'],
-                'rh' => 'Offline',
-                'temp' => 'Offline'
-    		]);
+			$device = device::create([
+				'ip' => $collection['ip'],
+				'location' => $collection['location']
+			]);
+
+//    		$device->status()->create([
+//                'rh' => 'Offline',
+//                'temp' => 'Offline'
+//    		]);
     	}
     }
 }
