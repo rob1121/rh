@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\omega\Repo\DbTrans;
-
 use App\Http\Requests;
+use App\omega\Repo\DbTrans;
+use App\omega\models\device;
+use JavaScript;
 
 class DeviceController extends Controller
 {
@@ -23,6 +24,7 @@ class DeviceController extends Controller
 
     public function show()
     {
+        JavaScript::put(['devices' => device::all(['ip','location'])]);
         return view('device.list');
     }
 }

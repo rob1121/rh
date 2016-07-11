@@ -8,7 +8,7 @@ class GlobalVariables
     public function compose(View $view)
     {
         $server = "";
-        $server = "/rh-temp/public";
+        // $server = "/rh-temp/public";
 
         $view->with('server', $server);
         JavaScript::put('env_server', $server);

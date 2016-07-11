@@ -421,6 +421,406 @@ function format (id) {
 }
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+/*!
+ * vue-paginate v2.1.0
+ * (c) 2016 Taha Shashtari
+ * Released under the MIT License.
+ */
+(function (global, factory) {
+  (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? factory(exports) : typeof define === 'function' && define.amd ? define(['exports'], factory) : factory(global.VuePaginate = global.VuePaginate || {});
+})(undefined, function (exports) {
+  'use strict';
+
+  var utils = {
+    capitalize: function capitalize(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+
+    generateLinksArray: function generateLinksArray(initial, max) {
+      var limit = arguments.length <= 2 || arguments[2] === undefined ? 0 : arguments[2];
+
+      var links = [];
+
+      for (var i = initial; i <= max; i++) {
+        links.push(i);
+
+        if (limit && links.length >= limit) break;
+      }
+
+      return links;
+    }
+  };
+
+  var classCallCheck = function classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  };
+
+  var createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var toConsumableArray = function toConsumableArray(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
+      }return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  };
+
+  var RIGHT_ARROW = '»';
+  var LEFT_ARROW = '«';
+  var ELIPSES = '…';
+
+  var LimitedLinksGenerator = function () {
+    function LimitedLinksGenerator(vm, list, listName) {
+      classCallCheck(this, LimitedLinksGenerator);
+
+      this.vm = vm;
+      this.list = list;
+      this.listName = listName;
+    }
+
+    createClass(LimitedLinksGenerator, [{
+      key: 'generate',
+      value: function generate(limit) {
+        this.limit = limit || 4;
+
+        var links = [];
+
+        if (this.shouldShowLeftArrow()) {
+          links.push(LEFT_ARROW);
+        }
+
+        if (this.rightArrowOrElipsesIsClicked()) {
+
+          // Show the left arrow if not shown yet.
+          if (links[0] !== LEFT_ARROW) {
+            links.push(LEFT_ARROW);
+          }
+
+          this.showNextNavSet();
+        }
+
+        if (this.leftArrowIsClicked()) {
+
+          // Remove left arrow if it's the first nav set
+          // and the there's a left arrow (as the first element).
+          if (this.list.initial <= this.limit && links[0] === LEFT_ARROW) {
+            links.shift();
+          }
+
+          this.showPreviousNavSet();
+        }
+
+        if (this.lastPageIsClicked()) {
+
+          // Add the left arrow if it's not there yet.
+          if (links[0] !== LEFT_ARROW) {
+            links.push(LEFT_ARROW);
+          }
+
+          this.showLastNavSet();
+        }
+
+        // Add the very first page (page 1).
+        links.push(this.list.initial + 1);
+
+        // The this.limit should not be beyond the total number of pages.
+        this.limit = this.limit > this.list.numberOfPages ? this.list.numberOfPages : this.limit;
+
+        // Generate and add the rest nav links.
+        links = links.concat(utils.generateLinksArray(this.list.initial + 2, this.list.numberOfPages, this.limit - 1));
+
+        if (this.shouldShowElipses()) {
+          links.push(ELIPSES);
+        }
+
+        // Add the last page.
+        links.push(this.list.numberOfPages);
+
+        // If should show right arrow.
+        if (this.notLastNavSet()) {
+          links.push(RIGHT_ARROW);
+        }
+
+        // return the links without duplicate values
+        return [].concat(toConsumableArray(new Set(links)));
+      }
+    }, {
+      key: 'shouldShowLeftArrow',
+      value: function shouldShowLeftArrow() {
+        return this.list.numberOfPages > this.limit + 1 && this.list.initial >= this.limit;
+      }
+    }, {
+      key: 'rightArrowOrElipsesIsClicked',
+      value: function rightArrowOrElipsesIsClicked() {
+        return this.list.currentPage === ELIPSES || this.list.currentPage === RIGHT_ARROW;
+      }
+    }, {
+      key: 'showNextNavSet',
+      value: function showNextNavSet() {
+        if (this.list.numberOfPages - this.list.initial > this.limit + 1) {
+          this.list.initial += this.limit;
+          this.vm['change' + utils.capitalize(this.listName) + 'Page'](this.list.initial + 1);
+        } else {
+          this.list.currentPage = this.list.numberOfPages;
+          this.vm['change' + utils.capitalize(this.listName) + 'Page'](this.list.currentPage);
+          return;
+        }
+      }
+    }, {
+      key: 'leftArrowIsClicked',
+      value: function leftArrowIsClicked() {
+        return this.list.currentPage === LEFT_ARROW;
+      }
+    }, {
+      key: 'showPreviousNavSet',
+      value: function showPreviousNavSet() {
+        if (this.list.initial > this.limit - 1) {
+          this.list.initial -= this.limit;
+          this.vm['change' + utils.capitalize(this.listName) + 'Page'](this.list.initial + this.limit);
+        } else {
+          this.list.currentPage = this.list.initial;
+          this.vm['change' + utils.capitalize(this.listName) + 'Page'](this.list.currentPage + 1);
+          return;
+        }
+      }
+    }, {
+      key: 'lastPageIsClicked',
+      value: function lastPageIsClicked() {
+        return this.list.currentPage == this.list.numberOfPages - 1;
+      }
+    }, {
+      key: 'showLastNavSet',
+      value: function showLastNavSet() {
+        if (this.list.numberOfPages - this.list.initial > this.limit + 1) {
+          this.list.initial = this.initialOfLastNav(this.limit);
+          this.list.currentPage = this.list.initial + this.limit;
+
+          this.vm['change' + utils.capitalize(this.listName) + 'Page'](this.list.currentPage + 1);
+        }
+      }
+    }, {
+      key: 'shouldShowElipses',
+      value: function shouldShowElipses() {
+        return this.list.numberOfPages - this.list.initial > this.limit + 1;
+      }
+    }, {
+      key: 'initialOfLastNav',
+      value: function initialOfLastNav() {
+        var numberOfNavs = ~~(this.list.numberOfPages / this.limit);
+        var rest = this.list.numberOfPages - this.limit * numberOfNavs;
+
+        rest = rest <= 1 ? rest + this.limit : rest;
+        return this.list.numberOfPages - rest;
+      }
+    }, {
+      key: 'notLastNavSet',
+      value: function notLastNavSet() {
+        return this.list.initial < this.initialOfLastNav(this.limit);
+      }
+    }]);
+    return LimitedLinksGenerator;
+  }();
+
+  /**
+   * Each instance contains these state variables:
+   *
+   * list: {
+   *   perPage: 0,
+   *   numberOfPages: 0,
+   *   currentPage: 0,
+   *   initial: 0 // the initial page number in limited links
+   * }
+   *
+   * listName: ''
+   *
+   * originalList: {} // The initial list (before it's sliced)
+   */
+  var paginate = {
+    twoWay: true,
+
+    params: ['limit'],
+
+    bind: function bind() {
+      var _this = this;
+
+      // Turn off warnings (because we're using vm.$set).
+      exports.Vue.config.silent = true;
+
+      var vm = this.vm;
+      this.listName = this.expression;
+      var perPage = this.getPerPage();
+      var limit = +this.params.limit;
+
+      if (!vm[this.listName]) {
+        throw new Error('[vue-paginate] the list name "' + this.listName + '" is not defined in your vm instance.');
+      }
+
+      this.originalList = vm[this.listName];
+
+      // Set the full version on the vm
+      vm.$set('full' + utils.capitalize(this.listName), this.originalList);
+
+      // Update the original list when the user changes the full list.
+      vm.$watch('full' + utils.capitalize(this.listName), function (newVal, oldVal) {
+        _this.originalList = newVal;
+        vm['refresh' + utils.capitalize(_this.listName) + 'Page']();
+      });
+
+      if (this.isPerPageDynamic()) {
+        vm.$watch(this.arg, function (newVal) {
+          _this.list.perPage = +newVal <= 0 ? 1 : +newVal;
+          vm['refresh' + utils.capitalize(_this.listName) + 'Page']();
+        });
+      }
+
+      this.list = { currentPage: 0, initial: 0, perPage: perPage };
+
+      // Set links array.
+      this.setNumberOfPages(this.originalList.length);
+
+      // Set links array for limited navs (if used).
+      this.setLimitedPages(limit);
+
+      // To check if the number of links in the nav is sufficient to be displayed.
+      vm.$set('has' + utils.capitalize(this.listName) + 'Links', this.list.numberOfPages > 1);
+
+      vm['change' + utils.capitalize(this.listName) + 'Page'] = function (page) {
+        // Reset the list with original data for two reasons:
+        // 1. To change it, so the update hook gets triggered.
+        // 2. To slice it with new positions from the beginning.
+        vm[_this.listName] = _this.originalList;
+
+        _this.list.currentPage = typeof page == 'number' ? page - 1 : page;
+
+        _this.setLimitedPages(limit);
+      };
+
+      // Another way to navigate pages (Next & Prev)
+      vm['next' + utils.capitalize(this.listName) + 'Page'] = function () {
+        vm[_this.listName] = _this.originalList;
+
+        _this.list.currentPage = _this.list.currentPage + 1 < _this.list.numberOfPages ? _this.list.currentPage + 1 : _this.list.currentPage;
+      };
+
+      vm['prev' + utils.capitalize(this.listName) + 'Page'] = function () {
+        vm[_this.listName] = _this.originalList;
+
+        _this.list.currentPage = _this.list.currentPage - 1 > 0 ? _this.list.currentPage - 1 : 0;
+      };
+
+      vm['refresh' + utils.capitalize(this.listName) + 'Page'] = function () {
+        vm['change' + utils.capitalize(_this.listName) + 'Page'](1);
+      };
+
+      // Turn on warnings back
+      exports.Vue.config.silent = false;
+    },
+    update: function update(list) {
+      // Refresh number of pages (useful in case you're filtering the list)
+      this.setNumberOfPages(list.length);
+
+      this.list.currentPage = this.list.currentPage >= this.list.numberOfPages ? this.list.numberOfPages - 1 : this.list.currentPage;
+
+      // Apply the current page from the list state to the vm.
+      this.setCurrentPage();
+
+      var index = this.list.currentPage * this.list.perPage;
+
+      this.set(list.slice(index, index + this.list.perPage));
+    },
+    setNumberOfPages: function setNumberOfPages(length) {
+      var numberOfItems = length;
+      this.list.numberOfPages = Math.ceil(numberOfItems / this.list.perPage);
+
+      var links = utils.generateLinksArray(1, this.list.numberOfPages);
+
+      this.vm.$set(this.listName + 'Links', links);
+    },
+    setCurrentPage: function setCurrentPage() {
+      exports.Vue.config.silent = true;
+      this.vm.$set('current' + utils.capitalize(this.listName) + 'Page', this.list.currentPage + 1);
+      this.vm.$set('has' + utils.capitalize(this.listName) + 'Links', this.list.numberOfPages > 1);
+      exports.Vue.config.silent = false;
+    },
+    setLimitedPages: function setLimitedPages(limit) {
+      var links = new LimitedLinksGenerator(this.vm, this.list, this.listName).generate(limit);
+
+      this.vm.$set('limited' + utils.capitalize(this.listName) + 'Links', links);
+    },
+    getPerPage: function getPerPage() {
+      var vm = this.vm;
+      var arg = this.arg;
+      var regex = new RegExp(arg, 'i');
+
+      if (!this.isPerPageDynamic()) {
+        return +arg;
+      }
+
+      if (isDynamicPerPageValid()) {
+        this.arg = getDynamicArg();
+        return +vm[this.arg];
+      }
+
+      return 1;
+
+      function getDynamicArg() {
+        return Object.keys(vm.$data).find(function (a) {
+          return a.match(regex);
+        });
+      }
+      function isDynamicPerPageValid() {
+        return +vm[getDynamicArg()] > 0;
+      }
+    },
+    isPerPageDynamic: function isPerPageDynamic() {
+      return !Number.isInteger(Number.parseInt(this.arg));
+    }
+  };
+
+  exports.Vue = {};
+  var vuePaginate = {};
+
+  vuePaginate.install = function (vue) {
+    exports.Vue = vue;
+    exports.Vue.directive('paginate', paginate);
+  };
+
+  if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(vuePaginate);
+  }
+
+  module.exports = vuePaginate;
+
+  exports['default'] = vuePaginate;
+
+  Object.defineProperty(exports, '__esModule', { value: true });
+});
+
+},{}],4:[function(require,module,exports){
 /*!
  * vue-resource v0.9.3
  * https://github.com/vuejs/vue-resource
@@ -1733,7 +2133,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 module.exports = plugin;
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 (function (process,global){
 /*!
  * Vue.js v1.0.26
@@ -11810,7 +12210,7 @@ setTimeout(function () {
 
 module.exports = Vue;
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":1}],5:[function(require,module,exports){
+},{"_process":1}],6:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {
@@ -11830,7 +12230,41 @@ exports.insert = function (css) {
   return elem
 }
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #eef5e2;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-content table {\n  width: 500px;\n}\n.table-content table th:first-child,\n.table-content table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-content table th:nth-child(2),\n.table-content table td:nth-child(2) {\n  max-width: 200px;\n  min-width: 200px;\n}\n.table-content table th:last-child,\n.table-content table td:last-child {\n  max-width: 200px;\n  min-width: 200px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links li a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links li a .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links li a .btn:hover {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n.links li a .btn.active {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = {
+	data: function data() {
+		return {
+			theads: ['IP', 'location', 'actions']
+		};
+	},
+
+
+	props: ['devices']
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"table-content\"><table><thead><th v-for=\"thead in theads\">{{ thead }}</th></thead><tbody v-paginate:10=\"devices\"><tr v-for=\"device in devices\"><td>{{ device.ip }}</td><td>{{ device.location }}</td><td>update | delete</td></tr></tbody></table></div><ul class=\"links\"><li><a @click=\"prevDevicesPage()\" href=\"#\"><div class=\"btn\"><</div></a></li><li v-for=\"deviceLink in devicesLinks\"><a @click=\"changeDevicesPage(deviceLink)\" href=\"#\"><div :class=\"{active: currentDevicesPage == deviceLink}\" class=\"btn\">{{ deviceLink }}</div></a></li><li><a @click=\"nextDevicesPage()\" href=\"#\"><div class=\"btn\">></div></a></li></ul>"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #eef5e2;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-content table {\n  width: 500px;\n}\n.table-content table th:first-child,\n.table-content table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-content table th:nth-child(2),\n.table-content table td:nth-child(2) {\n  max-width: 200px;\n  min-width: 200px;\n}\n.table-content table th:last-child,\n.table-content table td:last-child {\n  max-width: 200px;\n  min-width: 200px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links li a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links li a .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links li a .btn:hover {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n.links li a .btn.active {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-2a3fc010", module.exports)
+  } else {
+    hotAPI.update("_v-2a3fc010", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],8:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert(".export {\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: 2;\n  padding: 10px;\n}\n.export label[for=\"toggle-drop-down\"] {\n  cursor: pointer;\n  float: right;\n  font-weight: bold;\n  color: #999;\n  -webkit-transition: all 0.3s ease-in-out;\n  transition: all 0.3s ease-in-out;\n}\n.export label[for=\"toggle-drop-down\"]:hover {\n  color: #333;\n}\n#toggle-drop-down {\n  opacity: 0;\n}\n#toggle-drop-down:checked + .dropdown-box>.dropdown {\n  opacity: 1;\n  top: 0;\n}\n")
 "use strict";
@@ -11872,7 +12306,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-d8d4ac9e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":4,"vue-hot-reload-api":2,"vueify/lib/insert-css":5}],7:[function(require,module,exports){
+},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],9:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -11883,11 +12317,21 @@ var _toggleGear = require('./components/toggleGear.vue');
 
 var _toggleGear2 = _interopRequireDefault(_toggleGear);
 
+var _table = require('./components/table.vue');
+
+var _table2 = _interopRequireDefault(_table);
+
+var _vuePaginate = require('vue-paginate');
+
+var _vuePaginate2 = _interopRequireDefault(_vuePaginate);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Created by LEGASPI on 7/10/2016.
  */
+
+_vue2.default.use(_vuePaginate2.default);
 
 _vue2.default.use(require('vue-resource'));
 
@@ -11895,6 +12339,7 @@ new _vue2.default({
     el: "#app",
 
     data: {
+        devices: devices,
         atReady: false
     },
 
@@ -11903,9 +12348,9 @@ new _vue2.default({
     },
 
 
-    components: { toggleGear: _toggleGear2.default }
+    components: { toggleGear: _toggleGear2.default, deviceTable: _table2.default }
 });
 
-},{"./components/toggleGear.vue":6,"vue":4,"vue-resource":3}]},{},[7]);
+},{"./components/table.vue":7,"./components/toggleGear.vue":8,"vue":5,"vue-paginate":3,"vue-resource":4}]},{},[9]);
 
 //# sourceMappingURL=vue-device.js.map

@@ -2,6 +2,8 @@
 	.box
 		#title
 			slot
+			p.dateTime {{ time }}
+
 		.cards
 			.card(v-for="device in omegas" v-bind:class="device  | filterClasses")
 
@@ -17,7 +19,7 @@
 						.value {{ device.temp | isNull | isUndefined | suffix "&deg;C"}}
 
 				.card-footer
-					p recording: {{ device.isRecording | isNull | isUndefined }}
+					p recording: {{ device.is_recording | isNull | isUndefined }}
 
 </template>
 
@@ -47,6 +49,9 @@ $label-red = lighten($red, 60%)
 	.card-footer
 		color: $label-red
 
+.dateTime
+	color: $red
+	font-size: 14px
 
 .box
 	overflow: hidden
@@ -152,14 +157,16 @@ $label-red = lighten($red, 60%)
 </style>
 
 <script>
+
 	export default {
+
 		data(){
 			return {
 				alert: 'alert-green'
 			}
 		},
 
-		props: ['omegas'],
+		props: ['omegas', 'time'],
 
 		filters: {
 			filterClasses(Obj) {

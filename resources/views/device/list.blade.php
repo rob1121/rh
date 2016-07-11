@@ -1,11 +1,20 @@
 @extends('layouts.layout')
 
 @push('style')
-<link rel="stylesheet" type="text/css" href="{{ $server }}/css/vue-device.css">
+	<link
+		rel="stylesheet"
+		type="text/css"
+		href="{{ $server }}/css/vue-device.css"
+	>
 @endpush
 
 @section('content')
-    list of item
+	<div class="content">
+		<section class="header">
+			<p class="title">Devices</p>
+			<device-table :devices="devices"></device-table>
+		</section>
+	</div>
 @endsection
 
 @push('script')

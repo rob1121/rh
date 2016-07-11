@@ -2,6 +2,8 @@ import Vue from 'vue';
 import card from './components/card.vue';
 import toggleGear from './components/toggleGear.vue';
 
+var moment = require('moment');
+
 Vue.use(require('vue-resource'));
 
 new Vue({
@@ -9,7 +11,8 @@ new Vue({
 
 	data: {
 		omegas: omegas,
-        atReady: false
+        atReady: false,
+        time: moment().format('MMMM Do YYYY, h:mm:ss a')
     },
 
 	components: { card, toggleGear },
@@ -31,6 +34,7 @@ new Vue({
                     response => {
 
                         self.$set('omegas', response.json());
+                        self.time = moment().format('MMMM Do YYYY, h:mm:ss a');
                         setTimeout(() => self.updateStatus(), 60 * 60 * 1000); // for local server deployment
                     },
 

@@ -1,16 +1,17 @@
 <?php namespace App\omega\Repo;
 
+use App\omega\models\device;
+use App\omega\models\status;
 /**
 * get content of defined url
 */
 class StatusRepository {
 	public $content;
-	public $ip;
-	public $location;
+    public $device;
     public $site;
 	public $temp = "Offline";
 	public $rh = "Offline";
-    public $isRecording = "Offline";
+    public $is_recording = "Offline";
 
     /**
      * StatusRepository constructor.
@@ -26,8 +27,7 @@ class StatusRepository {
      */
     public function statusOf($device)
 	{
-		$this->ip = $device->ip;
-		$this->location = $device->location;
+        $this->device = $device;
         $this->site = "http://{$device->ip}/postReadHtml?a";
 
         return static::isSiteAvailable($this->site)
@@ -67,14 +67,18 @@ class StatusRepository {
      */
     public function get()
     {
-
-    	return [
-            'ip' => $this->ip,
-            'location' => $this->location,
+        $collection = [
+            'ip' => $this->device->ip,
+            'location' => $this->device->location,
             'temp' => $this->temp,
             'rh' => $this->rh,
-            'isRecording' => $this->isRecording
+            'is_recording' => $this->is_recording
         ];
+
+        if ($this->temp > 25.6 || $this->temp < 19.5 || $this->rh > 55.6 || $this->rh < 44.5)
+            $this->device->status()->save(new status($collection));
+
+    	return $collection;
     }
 
     /**
@@ -82,7 +86,7 @@ class StatusRepository {
      */
     public function record()
     {
-        $this->isRecording =  $this->getValue('Recording', 9, 3);
+        $this->is_recording =  $this->getValue('Recording', 10, 3);
 
         return $this;
     }
