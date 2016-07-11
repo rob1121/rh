@@ -12232,7 +12232,7 @@ exports.insert = function (css) {
 
 },{}],7:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #eef5e2;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-content table {\n  width: 500px;\n}\n.table-content table th:first-child,\n.table-content table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-content table th:nth-child(2),\n.table-content table td:nth-child(2) {\n  max-width: 200px;\n  min-width: 200px;\n}\n.table-content table th:last-child,\n.table-content table td:last-child {\n  max-width: 200px;\n  min-width: 200px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links li a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links li a .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links li a .btn:hover {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n.links li a .btn.active {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #eef5e2;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-content table {\n  width: 500px;\n}\n.table-content table th:first-child,\n.table-content table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-content table th:nth-child(2),\n.table-content table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-content table th:last-child,\n.table-content table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links li a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links li a .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links li a .btn:hover {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n.links li a .btn.active {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12249,13 +12249,13 @@ exports.default = {
 	props: ['devices']
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"table-content\"><table><thead><th v-for=\"thead in theads\">{{ thead }}</th></thead><tbody v-paginate:10=\"devices\"><tr v-for=\"device in devices\"><td>{{ device.ip }}</td><td>{{ device.location }}</td><td>update | delete</td></tr></tbody></table></div><ul class=\"links\"><li><a @click=\"prevDevicesPage()\" href=\"#\"><div class=\"btn\"><</div></a></li><li v-for=\"deviceLink in devicesLinks\"><a @click=\"changeDevicesPage(deviceLink)\" href=\"#\"><div :class=\"{active: currentDevicesPage == deviceLink}\" class=\"btn\">{{ deviceLink }}</div></a></li><li><a @click=\"nextDevicesPage()\" href=\"#\"><div class=\"btn\">></div></a></li></ul>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"table-content\"><table><thead><th v-for=\"thead in theads\">{{ thead }}</th></thead><tbody v-paginate:10=\"devices\"><tr v-for=\"device in devices\"><td>{{ device.ip }}</td><td>{{ device.location }}</td><td><i class=\"fa fa-edit\">edit</i><span>|</span><i class=\"fa fa-trash-o\">delete</i></td></tr></tbody></table></div><ul class=\"links\"><li><a @click=\"prevDevicesPage()\" href=\"#\"><div class=\"btn\"><</div></a></li><li v-for=\"deviceLink in devicesLinks\"><a @click=\"changeDevicesPage(deviceLink)\" href=\"#\"><div :class=\"{active: currentDevicesPage == deviceLink}\" class=\"btn\">{{ deviceLink }}</div></a></li><li><a @click=\"nextDevicesPage()\" href=\"#\"><div class=\"btn\">></div></a></li></ul>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #eef5e2;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-content table {\n  width: 500px;\n}\n.table-content table th:first-child,\n.table-content table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-content table th:nth-child(2),\n.table-content table td:nth-child(2) {\n  max-width: 200px;\n  min-width: 200px;\n}\n.table-content table th:last-child,\n.table-content table td:last-child {\n  max-width: 200px;\n  min-width: 200px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links li a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links li a .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links li a .btn:hover {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n.links li a .btn.active {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n"] = false
+    __vueify_insert__.cache["table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #eef5e2;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-content table {\n  width: 500px;\n}\n.table-content table th:first-child,\n.table-content table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-content table th:nth-child(2),\n.table-content table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-content table th:last-child,\n.table-content table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links li a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links li a .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links li a .btn:hover {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n.links li a .btn.active {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -12309,13 +12309,35 @@ if (module.hot) {(function () {  module.hot.accept()
 },{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],9:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _toggleGear = require('../components/toggleGear.vue');
+
+var _toggleGear2 = _interopRequireDefault(_toggleGear);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+    data: {
+        atReady: false
+    },
+
+    ready: function ready() {
+        this.atReady = true;
+    },
+
+
+    components: { toggleGear: _toggleGear2.default }
+};
+
+},{"../components/toggleGear.vue":8}],10:[function(require,module,exports){
+'use strict';
+
 var _vue = require('vue');
 
 var _vue2 = _interopRequireDefault(_vue);
-
-var _toggleGear = require('./components/toggleGear.vue');
-
-var _toggleGear2 = _interopRequireDefault(_toggleGear);
 
 var _table = require('./components/table.vue');
 
@@ -12324,6 +12346,10 @@ var _table2 = _interopRequireDefault(_table);
 var _vuePaginate = require('vue-paginate');
 
 var _vuePaginate2 = _interopRequireDefault(_vuePaginate);
+
+var _atReady = require('./mixins/atReady');
+
+var _atReady2 = _interopRequireDefault(_atReady);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -12339,18 +12365,14 @@ new _vue2.default({
     el: "#app",
 
     data: {
-        devices: devices,
-        atReady: false
+        devices: devices
     },
 
-    ready: function ready() {
-        this.atReady = true;
-    },
+    mixins: [_atReady2.default],
 
-
-    components: { toggleGear: _toggleGear2.default, deviceTable: _table2.default }
+    components: { deviceTable: _table2.default }
 });
 
-},{"./components/table.vue":7,"./components/toggleGear.vue":8,"vue":5,"vue-paginate":3,"vue-resource":4}]},{},[9]);
+},{"./components/table.vue":7,"./mixins/atReady":9,"vue":5,"vue-paginate":3,"vue-resource":4}]},{},[10]);
 
 //# sourceMappingURL=vue-device.js.map

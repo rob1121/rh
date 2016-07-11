@@ -75,7 +75,11 @@ class StatusRepository {
             'is_recording' => $this->is_recording
         ];
 
-        if ($this->temp > 25.6 || $this->temp < 19.5 || $this->rh > 55.6 || $this->rh < 44.5)
+        $isOnline = $this->temp != "Offline" || $this->rh != "Offline";
+        $isRhNotPassed = $this->rh > 55.6 || $this->rh < 44.5;
+        $isTempNotPassed = $this->temp > 25.6 || $this->temp < 19.5;
+
+        if ( ( $isTempNotPassed || $isRhNotPassed ) && $isOnline )
             $this->device->status()->save(new status($collection));
 
     	return $collection;

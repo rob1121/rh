@@ -8,7 +8,10 @@
 				tr(v-for="device in devices")
 					td {{ device.ip }}
 					td {{ device.location }}
-					td update | delete
+					td
+						i.fa.fa-edit edit
+						span |
+						i.fa.fa-trash-o delete
 
 	ul.links
 		li
@@ -66,12 +69,13 @@ td
 			min-width: 100px
 
 		th:nth-child(2), td:nth-child(2)
-			max-width: 200px
-			min-width: 200px
+			max-width: 250px
+			min-width: 250px
 
 		th:last-child, td:last-child
-			max-width: 200px
-			min-width: 200px
+			text-align: center
+			max-width: 150px
+			min-width: 150px
 
 
 .links

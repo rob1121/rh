@@ -3,9 +3,9 @@
  */
 
 import Vue from 'vue';
-import toggleGear from './components/toggleGear.vue';
 import deviceTable from './components/table.vue';
 import VuePaginate from 'vue-paginate';
+import atReady from './mixins/atReady';
 
 Vue.use(VuePaginate);
 
@@ -15,13 +15,10 @@ new Vue({
     el: "#app",
 
     data: {
-    	devices: devices,
-        atReady: false
+    	devices: devices
     },
 
-    ready() {
-        this.atReady = true;
-    },
+    mixins:[atReady],
 
-    components: { toggleGear, deviceTable }
+    components: { deviceTable }
 });

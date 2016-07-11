@@ -14,22 +14,13 @@ class DbTrans
     {
         $db = collect(
 
-                DB::table('statuses')
-                    ->leftJoin('devices', 'statuses.device_id', '=', 'devices.id')
-                    ->get()
+            DB::table('devices')
+                ->rightJoin('statuses', 'statuses.device_id', '=', 'devices.id')
+                ->get(['devices.ip', 'devices.location', 'statuses.rh', 'statuses.temp', 'statuses.is_recording', 'statuses.created_at'])
 
-            )->map(function($item) {
-                return collect($item)->toArray();
-            });
-
-            echo "date and time using query builder<br/>";
-            var_dump(Carbon::parse(collect($db)->last()['created_at']));
-
-            $eloquent = status::orderBy('id','desc')->first();
-            echo "date and time using eloquent<br/>";
-            var_dump($eloquent->created_at);
-
-            die();
+        )->map(function($item) {
+            return collect($item)->toArray();
+        });
 
         $today = DateTime::today();
 

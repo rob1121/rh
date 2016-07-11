@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import card from './components/card.vue';
-import toggleGear from './components/toggleGear.vue';
+import atReady from './mixins/atReady';
 
 var moment = require('moment');
 
@@ -11,17 +11,15 @@ new Vue({
 
 	data: {
 		omegas: omegas,
-        atReady: false,
         time: moment().format('MMMM Do YYYY, h:mm:ss a')
     },
 
-	components: { card, toggleGear },
+    mixins:[atReady],
+
+	components: { card },
 
     ready() {
-        var self = this;
-
-        self.updateStatus();
-        self.atReady = true;
+        this.updateStatus();
     },
 
     methods: {

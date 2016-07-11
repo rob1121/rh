@@ -57,7 +57,8 @@ $label-red = lighten($red, 60%)
 	overflow: hidden
 
 #title
-	color: $label-green
+	color: #222
+	text-shadow: 1px 1px 3px lighten($label-green, 50%)
 	text-align: center
 	font-weight: bold
 	font-size: 24px

@@ -2216,10 +2216,10 @@ body, html {
   position: relative;
   z-index: 0; }
 
-html, body {
-  background: #534847; }
-
 .content {
+  background: #1f4e5f;
+  background: linear-gradient(to bottom right, #1f4e5f, #79a8a9);
+  height: 100vh;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: center;
@@ -2237,6 +2237,7 @@ html, body {
   .header .title {
     text-align: center;
     font-size: 32px;
-    color: #d0c9c9; }
+    text-shadow: 2px 2px #1f4e5f;
+    color: #9ecedf; }
 
 /*# sourceMappingURL=vue-device.css.map */
