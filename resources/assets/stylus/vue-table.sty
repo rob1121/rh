@@ -24,11 +24,24 @@ td
 	&:first-child
 		text-align: right
 
+tr
+	background: #fff
+
+	&:hover
+		background: lighten(#353866, 90%)
+
+
 .table-content
 	display: flex
 
 .table-tools
 	margin-left: 10px
+
+	label.caption
+		color: #52616a
+		text-transform: capitalize
+		font-weight: bold
+
 .table-tools
 .table-container
 	min-height: 330px
@@ -110,23 +123,9 @@ td
 	&:hover i
 		opacity: 1
 
-.input
-	padding: 5px 0
-	margin-left: 15px
-
-
-.input-group
-	display: flex
-	flex-direction: column
-	margin: 5px 15px
-
-label.caption
-	color: #52616a
-	text-transform: capitalize
-	font-weight: bold
-
-input.text
-	border-radius: 5px
-	padding: 10px
-	border: 1px solid #52616a
-	transition: .3s ease-in-out
+p.title
+	margin-top: -36px
+	text-align: center
+	font-size: 32px
+	text-shadow: 2px 2px darken($color, 30%)
+	color: lighten($color, 80%)

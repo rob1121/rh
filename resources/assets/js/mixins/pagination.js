@@ -6,7 +6,12 @@ export default {
 			sortKey: '',
 			currentPage: 0,
 			itemsPerPage: 10,
+			resultCount: 0
 		}
+	},
+
+	ready() {
+		this.$set('resultCount', this.devices.length);
 	},
 
 	computed: {
@@ -31,10 +36,6 @@ export default {
 
 	    totalPages() {
 	        return Math.ceil(this.resultCount / parseInt(this.itemsPerPage))
-	    },
-
-	    resultCount() {
-	        return this.devices.length;
 	    }
 	},
 
@@ -42,7 +43,14 @@ export default {
 	    paginate(list) {
 	        var index = this.currentPage * parseInt(this.itemsPerPage)
 	        return list.slice(index, index + parseInt(this.itemsPerPage))
-	    }
+	    },
+
+		count(arr) {
+
+		this.$set('resultCount', arr.length)
+
+		return arr
+		}
 	},
 
 	methods: {

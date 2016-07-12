@@ -1,12 +1,17 @@
 <template lang="jade">
+
 	.table-content
+
 		.table-container
+
+			p.title Devices
+
 			table
 				thead
 					th(v-for="thead in theads") {{ thead }}
 
 				tbody
-					tr(v-for="(index, device) in devices | orderBy sortKey reverse | filterBy searchKey | paginate")
+					tr(v-for="(index, device) in devices | orderBy sortKey reverse | filterBy searchKey | count | paginate")
 						td {{ device.ip }}
 						td {{ device.location }}
 						td
@@ -14,22 +19,22 @@
 								span edit
 								i.fa.fa-edit
 							span |
-							a.action-btn(href="#")
+							a.action-btn(href="#" @click.prevent="deleteDevice(device)")
 								span delete
 								i.fa.fa-trash-o
 		.table-tools
 			.input-group
 				label.caption Search:
-				input.text(type="text" placeholder="Input keyword")
+				input.text(type="text" placeholder="Input keyword" v-model="searchKey" debounce="500")
 
 			.input-group
-				select
+				label.caption Display:
+				select.text(v-model="itemsPerPage")
 					option 5
 					option 10
 					option 25
 					option 50
 					option 100
-
 
 	ul.links(v-show="totalPages > 1")
 		li
@@ -53,7 +58,7 @@
 				.btn
 					i.fa.fa-angle-double-right
 	p(:class = "[resultCount ? 'text-success':'text-warning']" v-show = "searchKey != ''")
-		"<strong>@{{ searchKey }}</strong>" results <strong>@{{ resultCount }}</strong> found
+		"<strong>{{ searchKey }}</strong>" results <strong>{{ resultCount }}</strong> found
 
 </template>
 
@@ -68,7 +73,7 @@
 			}
 		},
 
-		props: ['devices','input','index'],
+		props: ['devices','input','index','id'],
 
 		mixins: [pagination],
 
@@ -80,7 +85,14 @@
 			setInput(device, index) {
 				this.index = index;
 				this.input = this.makeNonReactive(device);
+				this.id = this.makeNonReactive(device.id);
 			},
+
+			deleteDevice(device) {
+				this.$http.post( env_server + '/delete/' + device.id, [] )
+	                .then( response => this.devices.$remove(device))
+	                .bind(this);
+			}
 		}
 	}
 

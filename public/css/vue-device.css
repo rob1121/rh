@@ -2235,11 +2235,6 @@ body, html {
   position: relative;
   left: 0;
   right: 0; }
-  .header .title {
-    text-align: center;
-    font-size: 32px;
-    text-shadow: 2px 2px #353866;
-    color: white; }
 
 .form {
   display: -ms-flexbox;
@@ -2260,6 +2255,7 @@ body, html {
     transition: .3s ease-in-out; }
     .form .btn.save:hover {
       background: #242644;
+      color: #fff;
       box-shadow: 0px 1px 3px 0px #353866; }
   .form .btn.cancel {
     height: 38px;
@@ -2277,5 +2273,39 @@ body, html {
     .form .btn.cancel:hover {
       background: #dfe0ee;
       box-shadow: 0px 1px 3px 0px #353866; }
+
+.input {
+  padding: 5px 0;
+  margin-left: 15px; }
+
+.input-group {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 5px 15px; }
+
+label.caption {
+  color: #fff;
+  text-transform: capitalize;
+  font-weight: bold; }
+
+input.text,
+select.text {
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid #52616a;
+  transition: .3s ease-in-out;
+  background: #f9f9f9;
+  transition: .3s ease-in-out; }
+  input.text:focus,
+  select.text:focus {
+    background: #fff;
+    box-shadow: 0px 0px 0px 1px #52616a; }
+
+input:focus,
+button:focus,
+select:focus {
+  outline: none; }
 
 /*# sourceMappingURL=vue-device.css.map */

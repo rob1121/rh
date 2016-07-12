@@ -12,12 +12,15 @@ Vue.use(VuePaginate);
 
 Vue.use(require('vue-resource'));
 
+Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_token').getAttribute('value');
+
 new Vue({
     el: "#app",
 
     data: {
     	devices: devices,
     	index: null,
+        ip_hook: "127.0.0.1",
     	input: {
     		ip: '',
     		location: ''
@@ -37,26 +40,44 @@ new Vue({
             this.sortKey = column;
             this.reverse = this.sortKey == column ? this.reverse * -1 : this.reverse = 1;
         },
+
     	makeNonReactive(collection)
     	{
     		return JSON.parse(JSON.stringify(collection));
     	},
 
+        storeDevice() {
+            var link = env_server + '/devices';
+
+            this.$http.post( link, this.input )
+                .then( response => {
+                    if (! response.json().hasOwnProperty('error')) // check if key 'error' exist
+                    {
+                        var input = this.makeNonReactive(this.input);
+
+                        this.devices.push(input);
+                    }
+
+                    this.input.ip = '';
+                    this.index = null;
+                    this.input.location = '';
+                }).bind(this);
+        },
+
 		updateDevice()
 		{
-			this.devices.$set(this.index, this.makeNonReactive(this.input));
-			this.input.ip = '';
-			this.input.location = '';
-		},
+            var link = env_server + '/update/' + this.makeNonReactive(this.id);
 
-		deleteDevice(device)
-		{
-			var self = this;
-
-			self.$http.get( env_server + '/delete/' + device.ip )
+            this.$http.post( link, this.input )
                 .then( response => {
-					self.devices.$remove(device);
-                }, (response) => self.updateStatus() );
+                    var index = this.makeNonReactive(this.index),
+                        input = this.makeNonReactive(this.input);
+
+                        this.devices.$set(index, input);
+                        this.input.ip = '';
+                        this.index = null;
+                        this.input.location = '';
+                }).bind(this);
 		}
     },
 });

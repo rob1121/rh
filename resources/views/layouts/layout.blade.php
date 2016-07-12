@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
+    <meta name="_token" content="{!! csrf_token() !!}"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta id="_token" value="{{ csrf_token() }}">
+
 	<title>RH TEMP</title>
     @stack('style')
 </head>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\omega\Repo\ExcelRepo;
 use App\omega\models\device;
 use JavaScript;
@@ -24,8 +24,17 @@ class DeviceController extends Controller
 
     public function show()
     {
-        JavaScript::put(['devices' => device::all(['ip','location'])]);
+        JavaScript::put(['devices' => device::all()]);
         return view('device.list');
+    }
+
+    public function store(Request $request)
+    {
+        if(! device::isExist($request->ip) )
+            return device::create($request->all());
+
+        return ["error" => true];
+
     }
 
     public function delete(Device $device)
@@ -35,8 +44,9 @@ class DeviceController extends Controller
 
     public function update(device $device, Request $request)
     {
-        $collection = new device($request);
+        $collection = new device($request->all());
 
-        $device->update($collection);
+        $device->update($collection->toArray());
+
     }
 }

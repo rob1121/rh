@@ -1,12 +1,13 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 module.exports = { "default": require("core-js/library/fn/json/stringify"), __esModule: true };
 },{"core-js/library/fn/json/stringify":2}],2:[function(require,module,exports){
-var core = require('../../modules/$.core');
+var core  = require('../../modules/_core')
+  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
 module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
-  return (core.JSON && core.JSON.stringify || JSON.stringify).apply(JSON, arguments);
+  return $JSON.stringify.apply($JSON, arguments);
 };
-},{"../../modules/$.core":3}],3:[function(require,module,exports){
-var core = module.exports = {version: '1.2.6'};
+},{"../../modules/_core":3}],3:[function(require,module,exports){
+var core = module.exports = {version: '2.4.0'};
 if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 },{}],4:[function(require,module,exports){
 // shim for using process in browser
@@ -12269,7 +12270,7 @@ if (module.hot) {(function () {  module.hot.accept()
 })()}
 },{"vue":8,"vue-hot-reload-api":5,"vueify/lib/insert-css":9}],11:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\n.input {\n  padding: 5px 0;\n  margin-left: 15px;\n}\n.input-group {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 15px;\n}\nlabel.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n}\ninput.text {\n  border-radius: 5px;\n  padding: 10px;\n  border: 1px solid #52616a;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\ntr {\n  background: #fff;\n}\ntr:hover {\n  background: #e8e8f3;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools label.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\np.title {\n  margin-top: -36px;\n  text-align: center;\n  font-size: 32px;\n  text-shadow: 2px 2px #39444a;\n  color: #dbe0e3;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12294,7 +12295,7 @@ exports.default = {
 	},
 
 
-	props: ['devices', 'input', 'index'],
+	props: ['devices', 'input', 'index', 'id'],
 
 	mixins: [_pagination2.default],
 
@@ -12305,17 +12306,25 @@ exports.default = {
 		setInput: function setInput(device, index) {
 			this.index = index;
 			this.input = this.makeNonReactive(device);
+			this.id = this.makeNonReactive(device.id);
+		},
+		deleteDevice: function deleteDevice(device) {
+			var _this = this;
+
+			this.$http.post(env_server + '/delete/' + device.id, []).then(function (response) {
+				return _this.devices.$remove(device);
+			}).bind(this);
 		}
 	}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"table-content\"><div class=\"table-container\"><table><thead><th v-for=\"thead in theads\">{{ thead }}</th></thead><tbody><tr v-for=\"(index, device) in devices | orderBy sortKey reverse | filterBy searchKey | paginate\"><td>{{ device.ip }}</td><td>{{ device.location }}</td><td><a href=\"#\" @click.prevent=\"setInput(device, index)\" class=\"action-btn\"><span>edit</span><i class=\"fa fa-edit\"></i></a><span>|</span><a href=\"#\" class=\"action-btn\"><span>delete</span><i class=\"fa fa-trash-o\"></i></a></td></tr></tbody></table></div><div class=\"table-tools\"><div class=\"input-group\"><label class=\"caption\">Search:</label><input type=\"text\" placeholder=\"Input keyword\" class=\"text\"/></div><div class=\"input-group\"><select><option>5</option><option>10</option><option>25</option><option>50</option><option>100</option></select></div></div></div><ul v-show=\"totalPages &gt; 1\" class=\"links\"><li><a href=\"#\" @click.prevent=\"setPage(0)\"><div class=\"btn\"><i class=\"fa fa-angle-double-left\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage ? currentPage-1 : 0\"><div class=\"btn\"><i class=\"fa fa-angle-left\"></i></div></a></li><li v-for=\"pageNumber in totalPages\" v-show=\"pageNumber &gt;= firstPoint &amp;&amp; pageNumber &lt;= lastPoint\"><a href=\"#\" @click.prevent=\"setPage(pageNumber)\"><div :class=\"{'active': currentPage == pageNumber}\" class=\"btn\">{{ pageNumber+1 }}</div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage != (totalPages-1) ? currentPage+1 : currentPage\"><div class=\"btn\"><i class=\"fa fa-angle-right\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"setPage(totalPages-1)\"><div class=\"btn\"><i class=\"fa fa-angle-double-right\"></i></div></a></li></ul><p :class=\"[resultCount ? 'text-success':'text-warning']\" v-show=\"searchKey != ''\">\"<strong>@{{ searchKey }}</strong>\" results <strong>@{{ resultCount }}</strong> found</p>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"table-content\"><div class=\"table-container\"><p class=\"title\">Devices</p><table><thead><th v-for=\"thead in theads\">{{ thead }}</th></thead><tbody><tr v-for=\"(index, device) in devices | orderBy sortKey reverse | filterBy searchKey | count | paginate\"><td>{{ device.ip }}</td><td>{{ device.location }}</td><td><a href=\"#\" @click.prevent=\"setInput(device, index)\" class=\"action-btn\"><span>edit</span><i class=\"fa fa-edit\"></i></a><span>|</span><a href=\"#\" @click.prevent=\"deleteDevice(device)\" class=\"action-btn\"><span>delete</span><i class=\"fa fa-trash-o\"></i></a></td></tr></tbody></table></div><div class=\"table-tools\"><div class=\"input-group\"><label class=\"caption\">Search:</label><input type=\"text\" placeholder=\"Input keyword\" v-model=\"searchKey\" debounce=\"500\" class=\"text\"/></div><div class=\"input-group\"><label class=\"caption\">Display:</label><select v-model=\"itemsPerPage\" class=\"text\"><option>5</option><option>10</option><option>25</option><option>50</option><option>100</option></select></div></div></div><ul v-show=\"totalPages &gt; 1\" class=\"links\"><li><a href=\"#\" @click.prevent=\"setPage(0)\"><div class=\"btn\"><i class=\"fa fa-angle-double-left\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage ? currentPage-1 : 0\"><div class=\"btn\"><i class=\"fa fa-angle-left\"></i></div></a></li><li v-for=\"pageNumber in totalPages\" v-show=\"pageNumber &gt;= firstPoint &amp;&amp; pageNumber &lt;= lastPoint\"><a href=\"#\" @click.prevent=\"setPage(pageNumber)\"><div :class=\"{'active': currentPage == pageNumber}\" class=\"btn\">{{ pageNumber+1 }}</div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage != (totalPages-1) ? currentPage+1 : currentPage\"><div class=\"btn\"><i class=\"fa fa-angle-right\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"setPage(totalPages-1)\"><div class=\"btn\"><i class=\"fa fa-angle-double-right\"></i></div></a></li></ul><p :class=\"[resultCount ? 'text-success':'text-warning']\" v-show=\"searchKey != ''\">\"<strong>{{ searchKey }}</strong>\" results <strong>{{ resultCount }}</strong> found</p>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\n.input {\n  padding: 5px 0;\n  margin-left: 15px;\n}\n.input-group {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 15px;\n}\nlabel.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n}\ninput.text {\n  border-radius: 5px;\n  padding: 10px;\n  border: 1px solid #52616a;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n}\n"] = false
+    __vueify_insert__.cache["table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\ntr {\n  background: #fff;\n}\ntr:hover {\n  background: #e8e8f3;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools label.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\np.title {\n  margin-top: -36px;\n  text-align: center;\n  font-size: 32px;\n  text-shadow: 2px 2px #39444a;\n  color: #dbe0e3;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -12405,8 +12414,12 @@ exports.default = {
 			reverse: 1,
 			sortKey: '',
 			currentPage: 0,
-			itemsPerPage: 10
+			itemsPerPage: 10,
+			resultCount: 0
 		};
+	},
+	ready: function ready() {
+		this.$set('resultCount', this.devices.length);
 	},
 
 
@@ -12430,9 +12443,6 @@ exports.default = {
 		},
 		totalPages: function totalPages() {
 			return Math.ceil(this.resultCount / parseInt(this.itemsPerPage));
-		},
-		resultCount: function resultCount() {
-			return this.devices.length;
 		}
 	},
 
@@ -12440,6 +12450,12 @@ exports.default = {
 		paginate: function paginate(list) {
 			var index = this.currentPage * parseInt(this.itemsPerPage);
 			return list.slice(index, index + parseInt(this.itemsPerPage));
+		},
+		count: function count(arr) {
+
+			this.$set('resultCount', arr.length);
+
+			return arr;
 		}
 	},
 
@@ -12486,12 +12502,15 @@ _vue2.default.use(_vuePaginate2.default); /**
 
 _vue2.default.use(require('vue-resource'));
 
+_vue2.default.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_token').getAttribute('value');
+
 new _vue2.default({
     el: "#app",
 
     data: {
         devices: devices,
         index: null,
+        ip_hook: "127.0.0.1",
         input: {
             ip: '',
             location: ''
@@ -12511,22 +12530,42 @@ new _vue2.default({
             this.sortKey = column;
             this.reverse = this.sortKey == column ? this.reverse * -1 : this.reverse = 1;
         },
+
         makeNonReactive: function makeNonReactive(collection) {
             return JSON.parse(JSON.stringify(collection));
         },
-        updateDevice: function updateDevice() {
-            this.devices.$set(this.index, this.makeNonReactive(this.input));
-            this.input.ip = '';
-            this.input.location = '';
-        },
-        deleteDevice: function deleteDevice(device) {
-            var self = this;
+        storeDevice: function storeDevice() {
+            var _this = this;
 
-            self.$http.get(env_server + '/delete/' + device.ip).then(function (response) {
-                self.devices.$remove(device);
-            }, function (response) {
-                return self.updateStatus();
-            });
+            var link = env_server + '/devices';
+
+            this.$http.post(link, this.input).then(function (response) {
+                if (!response.json().hasOwnProperty('error')) // check if key 'error' exist
+                    {
+                        var input = _this.makeNonReactive(_this.input);
+
+                        _this.devices.push(input);
+                    }
+
+                _this.input.ip = '';
+                _this.index = null;
+                _this.input.location = '';
+            }).bind(this);
+        },
+        updateDevice: function updateDevice() {
+            var _this2 = this;
+
+            var link = env_server + '/update/' + this.makeNonReactive(this.id);
+
+            this.$http.post(link, this.input).then(function (response) {
+                var index = _this2.makeNonReactive(_this2.index),
+                    input = _this2.makeNonReactive(_this2.input);
+
+                _this2.devices.$set(index, input);
+                _this2.input.ip = '';
+                _this2.index = null;
+                _this2.input.location = '';
+            }).bind(this);
         }
     }
 });
