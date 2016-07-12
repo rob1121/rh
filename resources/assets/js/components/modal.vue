@@ -3,7 +3,7 @@
         <div @click.stop="" v-show="isModalOpen" class="Modal__container" transition="popup">
             <header class="Modal__header">
                 <h1>
-                    @{{ title }}
+                    {{ title }}
                 </h1>
             </header>
 
@@ -128,21 +128,22 @@
     }
 </style>
 <script>
-    export default{
+    export default {
+
         props: ['id', 'title'],
 
-        created() {
+        created: function() {
             this.closeModal();
         },
 
         computed: {
-            isModalOpen() {
+            isModalOpen: function() {
                 return this.$root[this.id + 'IsOpen'];
             }
         },
 
         methods: {
-            closeModal() {
+            closeModal: function() {
                 this.$root.$set(this.id + 'IsOpen', false);
             }
         }

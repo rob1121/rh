@@ -19,3 +19,8 @@ Route::get('/export',[
     'uses' => 'DeviceController@exportToCsv'
 ]); //export db to excel
 
+Route::get('/delete/{device}',[
+    'as' => 'delete',
+    'uses' => 'DeviceController@delete'
+]); //export db to excel
+

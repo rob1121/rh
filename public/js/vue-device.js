@@ -1,4 +1,14 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+module.exports = { "default": require("core-js/library/fn/json/stringify"), __esModule: true };
+},{"core-js/library/fn/json/stringify":2}],2:[function(require,module,exports){
+var core = require('../../modules/$.core');
+module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+  return (core.JSON && core.JSON.stringify || JSON.stringify).apply(JSON, arguments);
+};
+},{"../../modules/$.core":3}],3:[function(require,module,exports){
+var core = module.exports = {version: '1.2.6'};
+if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+},{}],4:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -119,7 +129,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],2:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var Vue // late bind
 var map = Object.create(null)
 var shimmed = false
@@ -420,7 +430,7 @@ function format (id) {
   return match ? match[0] : id
 }
 
-},{}],3:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -820,7 +830,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   Object.defineProperty(exports, '__esModule', { value: true });
 });
 
-},{}],4:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /*!
  * vue-resource v0.9.3
  * https://github.com/vuejs/vue-resource
@@ -2133,7 +2143,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 module.exports = plugin;
-},{}],5:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 (function (process,global){
 /*!
  * Vue.js v1.0.26
@@ -12210,7 +12220,7 @@ setTimeout(function () {
 
 module.exports = Vue;
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":1}],6:[function(require,module,exports){
+},{"_process":4}],9:[function(require,module,exports){
 var inserted = exports.cache = {}
 
 exports.insert = function (css) {
@@ -12230,14 +12240,52 @@ exports.insert = function (css) {
   return elem
 }
 
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #eef5e2;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-content table {\n  width: 500px;\n}\n.table-content table th:first-child,\n.table-content table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-content table th:nth-child(2),\n.table-content table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-content table th:last-child,\n.table-content table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links li a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links li a .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links li a .btn:hover {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n.links li a .btn.active {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert(".flex-group {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 15px;\n}\n.caption {\n  color: #fff;\n  text-transform: capitalize;\n  font-weight: bold;\n}\n.text {\n  border-radius: 5px;\n  padding: 10px;\n  border: 1px solid #fff;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.default = {
+	props: ['input', 'name']
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"flex-group\">\n\t<label class=\"caption\">{{ name }}:</label>\n\t<input type=\"text\" v-model=\"input\" class=\"text\">\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache[".flex-group {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 15px;\n}\n.caption {\n  color: #fff;\n  text-transform: capitalize;\n  font-weight: bold;\n}\n.text {\n  border-radius: 5px;\n  padding: 10px;\n  border: 1px solid #fff;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n}\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-02e9eed9", module.exports)
+  } else {
+    hotAPI.update("_v-02e9eed9", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":8,"vue-hot-reload-api":5,"vueify/lib/insert-css":9}],11:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\n.input {\n  padding: 5px 0;\n  margin-left: 15px;\n}\n.input-group {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 15px;\n}\nlabel.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n}\ninput.text {\n  border-radius: 5px;\n  padding: 10px;\n  border: 1px solid #52616a;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n}\n")
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
+var _pagination = require('../mixins/pagination');
+
+var _pagination2 = _interopRequireDefault(_pagination);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
 	data: function data() {
 		return {
@@ -12246,16 +12294,28 @@ exports.default = {
 	},
 
 
-	props: ['devices']
+	props: ['devices', 'input', 'index'],
+
+	mixins: [_pagination2.default],
+
+	methods: {
+		makeNonReactive: function makeNonReactive(collection) {
+			return JSON.parse((0, _stringify2.default)(collection));
+		},
+		setInput: function setInput(device, index) {
+			this.index = index;
+			this.input = this.makeNonReactive(device);
+		}
+	}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"table-content\"><table><thead><th v-for=\"thead in theads\">{{ thead }}</th></thead><tbody v-paginate:10=\"devices\"><tr v-for=\"device in devices\"><td>{{ device.ip }}</td><td>{{ device.location }}</td><td><i class=\"fa fa-edit\">edit</i><span>|</span><i class=\"fa fa-trash-o\">delete</i></td></tr></tbody></table></div><ul class=\"links\"><li><a @click=\"prevDevicesPage()\" href=\"#\"><div class=\"btn\"><</div></a></li><li v-for=\"deviceLink in devicesLinks\"><a @click=\"changeDevicesPage(deviceLink)\" href=\"#\"><div :class=\"{active: currentDevicesPage == deviceLink}\" class=\"btn\">{{ deviceLink }}</div></a></li><li><a @click=\"nextDevicesPage()\" href=\"#\"><div class=\"btn\">></div></a></li></ul>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"table-content\"><div class=\"table-container\"><table><thead><th v-for=\"thead in theads\">{{ thead }}</th></thead><tbody><tr v-for=\"(index, device) in devices | orderBy sortKey reverse | filterBy searchKey | paginate\"><td>{{ device.ip }}</td><td>{{ device.location }}</td><td><a href=\"#\" @click.prevent=\"setInput(device, index)\" class=\"action-btn\"><span>edit</span><i class=\"fa fa-edit\"></i></a><span>|</span><a href=\"#\" class=\"action-btn\"><span>delete</span><i class=\"fa fa-trash-o\"></i></a></td></tr></tbody></table></div><div class=\"table-tools\"><div class=\"input-group\"><label class=\"caption\">Search:</label><input type=\"text\" placeholder=\"Input keyword\" class=\"text\"/></div><div class=\"input-group\"><select><option>5</option><option>10</option><option>25</option><option>50</option><option>100</option></select></div></div></div><ul v-show=\"totalPages &gt; 1\" class=\"links\"><li><a href=\"#\" @click.prevent=\"setPage(0)\"><div class=\"btn\"><i class=\"fa fa-angle-double-left\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage ? currentPage-1 : 0\"><div class=\"btn\"><i class=\"fa fa-angle-left\"></i></div></a></li><li v-for=\"pageNumber in totalPages\" v-show=\"pageNumber &gt;= firstPoint &amp;&amp; pageNumber &lt;= lastPoint\"><a href=\"#\" @click.prevent=\"setPage(pageNumber)\"><div :class=\"{'active': currentPage == pageNumber}\" class=\"btn\">{{ pageNumber+1 }}</div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage != (totalPages-1) ? currentPage+1 : currentPage\"><div class=\"btn\"><i class=\"fa fa-angle-right\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"setPage(totalPages-1)\"><div class=\"btn\"><i class=\"fa fa-angle-double-right\"></i></div></a></li></ul><p :class=\"[resultCount ? 'text-success':'text-warning']\" v-show=\"searchKey != ''\">\"<strong>@{{ searchKey }}</strong>\" results <strong>@{{ resultCount }}</strong> found</p>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #eef5e2;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-content table {\n  width: 500px;\n}\n.table-content table th:first-child,\n.table-content table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-content table th:nth-child(2),\n.table-content table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-content table th:last-child,\n.table-content table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links li a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links li a .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links li a .btn:hover {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n.links li a .btn.active {\n  box-shadow: 0px 0px 0px 3px #c3dc99;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #aacd6e;\n}\n"] = false
+    __vueify_insert__.cache["table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\n.input {\n  padding: 5px 0;\n  margin-left: 15px;\n}\n.input-group {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 15px;\n}\nlabel.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n}\ninput.text {\n  border-radius: 5px;\n  padding: 10px;\n  border: 1px solid #52616a;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -12264,7 +12324,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-2a3fc010", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],8:[function(require,module,exports){
+},{"../mixins/pagination":14,"babel-runtime/core-js/json/stringify":1,"vue":8,"vue-hot-reload-api":5,"vueify/lib/insert-css":9}],12:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert(".export {\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: 2;\n  padding: 10px;\n}\n.export label[for=\"toggle-drop-down\"] {\n  cursor: pointer;\n  float: right;\n  font-weight: bold;\n  color: #999;\n  -webkit-transition: all 0.3s ease-in-out;\n  transition: all 0.3s ease-in-out;\n}\n.export label[for=\"toggle-drop-down\"]:hover {\n  color: #333;\n}\n#toggle-drop-down {\n  opacity: 0;\n}\n#toggle-drop-down:checked + .dropdown-box>.dropdown {\n  opacity: 1;\n  top: 0;\n}\n")
 "use strict";
@@ -12306,7 +12366,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-d8d4ac9e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":5,"vue-hot-reload-api":2,"vueify/lib/insert-css":6}],9:[function(require,module,exports){
+},{"vue":8,"vue-hot-reload-api":5,"vueify/lib/insert-css":9}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12332,7 +12392,70 @@ exports.default = {
     components: { toggleGear: _toggleGear2.default }
 };
 
-},{"../components/toggleGear.vue":8}],10:[function(require,module,exports){
+},{"../components/toggleGear.vue":12}],14:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = {
+	data: function data() {
+		return {
+			searchKey: '',
+			reverse: 1,
+			sortKey: '',
+			currentPage: 0,
+			itemsPerPage: 10
+		};
+	},
+
+
+	computed: {
+		lastPoint: function lastPoint() {
+			var val = this.currentPage;
+			var last = this.totalPages - 1;
+
+			if (val < 2) return val ? 5 - val : 4;
+			if (last - val < 2) return last;
+			return val + 2;
+		},
+		firstPoint: function firstPoint() {
+			var val = this.currentPage;
+			var last = this.totalPages - 1;
+			var res = last - val;
+
+			if (val < 2) return 0;
+			if (res < 2) return res ? last - (5 - res) : last - 4;
+			return val - 2;
+		},
+		totalPages: function totalPages() {
+			return Math.ceil(this.resultCount / parseInt(this.itemsPerPage));
+		},
+		resultCount: function resultCount() {
+			return this.devices.length;
+		}
+	},
+
+	filters: {
+		paginate: function paginate(list) {
+			var index = this.currentPage * parseInt(this.itemsPerPage);
+			return list.slice(index, index + parseInt(this.itemsPerPage));
+		}
+	},
+
+	methods: {
+		sortBy: function sortBy(column) {
+			this.sortKey = column;
+			this.reverse = this.sortKey == column ? this.reverse * -1 : this.reverse = 1;
+		},
+
+		setPage: function setPage(pageNumber) {
+			this.currentPage = pageNumber;
+		}
+	}
+};
+
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var _vue = require('vue');
@@ -12351,13 +12474,15 @@ var _atReady = require('./mixins/atReady');
 
 var _atReady2 = _interopRequireDefault(_atReady);
 
+var _inputText = require('./components/inputText.vue');
+
+var _inputText2 = _interopRequireDefault(_inputText);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Created by LEGASPI on 7/10/2016.
- */
-
-_vue2.default.use(_vuePaginate2.default);
+_vue2.default.use(_vuePaginate2.default); /**
+                                           * Created by LEGASPI on 7/10/2016.
+                                           */
 
 _vue2.default.use(require('vue-resource'));
 
@@ -12365,14 +12490,47 @@ new _vue2.default({
     el: "#app",
 
     data: {
-        devices: devices
+        devices: devices,
+        index: null,
+        input: {
+            ip: '',
+            location: ''
+        }
     },
 
     mixins: [_atReady2.default],
 
-    components: { deviceTable: _table2.default }
+    components: { deviceTable: _table2.default, inputText: _inputText2.default },
+
+    methods: {
+        setPage: function setPage(pageNumber) {
+            this.currentPage = pageNumber;
+        },
+
+        sortBy: function sortBy(column) {
+            this.sortKey = column;
+            this.reverse = this.sortKey == column ? this.reverse * -1 : this.reverse = 1;
+        },
+        makeNonReactive: function makeNonReactive(collection) {
+            return JSON.parse(JSON.stringify(collection));
+        },
+        updateDevice: function updateDevice() {
+            this.devices.$set(this.index, this.makeNonReactive(this.input));
+            this.input.ip = '';
+            this.input.location = '';
+        },
+        deleteDevice: function deleteDevice(device) {
+            var self = this;
+
+            self.$http.get(env_server + '/delete/' + device.ip).then(function (response) {
+                self.devices.$remove(device);
+            }, function (response) {
+                return self.updateStatus();
+            });
+        }
+    }
 });
 
-},{"./components/table.vue":7,"./mixins/atReady":9,"vue":5,"vue-paginate":3,"vue-resource":4}]},{},[10]);
+},{"./components/inputText.vue":10,"./components/table.vue":11,"./mixins/atReady":13,"vue":8,"vue-paginate":6,"vue-resource":7}]},{},[15]);
 
 //# sourceMappingURL=vue-device.js.map

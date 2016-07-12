@@ -13,7 +13,7 @@ class HomeController extends Controller
     {
         JavaScript::put(["omegas" => device::all()]);
         return view('welcome');
-    }
+}
 
     public function status(StatusRepository $omega)
     {

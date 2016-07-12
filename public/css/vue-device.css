@@ -2217,9 +2217,10 @@ body, html {
   z-index: 0; }
 
 .content {
-  background: #1f4e5f;
-  background: linear-gradient(to bottom right, #1f4e5f, #79a8a9);
-  height: 100vh;
+  background: #353866;
+  background: linear-gradient(to bottom right, #353866, #AAABD3);
+  background-position: fixed;
+  padding-bottom: 64px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: center;
@@ -2237,7 +2238,44 @@ body, html {
   .header .title {
     text-align: center;
     font-size: 32px;
-    text-shadow: 2px 2px #1f4e5f;
-    color: #9ecedf; }
+    text-shadow: 2px 2px #353866;
+    color: white; }
+
+.form {
+  display: -ms-flexbox;
+  display: flex; }
+  .form .btn.save {
+    margin-right: 5px;
+    height: 100%;
+    position: relative;
+    bottom: -23px;
+    height: 38px;
+    min-width: 100px;
+    border-radius: 5px;
+    font-weight: bold;
+    background: #353866;
+    color: #bdbfdd;
+    border: 1px solid #bdbfdd;
+    box-sizing: border-box;
+    transition: .3s ease-in-out; }
+    .form .btn.save:hover {
+      background: #242644;
+      box-shadow: 0px 1px 3px 0px #353866; }
+  .form .btn.cancel {
+    height: 38px;
+    min-width: 100px;
+    height: 100%;
+    position: relative;
+    bottom: -23px;
+    padding: 11px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #353866;
+    background: white;
+    border: 1px solid #353866;
+    transition: .3s ease-in-out; }
+    .form .btn.cancel:hover {
+      background: #dfe0ee;
+      box-shadow: 0px 1px 3px 0px #353866; }
 
 /*# sourceMappingURL=vue-device.css.map */
