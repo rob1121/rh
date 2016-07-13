@@ -3,10 +3,12 @@
  */
 
 import Vue from 'vue';
+import { PulseLoader  } from 'vue-spinner/dist/vue-spinner.min.js';
 import deviceTable from './components/table.vue';
 import VuePaginate from 'vue-paginate';
 import atReady from './mixins/atReady';
 import inputText from "./components/inputText.vue";
+import helper from "./mixins/helper";
 
 Vue.use(VuePaginate);
 
@@ -19,65 +21,73 @@ new Vue({
 
     data: {
     	devices: devices,
-    	index: null,
-        ip_hook: "127.0.0.1",
-    	input: {
-    		ip: '',
-    		location: ''
-    	}
+        errors: [],
+        show_loader: false,
+        input: {
+            id: null,
+            ip: '',
+            location: '',
+            index: null
+        },
+
     },
 
-    mixins:[atReady],
+    mixins:[atReady, helper],
 
-    components: { deviceTable, inputText },
+    components: { deviceTable, inputText, PulseLoader  },
 
     methods: {
-        setPage: function(pageNumber) {
-            this.currentPage = pageNumber
-        },
-
-        sortBy: function(column) {
-            this.sortKey = column;
-            this.reverse = this.sortKey == column ? this.reverse * -1 : this.reverse = 1;
-        },
-
-    	makeNonReactive(collection)
-    	{
-    		return JSON.parse(JSON.stringify(collection));
-    	},
 
         storeDevice() {
+            this.show_loader = true;
+
             var link = env_server + '/devices';
 
             this.$http.post( link, this.input )
                 .then( response => {
-                    if (! response.json().hasOwnProperty('error')) // check if key 'error' exist
-                    {
-                        var input = this.makeNonReactive(this.input);
+                    if (! this.hasError(response.json()))
+                        this.devices.push(response.json());
 
-                        this.devices.push(input);
-                    }
+                    this.resetForm();
+                    this.show_loader = false;
 
-                    this.input.ip = '';
-                    this.index = null;
-                    this.input.location = '';
+                }).catch(function (data, status, request) {
+
+                    this.errors = JSON.parse(data.data);
+                    this.show_loader = false;
+                    setTimeout(() => this.errors = [], 5000);
                 }).bind(this);
         },
 
 		updateDevice()
 		{
-            var link = env_server + '/update/' + this.makeNonReactive(this.id);
+            this.show_loader = true;
+            var link = env_server + '/update/' + this.helperMakeNonReactive(this.input.id);
 
             this.$http.post( link, this.input )
                 .then( response => {
-                    var index = this.makeNonReactive(this.index),
-                        input = this.makeNonReactive(this.input);
-
-                        this.devices.$set(index, input);
-                        this.input.ip = '';
-                        this.index = null;
-                        this.input.location = '';
+                    var input = this.helperMakeNonReactive(this.input);
+                        this.devices.$set(input.index, input);
+                        this.resetForm();
+                        this.show_loader = false;
                 }).bind(this);
-		}
+		},
+
+        resetForm() {
+            this.input.ip = '';
+            this.input.id = null;
+            this.input.location = '';
+            this.input.index = null;
+        },
+
+        showErrorMsg: function (errors) {
+            var self = this;
+
+            self.errors = errors.json();
+
+            setTimeout(function () {
+                self.errors = '';
+            }, 15000);
+        },
     },
 });

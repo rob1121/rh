@@ -11,11 +11,11 @@
 					th(v-for="thead in theads") {{ thead }}
 
 				tbody
-					tr(v-for="(index, device) in devices | orderBy sortKey reverse | filterBy searchKey | count | paginate")
+					tr(v-for="device in devices | orderBy sortKey reverse | filterBy searchKey | count | paginate")
 						td {{ device.ip }}
 						td {{ device.location }}
 						td
-							a.action-btn(href="#" @click.prevent="setInput(device, index)")
+							a.action-btn(href="#" @click.prevent="setInput(device)")
 								span edit
 								i.fa.fa-edit
 							span |
@@ -47,8 +47,7 @@
 					i.fa.fa-angle-left
 		li(v-for  = "pageNumber in totalPages" v-show = "pageNumber >= firstPoint && pageNumber <= lastPoint")
 			a(href="#" @click.prevent="setPage(pageNumber)")
-				.btn(:class = "{'active': currentPage == pageNumber}" )
-					{{ pageNumber+1 }}
+				.btn(:class = "{'active': currentPage == pageNumber}" ) {{ pageNumber+1 }}
 		li
 			a(href="#" @click.prevent="currentPage = currentPage != (totalPages-1) ? currentPage+1 : currentPage")
 				.btn
@@ -66,6 +65,7 @@
 
 <script>
 	import pagination from "../mixins/pagination";
+	import helper from "../mixins/helper";
 	export default {
 		data() {
 			return {
@@ -73,19 +73,24 @@
 			}
 		},
 
-		props: ['devices','input','index','id'],
+		props: ['devices','input'],
 
-		mixins: [pagination],
+		mixins: [pagination, helper],
 
 		methods: {
-	    	makeNonReactive(collection) {
-	    		return JSON.parse(JSON.stringify(collection));
-	    	},
+	        setPage: function(pageNumber) {
+	            this.currentPage = pageNumber
+	        },
 
-			setInput(device, index) {
-				this.index = index;
-				this.input = this.makeNonReactive(device);
-				this.id = this.makeNonReactive(device.id);
+	        sortBy: function(column) {
+	            this.sortKey = column;
+	            this.reverse = this.sortKey == column ? this.reverse * -1 : this.reverse = 1;
+	        },
+
+			setInput(device) {
+				this.input = this.helperMakeNonReactive(device);
+				this.input.index = this.helperFindIndex(this.devices, "ip", device.ip);
+
 			},
 
 			deleteDevice(device) {

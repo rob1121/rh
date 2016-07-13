@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class device extends Model
 {
+    const rules = [
+        'ip' => "required|unique:devices,ip",
+        'location' => "required"
+    ];
+
     protected $fillable  = ['ip','location'];
 
     // public function getRouteKeyName()

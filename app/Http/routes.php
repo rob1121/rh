@@ -19,10 +19,15 @@ Route::get('/export',[
     'uses' => 'DeviceController@exportToCsv'
 ]); //export db to excel
 
-Route::post('devices',[
+Route::post('/devices',[
     'as' => 'store_device',
     'uses' => 'DeviceController@store'
 ]);
+
+// Route::post('devices',[
+//     'as' => 'store_device',
+//     'uses' => 'DeviceController@store'
+// ]);
 
 Route::post('/update/{device}',[
     'as' => 'update_device',

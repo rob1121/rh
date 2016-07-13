@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\omega\Repo\DbTrans;
 use Illuminate\Http\Request;
 use App\omega\Repo\ExcelRepo;
 use App\omega\models\device;
@@ -9,6 +10,9 @@ use JavaScript;
 
 class DeviceController extends Controller
 {
+    /**
+     * DeviceController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -22,26 +26,37 @@ class DeviceController extends Controller
         $db->toExcel();
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function show()
     {
         JavaScript::put(['devices' => device::all()]);
         return view('device.list');
     }
 
-    public function store(Request $request)
+    /**
+     * @param DbTrans $db
+     * @return static
+     */
+    public function store(DbTrans $db)
     {
-        if(! device::isExist($request->ip) )
-            return device::create($request->all());
-
-        return ["error" => true];
-
+        return $db->validateRequest()->store();
     }
 
-    public function delete(Device $device)
+    /**
+     * @param device $device
+     * @throws \Exception
+     */
+    public function delete(device $device)
     {
         $device->delete();
     }
 
+    /**
+     * @param device $device
+     * @param Request $request
+     */
     public function update(device $device, Request $request)
     {
         $collection = new device($request->all());
