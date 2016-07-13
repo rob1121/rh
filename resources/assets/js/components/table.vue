@@ -73,7 +73,7 @@
 			}
 		},
 
-		props: ['devices','input'],
+		props: ['devices','input','show_loader','alert'],
 
 		mixins: [pagination, helper],
 
@@ -94,11 +94,28 @@
 			},
 
 			deleteDevice(device) {
+				this.show_loader = true;
 				this.$http.post( env_server + '/delete/' + device.id, [] )
-	                .then( response => this.devices.$remove(device))
-	                .bind(this);
+	                .then( response => this.onDelete(device)).bind(this);
+			},
+
+			onDelete(device) {
+            	this.devices.$remove(device);
+                this.alertMsg({msg:device.ip + ' successfully removed'},'success');
+            },
+
+	        alertMsg(alert, alertClass) {
+
+	            this.alert.messages = typeof alert == 'object'
+	                ? alert
+	                : JSON.parse(alert);
+
+	            this.alert.class = alertClass;
+	            this.show_loader = false;
+
+	            setTimeout(() => this.alert.messages = [], 15000);
+	        }
 			}
-		}
 	}
 
 </script>

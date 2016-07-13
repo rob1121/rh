@@ -2216,6 +2216,9 @@ body, html {
   position: relative;
   z-index: 0; }
 
+footer {
+  opacity: 0; }
+
 .content {
   background: #353866;
   background: linear-gradient(to bottom right, #353866, #AAABD3);
@@ -2308,14 +2311,25 @@ button:focus,
 select:focus {
   outline: none; }
 
-.errors {
+.success {
+  color: #3B4E32;
+  font-weight: bold;
+  transition: 1s ease-in-out; }
+
+.danger {
   color: firebrick;
   font-weight: bold;
   transition: 1s ease-in-out; }
-  .errors li {
-    padding: 2px 20px;
-    background: #fcf0f0;
-    list-style: none; }
+
+.success > li {
+  padding: 2px 20px;
+  background: #edffd8;
+  list-style: none; }
+
+.danger > li {
+  padding: 2px 20px;
+  background: #fcf0f0;
+  list-style: none; }
 
 .loader {
   position: fixed;
@@ -2355,5 +2369,17 @@ select:focus {
   to {
     opacity: 0;
     bottom: 10px; } }
+
+footer {
+  opacity: 1;
+  background: #242644;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 300px;
+  padding-top: 16px; }
+  footer .footer__company {
+    color: #F6B352; }
 
 /*# sourceMappingURL=vue-device.css.map */

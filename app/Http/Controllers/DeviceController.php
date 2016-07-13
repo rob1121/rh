@@ -41,7 +41,8 @@ class DeviceController extends Controller
      */
     public function store(DbTrans $db)
     {
-        return $db->validateRequest()->store();
+        return $db->validateRequest()
+            ->store();
     }
 
     /**
@@ -57,11 +58,9 @@ class DeviceController extends Controller
      * @param device $device
      * @param Request $request
      */
-    public function update(device $device, Request $request)
+    public function update(DbTrans $db,device $device)
     {
-        $collection = new device($request->all());
-
-        $device->update($collection->toArray());
-
+        $db->validateRequest($device)
+            ->update();
     }
 }

@@ -94,15 +94,26 @@ button:focus,
 select:focus
 	outline: none
 
-.errors
+.success
+	color: #3B4E32
+	font-weight: bold
+	transition: 1s ease-in-out
+
+.danger
 	color: firebrick
 	font-weight: bold
 	transition: 1s ease-in-out
 
-	li
-		padding: 2px 20px
-		background: lighten(firebrick, 55%)
-		list-style: none
+.success>li
+	padding: 2px 20px
+	background: lighten(#75D701, 50%)
+	list-style: none
+
+.danger>li
+	padding: 2px 20px
+	background: lighten(firebrick, 55%)
+	list-style: none
+
 .loader
 	position: fixed
 	top: 0
@@ -140,3 +151,14 @@ select:focus
 	to
 		opacity: 0
 		bottom: 10px
+
+footer
+	opacity: 1
+	background: darken($color, 10%)
+	display: flex
+	justify-content: center
+	height: 300px
+	padding-top: 16px
+
+	.footer__company
+		color: #F6B352

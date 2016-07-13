@@ -1,22 +1,36 @@
 <?php namespace App\omega\Repo;
 
 use App\omega\models\device;
-use App\omega\Traits\DateTime;
-use DB;
-use Excel;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 
 class DbTrans
 {
-    use DateTime;
     use ValidatesRequests;
+
     protected $request;
-    protected $isExist;
+    protected $device;
 
     public function __construct(Request $request = null)
     {
         $this->request = $request;
+    }
+
+    public function validateRequest($device = null)
+    {
+        $this->device = $device;
+        $rule = 'required|unique:devices,ip';
+
+        if($device != NULL) $rule .= ',' . $device->id;
+
+        $this->validate($this->request, [
+            'ip' => $rule,
+            'location' => 'required'
+        ]);
+
+        //check if its ajax request
+        if ($this->request->ajax()) return $this;
+
     }
 
     public function store()
@@ -24,15 +38,11 @@ class DbTrans
         return device::create($this->request->all());
     }
 
-    public function validateRequest()
+    public function update()
     {
-        $this->validate($this->request, [
-            'ip' => 'required|unique:devices,ip',
-            'location' => 'required'
-        ]);
+        $collection = new device($this->request->all());
 
-        if ($this->request->ajax()) return;
+        $this->device->update($collection->toArray());
 
-        return $this;
     }
 }

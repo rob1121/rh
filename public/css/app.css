@@ -2216,4 +2216,7 @@ body, html {
   position: relative;
   z-index: 0; }
 
+footer {
+  opacity: 0; }
+
 /*# sourceMappingURL=app.css.map */

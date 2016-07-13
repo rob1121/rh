@@ -17,12 +17,14 @@
 		<device-table
 			:devices.sync="devices"
 			:input.sync="input"
+			:show_loader.sync="show_loader"
+			:alert.sync="alert"
 		>
 
 		</device-table>
 	</section>
-    <ul class="errors">
-        <li v-for="error in errors" transition="fade">@{{ error }}</li>
+    <ul :class="alert.class">
+        <li v-for="message in alert.messages" transition="fade">-@{{ message | capitalize }}</li>
     </ul>
 
 	<div class="form">

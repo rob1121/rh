@@ -5,12 +5,9 @@
 import Vue from 'vue';
 import { PulseLoader  } from 'vue-spinner/dist/vue-spinner.min.js';
 import deviceTable from './components/table.vue';
-import VuePaginate from 'vue-paginate';
 import atReady from './mixins/atReady';
 import inputText from "./components/inputText.vue";
 import helper from "./mixins/helper";
-
-Vue.use(VuePaginate);
 
 Vue.use(require('vue-resource'));
 
@@ -21,7 +18,10 @@ new Vue({
 
     data: {
     	devices: devices,
-        errors: [],
+        alert:{
+            messages: [],
+            class: 'success'
+        },
         show_loader: false,
         input: {
             id: null,
@@ -41,22 +41,12 @@ new Vue({
         storeDevice() {
             this.show_loader = true;
 
-            var link = env_server + '/devices';
+            var link = env_server + '/devices/store';
 
             this.$http.post( link, this.input )
-                .then( response => {
-                    if (! this.hasError(response.json()))
-                        this.devices.push(response.json());
-
-                    this.resetForm();
-                    this.show_loader = false;
-
-                }).catch(function (data, status, request) {
-
-                    this.errors = JSON.parse(data.data);
-                    this.show_loader = false;
-                    setTimeout(() => this.errors = [], 5000);
-                }).bind(this);
+                .then( response => this.onStore(response.json()))
+                .catch((data, status, request) => this.alertMsg(data.data, 'danger'))
+                .bind(this);
         },
 
 		updateDevice()
@@ -65,12 +55,8 @@ new Vue({
             var link = env_server + '/update/' + this.helperMakeNonReactive(this.input.id);
 
             this.$http.post( link, this.input )
-                .then( response => {
-                    var input = this.helperMakeNonReactive(this.input);
-                        this.devices.$set(input.index, input);
-                        this.resetForm();
-                        this.show_loader = false;
-                }).bind(this);
+                .then(() => this.onUpdate())
+                .bind(this);
 		},
 
         resetForm() {
@@ -78,16 +64,32 @@ new Vue({
             this.input.id = null;
             this.input.location = '';
             this.input.index = null;
+            this.show_loader = false;
         },
 
-        showErrorMsg: function (errors) {
-            var self = this;
-
-            self.errors = errors.json();
-
-            setTimeout(function () {
-                self.errors = '';
-            }, 15000);
+        onStore(newDevice) {
+            this.devices.push(newDevice);
+            this.alertMsg({msg:newDevice.ip + ' successfully added'}, 'success');
+            this.resetForm();
         },
+
+        onUpdate() {
+            var input = this.helperMakeNonReactive(this.input);
+                this.devices.$set(input.index, input);
+                this.alertMsg({msg:input.ip + ' successfully updated'}, 'success');
+                this.resetForm();
+        },
+
+        alertMsg(alert, alertClass) {
+
+            this.alert.messages = typeof alert == 'object'
+                ? alert
+                : JSON.parse(alert);
+
+            this.alert.class = alertClass;
+            this.show_loader = false;
+
+            setTimeout(() => this.alert.messages = [], 15000);
+        }
     },
 });
