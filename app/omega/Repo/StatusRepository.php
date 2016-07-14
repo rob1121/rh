@@ -9,9 +9,9 @@ class StatusRepository {
 	public $content;
     public $device;
     public $site;
-	public $temp = "Offline";
-	public $rh = "Offline";
-    public $is_recording = "Offline";
+	public $temp;
+	public $rh;
+    public $is_recording;
 
     /**
      * StatusRepository constructor.
@@ -32,7 +32,7 @@ class StatusRepository {
 
         return static::isSiteAvailable($this->site)
             ? $this->content()->temp()->humid()->record()->get()
-            : $this->get();
+            : $this->offline()->get();
 	}
 
     /**
@@ -62,11 +62,17 @@ class StatusRepository {
         return $response ? true : false;
     }
 
-    /**
-     * @return array
-     */
+    public function offline() {
+        $this->temp = 'Offline';
+        $this->rh = 'Offline';
+        $this->is_recording = 'Off';
+
+        return $this;
+    }
+
     public function get()
     {
+
         $collection = [
             'ip' => $this->device->ip,
             'location' => $this->device->location,
@@ -90,7 +96,8 @@ class StatusRepository {
      */
     public function record()
     {
-        $this->is_recording =  $this->getValue('Recording', 10, 3);
+        $getRecord = $this->getValue('Recording', 10, 2);
+        $this->is_recording =  $getRecord == "Of" ? "Off" : "On";
 
         return $this;
     }

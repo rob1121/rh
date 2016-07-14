@@ -28,15 +28,6 @@
 
 					<li>
 						<div class="item">
-							<a href="{{ route('exportToCsv') }}">
-								<i class="fa fa-download"></i>
-								export to excel
-							</a>
-						</div>
-					</li>
-
-					<li>
-						<div class="item">
 							<a href="{{ url('/logout') }}">
 								<i class="fa fa-sign-out"></i>
 								Logout

@@ -45,10 +45,10 @@ class omegaListSeeder extends Seeder
 				'location' => $collection['location']
 			]);
 
-//    		$device->status()->create([
-//                'rh' => 'Offline',
-//                'temp' => 'Offline'
-//    		]);
+   		// $device->status()->create([
+     //           'rh' => 'Offline',
+     //           'temp' => 'Offline'
+   		// ]);
     	}
     }
 }

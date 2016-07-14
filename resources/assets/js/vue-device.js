@@ -3,10 +3,12 @@
  */
 
 import Vue from 'vue';
+import moment from 'moment';
 import { PulseLoader  } from 'vue-spinner/dist/vue-spinner.min.js';
 import deviceTable from './components/table.vue';
 import atReady from './mixins/atReady';
 import inputText from "./components/inputText.vue";
+import selectDate from "./components/date-year-month.vue";
 import helper from "./mixins/helper";
 
 Vue.use(require('vue-resource'));
@@ -18,23 +20,25 @@ new Vue({
 
     data: {
     	devices: devices,
-        alert:{
-            messages: [],
-            class: 'success'
-        },
-        show_loader: false,
-        input: {
-            id: null,
-            ip: '',
-            location: '',
-            index: null
-        },
 
+        alert:{ messages: [], class: 'success' },
+
+        select: { year: '', month: '' },
+
+        modal: { display: false },
+
+        show_loader: false,
+
+        input: { id: null, ip: '', location: '', index: null },
+    },
+
+    ready() {
+        this.setDate();
     },
 
     mixins:[atReady, helper],
 
-    components: { deviceTable, inputText, PulseLoader  },
+    components: { deviceTable, inputText, PulseLoader, selectDate },
 
     methods: {
 
@@ -90,6 +94,17 @@ new Vue({
             this.show_loader = false;
 
             setTimeout(() => this.alert.messages = [], 15000);
+        },
+
+        export() {
+            location.href=env_server + `/export?month=${this.select.month}&year=${this.select.year}`;
+        },
+
+        setDate() {
+            var d = new Date();
+
+            this.select.year = moment().format('YYYY');
+            this.select.month = moment().format('M');
         }
     },
 });

@@ -2219,10 +2219,14 @@ body, html {
 footer {
   opacity: 0; }
 
-.content {
+body {
   background: #353866;
   background: linear-gradient(to bottom right, #353866, #AAABD3);
-  background-position: fixed;
+  background-position: fixed; }
+
+.content {
+  overflow: hidden;
+  animation: on-ready 1s ease-in-out;
   padding-bottom: 64px;
   display: -ms-flexbox;
   display: flex;
@@ -2255,7 +2259,8 @@ footer {
     color: #bdbfdd;
     border: 1px solid #bdbfdd;
     box-sizing: border-box;
-    transition: .3s ease-in-out; }
+    transition: .3s ease-in-out;
+    cursor: pointer; }
     .form .btn.save:hover {
       background: #242644;
       color: #fff;
@@ -2272,7 +2277,8 @@ footer {
     color: #353866;
     background: white;
     border: 1px solid #353866;
-    transition: .3s ease-in-out; }
+    transition: .3s ease-in-out;
+    cursor: pointer; }
     .form .btn.cancel:hover {
       background: #dfe0ee;
       box-shadow: 0px 1px 3px 0px #353866; }
@@ -2347,28 +2353,10 @@ select:focus {
   align-items: center; }
 
 .fade-enter {
-  animation: enterTransition;
-  animation-duration: .3s; }
+  animation: enterTransition .2s ease-in-out; }
 
 .fade-leave {
-  animation: leaveTransition;
-  animation-duration: .3s; }
-
-@keyframes enterTransition {
-  from {
-    opacity: 0;
-    bottom: 10px; }
-  to {
-    opacity: 1;
-    bottom: 0px; } }
-
-@keyframes leaveTransition {
-  from {
-    opacity: 1;
-    bottom: 0px; }
-  to {
-    opacity: 0;
-    bottom: 10px; } }
+  animation: leaveTransition .2s ease-in-out; }
 
 footer {
   opacity: 1;
@@ -2381,5 +2369,87 @@ footer {
   padding-top: 16px; }
   footer .footer__company {
     color: #F6B352; }
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 0;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); }
+  .modal .modal-content {
+    height: 250px;
+    width: 450px;
+    border: 1px solid #7a7eba;
+    border-radius: 5px;
+    background: #fff; }
+  .modal .modal-header {
+    padding: 0 5px; }
+    .modal .modal-header::after {
+      clear: both;
+      content: "";
+      display: table; }
+    .modal .modal-header span {
+      float: right; }
+  .modal .modal-body {
+    height: 100%;
+    width: 100%;
+    border-top: 1px solid #dfe0ee;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-align: center;
+    align-items: center;
+    position: relative;
+    z-index: 4; }
+  .modal .export-link {
+    margin-top: 24px;
+    text-decoration: none; }
+    .modal .export-link div {
+      border-radius: 5px;
+      padding: 10px 30px;
+      font-weight: bold;
+      border: 1px solid #595da8;
+      background: linear-gradient(to top left, #7a7eba, #bdbfdd);
+      transition: .1s ease-in-out;
+      color: #353866; }
+      .modal .export-link div:hover {
+        color: #dfe0ee;
+        background: linear-gradient(to top left, #595da8, #9c9fcb); }
+
+/* keyframes */
+@keyframes on-ready {
+  0% {
+    opacity: 0;
+    transform: translate(0, 30px); }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0); } }
+
+@keyframes enterTransition {
+  from {
+    transform: scale(1.1);
+    opacity: 0; }
+  to {
+    transform: scale(1);
+    opacity: 1; } }
+
+@keyframes leaveTransition {
+  from {
+    transform: scale(1);
+    opacity: 1; }
+  to {
+    transform: scale(1.1);
+    opacity: 0; } }
 
 /*# sourceMappingURL=vue-device.css.map */

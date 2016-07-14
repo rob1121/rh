@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-<div class="content">
+<div class="content" @keyup.esc="modal.display = false">
     <div class="loader" v-show="show_loader" transition="fade">
         <pulse-loader loading="loading" color="#ffffff" size="50px"></pulse-loader>
     </div>
@@ -18,6 +18,7 @@
 			:devices.sync="devices"
 			:input.sync="input"
 			:show_loader.sync="show_loader"
+			:modal="modal"
 			:alert.sync="alert"
 		>
 
@@ -46,7 +47,28 @@
 			Cancel
 			<i class="fa fa-remove"></i>
 		</button>
-		@{{ selected_device | json }}
+	</div>
+	<div class="modal"
+		v-show="modal.display"
+		transition="fade"
+	>
+		<div class="modal-content">
+		<div class="modal-header">
+			<a href="#" @click.prevent="modal.display = false">
+				<span>x</span>
+			</a>
+		</div>
+		<div class="modal-body">
+			<select-date :select.sync="select"></select-date>
+
+			<a href="#" @click.prevent="export" class="export-link">
+				<div>
+					Extract to Excel
+					<i class="fa fa-download"></i>
+				</div>
+			</a>
+		</div>
+		</div>
 	</div>
 </div>
 @endsection

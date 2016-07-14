@@ -5,9 +5,8 @@
 @endpush
 
 @section('content')
-    <card :omegas="omegas" :time="time">TSPI RH & Temp. Monitoring</card>
+    <card :omegas="omegas" :time="time">TSPI RH & Temperature Monitoring</card>
 @endsection
-
 @push('script')
     <script src="{{ $server }}/js/app.js"></script>
 @endpush

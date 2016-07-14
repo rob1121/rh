@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class device extends Model
 {
-    const rules = [
+    static $rules = [
         'ip' => "required|unique:devices,ip",
         'location' => "required"
     ];

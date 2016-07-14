@@ -36,6 +36,10 @@
 					option 50
 					option 100
 
+				a.export-btn(href="#"  @click.prevent="modal.display = true")
+					i.fa.fa-chain
+					span export database
+
 	ul.links(v-show="totalPages > 1")
 		li
 			a(href="#" @click.prevent="setPage(0)")
@@ -73,7 +77,7 @@
 			}
 		},
 
-		props: ['devices','input','show_loader','alert'],
+		props: ['devices','input','show_loader','alert','modal'],
 
 		mixins: [pagination, helper],
 

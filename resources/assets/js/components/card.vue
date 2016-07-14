@@ -5,7 +5,7 @@
 			p.dateTime {{ time }}
 
 		.cards
-			.card(v-for="device in omegas" v-bind:class="device  | filterClasses")
+			.card(v-for="device in omegas | isOne" v-bind:class="device  | filterClasses")
 
 				.title  {{ device.location }}:
 
@@ -190,6 +190,10 @@ $label-red = lighten($red, 60%)
                 if( value == 'Offline' ) return "Offline";
 
                 return `${value} ${suffix}`;
+            },
+
+            isOne(omegas) {
+            	return ! omegas.length ? [omegas] : omegas;
             }
 		},
 
@@ -202,11 +206,13 @@ $label-red = lighten($red, 60%)
                         || temp == "Offline"
                         || rh == "Offline"
                 )
-		            alert = 'alert-red';
+		            alert = 'alert-red'; //originally alert-red
 
 		        else
 		        {
-		            alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5 ? 'alert-red' : 'alert-green';
+		            alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5
+		            	? 'alert-red' //originally alert-red
+		            	: 'alert-green';
 		        }
 
 		        return alert;

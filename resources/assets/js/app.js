@@ -1,8 +1,7 @@
 import Vue from 'vue';
+import moment from 'moment';
 import card from './components/card.vue';
 import atReady from './mixins/atReady';
-
-var moment = require('moment');
 
 Vue.use(require('vue-resource'));
 

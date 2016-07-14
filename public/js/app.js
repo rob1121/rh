@@ -16033,6 +16033,10 @@ var _vue = require('vue');
 
 var _vue2 = _interopRequireDefault(_vue);
 
+var _moment = require('moment');
+
+var _moment2 = _interopRequireDefault(_moment);
+
 var _card = require('./components/card.vue');
 
 var _card2 = _interopRequireDefault(_card);
@@ -16043,8 +16047,6 @@ var _atReady2 = _interopRequireDefault(_atReady);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var moment = require('moment');
-
 _vue2.default.use(require('vue-resource'));
 
 new _vue2.default({
@@ -16052,7 +16054,7 @@ new _vue2.default({
 
     data: {
         omegas: omegas,
-        time: moment().format('MMMM Do YYYY, h:mm:ss a')
+        time: (0, _moment2.default)().format('MMMM Do YYYY, h:mm:ss a')
     },
 
     mixins: [_atReady2.default],
@@ -16071,7 +16073,7 @@ new _vue2.default({
             self.$http.get(env_server + '/status').then(function (response) {
 
                 self.$set('omegas', response.json());
-                self.time = moment().format('MMMM Do YYYY, h:mm:ss a');
+                self.time = (0, _moment2.default)().format('MMMM Do YYYY, h:mm:ss a');
                 setTimeout(function () {
                     return self.updateStatus();
                 }, 60 * 60 * 1000); // for local server deployment
@@ -16118,6 +16120,9 @@ exports.default = {
 			if (value == 'Offline') return "Offline";
 
 			return value + ' ' + _suffix;
+		},
+		isOne: function isOne(omegas) {
+			return !omegas.length ? [omegas] : omegas;
 		}
 	},
 
@@ -16125,16 +16130,19 @@ exports.default = {
 		status: function status(rh, temp) {
 			var alert = "";
 
-			if (typeof temp == "undefined" || typeof rh == "undefined" || temp == "Offline" || rh == "Offline") alert = 'alert-red';else {
-				alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5 ? 'alert-red' : 'alert-green';
-			}
+			if (typeof temp == "undefined" || typeof rh == "undefined" || temp == "Offline" || rh == "Offline") alert = 'alert-red'; //originally alert-red
+
+			else {
+					alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5 ? 'alert-red' //originally alert-red
+					: 'alert-green';
+				}
 
 			return alert;
 		}
 	}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"box\"><div id=\"title\"><slot></slot><p class=\"dateTime\">{{ time }}</p></div><div class=\"cards\"><div v-for=\"device in omegas\" v-bind:class=\"device  | filterClasses\" class=\"card\"><div class=\"title\"> {{ device.location }}:</div><div class=\"content\"><div class=\"card-content\"><div class=\"name\">RH:</div><div class=\"value\">{{ device.rh | isNull | isUndefined | suffix \"%\"}}</div></div><div class=\"card-content\"><div class=\"name\">TEMP:</div><div class=\"value\">{{ device.temp | isNull | isUndefined | suffix \"&deg;C\"}}</div></div></div><div class=\"card-footer\"><p>recording: {{ device.is_recording | isNull | isUndefined }}</p></div></div></div></div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"box\"><div id=\"title\"><slot></slot><p class=\"dateTime\">{{ time }}</p></div><div class=\"cards\"><div v-for=\"device in omegas | isOne\" v-bind:class=\"device  | filterClasses\" class=\"card\"><div class=\"title\"> {{ device.location }}:</div><div class=\"content\"><div class=\"card-content\"><div class=\"name\">RH:</div><div class=\"value\">{{ device.rh | isNull | isUndefined | suffix \"%\"}}</div></div><div class=\"card-content\"><div class=\"name\">TEMP:</div><div class=\"value\">{{ device.temp | isNull | isUndefined | suffix \"&deg;C\"}}</div></div></div><div class=\"card-footer\"><p>recording: {{ device.is_recording | isNull | isUndefined }}</p></div></div></div></div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
