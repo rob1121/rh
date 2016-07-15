@@ -6,6 +6,9 @@
 
 		.cards
 			.card(v-for="device in omegas | isOne" v-bind:class="device  | filterClasses")
+				.card-loader(v-show="device.is_recording != 'Off' && device.is_recording != 'On'")
+					span Fetching data..
+					pulse-loader(loading="loading" color="#ffffff" size="15px")
 
 				.title  {{ device.location }}:
 
@@ -65,7 +68,7 @@ $label-red = lighten($red, 60%)
 	margin-bottom: 24px
 
 .cards
-	animation: slideup 2s
+	animation: slideup 1s ease-in-out
 	display: flex
 	flex-wrap: wrap
 	justify-content: space-around
@@ -80,6 +83,19 @@ $label-red = lighten($red, 60%)
 	border: 1px solid $border-green
 	box-shadow: 0px 2px 5px 0px $border-green
 
+
+.card-loader
+	background: linear-gradient(to bottom right, #353866, lighten(#353866, 50%))
+	display: flex
+	flex-direction: column
+	color: #fff
+	font-weight: bold
+	justify-content: center
+	align-items: center
+	position: absolute
+	z-index: 1
+	width:180px
+	height: 180px
 .title
 	padding-left: 5px
 	font-size: 14px
@@ -125,7 +141,7 @@ $label-red = lighten($red, 60%)
 
 @keyframes slideup
 	from
-		transform: translateY(50px)
+		transform: translateY(30px)
 		opacity: 0
 
 	to
@@ -158,6 +174,7 @@ $label-red = lighten($red, 60%)
 </style>
 
 <script>
+import { PulseLoader  } from 'vue-spinner/dist/vue-spinner.min.js';
 
 	export default {
 
@@ -167,11 +184,13 @@ $label-red = lighten($red, 60%)
 			}
 		},
 
+		components: { PulseLoader },
+
 		props: ['omegas', 'time'],
 
 		filters: {
 			filterClasses(Obj) {
-				return this.status(Obj.rh, Obj.temp);
+				return this.status(Obj.rh, Obj.temp, Obj.is_recording);
 			},
 
             isUndefined( value ) {
@@ -198,7 +217,7 @@ $label-red = lighten($red, 60%)
 		},
 
 		methods: {
-	        status(rh, temp) {
+	        status(rh, temp, is_recording) {
 	            var alert = "";
 
 		        if ( typeof temp == "undefined"
@@ -206,7 +225,7 @@ $label-red = lighten($red, 60%)
                         || temp == "Offline"
                         || rh == "Offline"
                 )
-		            alert = 'alert-red'; //originally alert-red
+		            if(is_recording == "Off") alert = 'alert-red'; //originally alert-red
 
 		        else
 		        {

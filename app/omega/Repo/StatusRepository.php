@@ -2,37 +2,40 @@
 
 use App\omega\models\device;
 use App\omega\models\status;
-/**
-* get content of defined url
-*/
+use Illuminate\Http\Request;
+
 class StatusRepository {
-	public $content;
-    public $device;
-    public $site;
-	public $temp;
-	public $rh;
-    public $is_recording;
+	protected $content;
+    protected $device;
+    protected $site;
+	protected $temp = "Offline";
+	protected $rh = "Offline";
+    protected $is_recording = "Off";
+    protected $request;
 
     /**
      * StatusRepository constructor.
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
 		set_time_limit (0);
+        $this->request = $request;
 	}
 
     /**
      * @param $device
      * @return array
      */
-    public function statusOf($device)
+    public function statusOf($device = null)
 	{
-        $this->device = $device;
-        $this->site = "http://{$device->ip}/postReadHtml?a";
+        $this->device = $this->request;
+        $this->site = "http://{$this->request->ip}/postReadHtml?a";
 
         return static::isSiteAvailable($this->site)
             ? $this->content()->temp()->humid()->record()->get()
-            : $this->offline()->get();
+            : $this
+                // ->offline()
+                ->get();
 	}
 
     /**
@@ -49,7 +52,7 @@ class StatusRepository {
 
         //make the connection with curl
         $cl = curl_init($url);
-        curl_setopt($cl,CURLOPT_CONNECTTIMEOUT,5);
+        curl_setopt($cl,CURLOPT_CONNECTTIMEOUT,3);
         curl_setopt($cl,CURLOPT_HEADER,true);
         curl_setopt($cl,CURLOPT_NOBODY,true);
         curl_setopt($cl,CURLOPT_RETURNTRANSFER,true);
