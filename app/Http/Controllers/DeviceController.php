@@ -23,7 +23,9 @@ class DeviceController extends Controller
      */
     public function exportToCsv(ExcelRepo $db)
     {
-        $db->toExcel();
+        $db->fetchQuery()
+            ->toArray()
+            ->toExcel();
     }
 
     /**

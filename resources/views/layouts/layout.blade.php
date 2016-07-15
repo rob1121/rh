@@ -19,9 +19,20 @@
 				@if(Auth::user())
 					<li>
 						<div class="item">
-							<a href="{{ route('devices') }}">
+
+							<a href="
+								@php
+									echo Request::url() == route('devices')
+										? route('home')
+										: route('devices')
+								@endphp
+								">
 								<i class="fa fa-table"></i>
-								update device list
+								@php
+									echo Request::url() == route('devices')
+										? "home"
+										: "update device list"
+								@endphp
 							</a>
 						</div>
 					</li>

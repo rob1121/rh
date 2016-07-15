@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-<div class="content" @keyup.esc="modal.display = false">
+<div class="content">
     <div class="loader" v-show="show_loader" transition="fade">
         <pulse-loader loading="loading" color="#ffffff" size="50px"></pulse-loader>
     </div>
@@ -29,7 +29,6 @@
     </ul>
 
 	<div class="form">
-
 		<input-text :input.sync="input.ip" name="ip"></input-text>
 		<input-text :input.sync="input.location" name="location"></input-text>
 
@@ -51,6 +50,7 @@
 	<div class="modal"
 		v-show="modal.display"
 		transition="fade"
+		@keyup.esc="modal.display = false"
 	>
 		<div class="modal-content">
 		<div class="modal-header">
@@ -59,7 +59,26 @@
 			</a>
 		</div>
 		<div class="modal-body">
-			<select-date :select.sync="select"></select-date>
+			<h3>Export Failed RH & Temperature Logs:</h3>
+			<div class="date-picker">
+				<label>From:</label>
+				<datepicker :readonly="true"
+					format="MM/DD/YYYY"
+					:value.sync="date.from"
+				>
+				</datepicker>
+			</div>
+
+			<div class="date-picker">
+				<label>To:</label>
+				<datepicker :readonly="true"
+					format="MM/DD/YYYY"
+					:value.sync="date.to"
+				>
+				</datepicker>
+			</div>
+
+			{{-- <select-date :select.sync="select"></select-date> --}}
 
 			<a href="#" @click.prevent="export" class="export-link">
 				<div>

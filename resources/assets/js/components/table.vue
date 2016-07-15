@@ -38,7 +38,7 @@
 
 				a.export-btn(href="#"  @click.prevent="modal.display = true")
 					i.fa.fa-chain
-					span export database
+					span Download Failed RH & Temperature Logs
 
 	ul.links(v-show="totalPages > 1")
 		li
@@ -60,8 +60,6 @@
 			a(href="#" @click.prevent="setPage(totalPages-1)")
 				.btn
 					i.fa.fa-angle-double-right
-	p(:class = "[resultCount ? 'text-success':'text-warning']" v-show = "searchKey != ''")
-		"<strong>{{ searchKey }}</strong>" results <strong>{{ resultCount }}</strong> found
 
 </template>
 
@@ -86,15 +84,9 @@
 	            this.currentPage = pageNumber
 	        },
 
-	        sortBy: function(column) {
-	            this.sortKey = column;
-	            this.reverse = this.sortKey == column ? this.reverse * -1 : this.reverse = 1;
-	        },
-
 			setInput(device) {
 				this.input = this.helperMakeNonReactive(device);
 				this.input.index = this.helperFindIndex(this.devices, "ip", device.ip);
-
 			},
 
 			deleteDevice(device) {

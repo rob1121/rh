@@ -2399,8 +2399,6 @@ footer {
     .modal .modal-header span {
       float: right; }
   .modal .modal-body {
-    height: 100%;
-    width: 100%;
     border-top: 1px solid #dfe0ee;
     display: -ms-flexbox;
     display: flex;
@@ -2411,6 +2409,7 @@ footer {
     -ms-flex-align: center;
     align-items: center;
     position: relative;
+    padding-top: 15px;
     z-index: 4; }
   .modal .export-link {
     margin-top: 24px;
@@ -2426,6 +2425,11 @@ footer {
       .modal .export-link div:hover {
         color: #dfe0ee;
         background: linear-gradient(to top left, #595da8, #9c9fcb); }
+
+.date-picker {
+  margin-top: 10px;
+  width: 300px;
+  text-align: right; }
 
 /* keyframes */
 @keyframes on-ready {

@@ -16529,51 +16529,149 @@ exports.insert = function (css) {
 
 },{}],40:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert(".select-group {\n  padding: 5px 10px;\n}\n.select-group label {\n  margin-left: 5px;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert(".datetime-picker {\n  position: relative;\n  display: inline-block;\n  font-family: \"Segoe UI\", \"Lucida Grande\", Helvetica, Arial, \"Microsoft YaHei\";\n  -webkit-font-smoothing: antialiased;\n  color: #333;\n}\n.datetime-picker * {\n  box-sizing: border-box;\n}\n.datetime-picker input {\n  width: 100%;\n}\n.datetime-picker .picker-wrap {\n  position: absolute;\n  z-index: 1000;\n  width: 238px;\n  height: 280px;\n  margin-top: 2px;\n  background-color: #fff;\n  box-shadow: 0 0 6px #ccc;\n}\n.datetime-picker table {\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n  text-align: center;\n  font-size: 13px;\n}\n.datetime-picker tr {\n  height: 34px;\n  border: 0 none;\n}\n.datetime-picker th,\n.datetime-picker td {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  width: 34px;\n  height: 34px;\n  padding: 0;\n  border: 0 none;\n  line-height: 34px;\n  text-align: center;\n}\n.datetime-picker td {\n  cursor: pointer;\n}\n.datetime-picker td:hover {\n  background-color: #f0f0f0;\n}\n.datetime-picker td.date-pass,\n.datetime-picker td.date-future {\n  color: #aaa;\n}\n.datetime-picker td.date-active {\n  background-color: #ececec;\n  color: #3bb4f2;\n}\n.datetime-picker .date-head {\n  background-color: #3bb4f2;\n  text-align: center;\n  color: #fff;\n  font-size: 14px;\n}\n.datetime-picker .date-days {\n  color: #3bb4f2;\n  font-size: 14px;\n}\n.datetime-picker .show-year {\n  display: inline-block;\n  min-width: 62px;\n  vertical-align: middle;\n}\n.datetime-picker .show-month {\n  display: inline-block;\n  min-width: 28px;\n  vertical-align: middle;\n}\n.datetime-picker .btn-prev,\n.datetime-picker .btn-next {\n  cursor: pointer;\n  display: inline-block;\n  padding: 0 10px;\n  vertical-align: middle;\n}\n.datetime-picker .btn-prev:hover,\n.datetime-picker .btn-next:hover {\n  background: rgba(16,160,234,0.5);\n}\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 exports.default = {
-	data: function data() {
-		return {
-			months: [{ name: 'all', numeric: 0 }, { name: 'January', numeric: 1 }, { name: 'February', numeric: 2 }, { name: 'March', numeric: 3 }, { name: 'April', numeric: 4 }, { name: 'May', numeric: 5 }, { name: 'June', numeric: 6 }, { name: 'July', numeric: 7 }, { name: 'August', numeric: 8 }, { name: 'September', numeric: 9 }, { name: 'October', numeric: 10 }, { name: 'November', numeric: 11 }, { name: 'December', numeric: 12 }]
-		};
-	},
+    props: {
+        width: { type: String, default: '238px' },
+        readonly: { type: Boolean, default: false },
+        value: { type: String, default: '' },
+        format: { type: String, default: 'YYYY-MM-DD' }
+    },
+    data: function data() {
+        return {
+            show: false,
+            days: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            date: [],
+            now: new Date()
+        };
+    },
 
+    watch: {
+        now: function now() {
+            this.update();
+        },
+        show: function show() {
+            this.update();
+        }
+    },
+    methods: {
+        close: function close() {
+            this.show = false;
+        },
+        update: function update() {
+            var arr = [];
+            var time = new Date(this.now);
+            time.setMonth(time.getMonth(), 1); // the first day
+            var curFirstDay = time.getDay();
+            curFirstDay === 0 && (curFirstDay = 7);
+            time.setDate(0); // the last day
+            var lastDayCount = time.getDate();
+            for (var i = curFirstDay; i > 0; i--) {
+                arr.push({
+                    text: lastDayCount - i + 1,
+                    time: new Date(time.getFullYear(), time.getMonth(), lastDayCount - i + 1),
+                    status: 'date-pass'
+                });
+            }
 
-	props: ['select'],
+            time.setMonth(time.getMonth() + 2, 0); // the last day of this month
+            var curDayCount = time.getDate();
+            time.setDate(1); // fix bug when month change
+            var value = this.value || this.stringify(new Date());
+            for (var _i = 0; _i < curDayCount; _i++) {
+                var tmpTime = new Date(time.getFullYear(), time.getMonth(), _i + 1);
+                var status = '';
+                this.stringify(tmpTime) === value && (status = 'date-active');
+                arr.push({
+                    text: _i + 1,
+                    time: tmpTime,
+                    status: status
+                });
+            }
 
-	computed: {
-		years: function years() {
+            var j = 1;
+            while (arr.length < 42) {
+                arr.push({
+                    text: j,
+                    time: new Date(time.getFullYear(), time.getMonth() + 1, j),
+                    status: 'date-future'
+                });
+                j++;
+            }
+            this.date = arr;
+        },
+        yearClick: function yearClick(flag) {
+            this.now.setFullYear(this.now.getFullYear() + flag);
+            this.now = new Date(this.now);
+        },
+        monthClick: function monthClick(flag) {
+            this.now.setMonth(this.now.getMonth() + flag);
+            this.now = new Date(this.now);
+        },
+        pickDate: function pickDate(index) {
+            this.show = false;
+            this.now = new Date(this.date[index].time);
+            this.value = this.stringify();
+        },
+        parse: function parse(str) {
+            var time = new Date(str);
+            return isNaN(time.getTime()) ? null : time;
+        },
+        stringify: function stringify() {
+            var time = arguments.length <= 0 || arguments[0] === undefined ? this.now : arguments[0];
+            var format = arguments.length <= 1 || arguments[1] === undefined ? this.format : arguments[1];
 
-			var today = new Date(),
-			    yyyy = today.getFullYear(),
-			    year = [];
+            var year = time.getFullYear();
+            var month = time.getMonth() + 1;
+            var date = time.getDate();
+            var monthName = this.months[time.getMonth()];
 
-			for (var i = 0; i < 10; i++, yyyy--) {
-				year[i] = yyyy;
-			};
-
-			return year;
-		}
-	}
+            var map = {
+                YYYY: year,
+                MMM: monthName,
+                MM: ('0' + month).slice(-2),
+                M: month,
+                DD: ('0' + date).slice(-2),
+                D: date
+            };
+            return format.replace(/Y+|M+|D+/g, function (str) {
+                return map[str];
+            });
+        },
+        leave: function leave(e) {
+            if (!this.$el.contains(e.target)) {
+                this.close();
+            }
+        }
+    },
+    ready: function ready() {
+        this.now = this.parse(this.value) || new Date();
+        document.addEventListener('click', this.leave, false);
+    },
+    beforeDestroy: function beforeDestroy() {
+        document.removeEventListener('click', this.leave, false);
+    }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"select-group\"><label for=\"year\">Year:<select name=\"year\" v-model=\"select.year\" class=\"text\"><option v-for=\"year in years\">{{ year }}</option></select></label><label for=\"month\">Month:<select name=\"month\" v-model=\"select.month\" class=\"text\"><option v-for=\"month in months\" value=\"{{ month.numeric }}\">{{ month.name }}</option></select></label></div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"datetime-picker\" :style=\"{ width: width }\">\n    <input class=\"text\" type=\"text\" :style=\"styleObj\" :readonly=\"readonly\" :value=\"value\" @click=\"show = !show\">\n    <div class=\"picker-wrap\" v-show=\"show\">\n        <table class=\"date-picker\">\n            <thead>\n                <tr class=\"date-head\">\n                    <th colspan=\"4\">\n                        <span class=\"btn-prev\" @click=\"yearClick(-1)\">&lt;</span>\n                        <span class=\"show-year\">{{now.getFullYear()}}</span>\n                        <span class=\"btn-next\" @click=\"yearClick(1)\">&gt;</span>\n                    </th>\n                    <th colspan=\"3\">\n                        <span class=\"btn-prev\" @click=\"monthClick(-1)\">&lt;</span>\n                        <span class=\"show-month\">{{months[now.getMonth()]}}</span>\n                        <span class=\"btn-next\" @click=\"monthClick(1)\">&gt;</span>\n                    </th>\n                </tr>\n                <tr class=\"date-days\">\n                    <th v-for=\"day in days\">{{day}}</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr v-for=\"i in 6\">\n                    <td v-for=\"j in 7\" :class=\"date[i * 7 + j] &amp;&amp; date[i * 7 + j].status\" :date=\"date[i * 7 + j] &amp;&amp; date[i * 7 + j].date\" @click=\"pickDate(i * 7 + j)\">{{date[i * 7 + j] &amp;&amp; date[i * 7 + j].text}}</td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache[".select-group {\n  padding: 5px 10px;\n}\n.select-group label {\n  margin-left: 5px;\n}\n"] = false
+    __vueify_insert__.cache[".datetime-picker {\n  position: relative;\n  display: inline-block;\n  font-family: \"Segoe UI\", \"Lucida Grande\", Helvetica, Arial, \"Microsoft YaHei\";\n  -webkit-font-smoothing: antialiased;\n  color: #333;\n}\n.datetime-picker * {\n  box-sizing: border-box;\n}\n.datetime-picker input {\n  width: 100%;\n}\n.datetime-picker .picker-wrap {\n  position: absolute;\n  z-index: 1000;\n  width: 238px;\n  height: 280px;\n  margin-top: 2px;\n  background-color: #fff;\n  box-shadow: 0 0 6px #ccc;\n}\n.datetime-picker table {\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n  text-align: center;\n  font-size: 13px;\n}\n.datetime-picker tr {\n  height: 34px;\n  border: 0 none;\n}\n.datetime-picker th,\n.datetime-picker td {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n  width: 34px;\n  height: 34px;\n  padding: 0;\n  border: 0 none;\n  line-height: 34px;\n  text-align: center;\n}\n.datetime-picker td {\n  cursor: pointer;\n}\n.datetime-picker td:hover {\n  background-color: #f0f0f0;\n}\n.datetime-picker td.date-pass,\n.datetime-picker td.date-future {\n  color: #aaa;\n}\n.datetime-picker td.date-active {\n  background-color: #ececec;\n  color: #3bb4f2;\n}\n.datetime-picker .date-head {\n  background-color: #3bb4f2;\n  text-align: center;\n  color: #fff;\n  font-size: 14px;\n}\n.datetime-picker .date-days {\n  color: #3bb4f2;\n  font-size: 14px;\n}\n.datetime-picker .show-year {\n  display: inline-block;\n  min-width: 62px;\n  vertical-align: middle;\n}\n.datetime-picker .show-month {\n  display: inline-block;\n  min-width: 28px;\n  vertical-align: middle;\n}\n.datetime-picker .btn-prev,\n.datetime-picker .btn-next {\n  cursor: pointer;\n  display: inline-block;\n  padding: 0 10px;\n  vertical-align: middle;\n}\n.datetime-picker .btn-prev:hover,\n.datetime-picker .btn-next:hover {\n  background: rgba(16,160,234,0.5);\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
-    hotAPI.createRecord("_v-688b5fb1", module.exports)
+    hotAPI.createRecord("_v-67dbe3ea", module.exports)
   } else {
-    hotAPI.update("_v-688b5fb1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+    hotAPI.update("_v-67dbe3ea", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
 },{"vue":38,"vue-hot-reload-api":35,"vueify/lib/insert-css":39}],41:[function(require,module,exports){
@@ -16605,7 +16703,7 @@ if (module.hot) {(function () {  module.hot.accept()
 })()}
 },{"vue":38,"vue-hot-reload-api":35,"vueify/lib/insert-css":39}],42:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
-var __vueify_style__ = __vueify_insert__.insert("table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\ntr {\n  background: #fff;\n}\ntr:hover {\n  background: #e8e8f3;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools label.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n  display: block;\n  clear: both;\n}\n.table-tools .export-btn {\n  margin-top: 30px;\n  text-decoration: none;\n  text-transform: capitalize;\n  color: #80929d;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.table-tools .export-btn:hover {\n  color: #52616a;\n}\n.table-tools .export-btn span {\n  margin-left: 2px;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\np.title {\n  margin-top: -36px;\n  text-align: center;\n  font-size: 32px;\n  text-shadow: 2px 2px #39444a;\n  color: #dbe0e3;\n}\n")
+var __vueify_style__ = __vueify_insert__.insert("table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\ntr {\n  background: #fff;\n}\ntr:hover {\n  background: #e8e8f3;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-content th {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools label.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n  display: block;\n  clear: both;\n}\n.table-tools .export-btn {\n  margin-top: 30px;\n  text-decoration: none;\n  text-transform: capitalize;\n  color: #80929d;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.table-tools .export-btn:hover {\n  color: #52616a;\n}\n.table-tools .export-btn span {\n  margin-left: 2px;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\np.title {\n  margin-top: -36px;\n  text-align: center;\n  font-size: 32px;\n  text-shadow: 2px 2px #39444a;\n  color: #dbe0e3;\n}\n")
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16643,11 +16741,6 @@ exports.default = {
 			this.currentPage = pageNumber;
 		},
 
-		sortBy: function sortBy(column) {
-			this.sortKey = column;
-			this.reverse = this.sortKey == column ? this.reverse * -1 : this.reverse = 1;
-		},
-
 		setInput: function setInput(device) {
 			this.input = this.helperMakeNonReactive(device);
 			this.input.index = this.helperFindIndex(this.devices, "ip", device.ip);
@@ -16679,13 +16772,13 @@ exports.default = {
 	}
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"table-content\"><div class=\"table-container\"><p class=\"title\">Devices</p><table><thead><th v-for=\"thead in theads\">{{ thead }}</th></thead><tbody><tr v-for=\"device in devices | orderBy sortKey reverse | filterBy searchKey | count | paginate\"><td>{{ device.ip }}</td><td>{{ device.location }}</td><td><a href=\"#\" @click.prevent=\"setInput(device)\" class=\"action-btn\"><span>edit</span><i class=\"fa fa-edit\"></i></a><span>|</span><a href=\"#\" @click.prevent=\"deleteDevice(device)\" class=\"action-btn\"><span>delete</span><i class=\"fa fa-trash-o\"></i></a></td></tr></tbody></table></div><div class=\"table-tools\"><div class=\"input-group\"><label class=\"caption\">Search:</label><input type=\"text\" placeholder=\"Input keyword\" v-model=\"searchKey\" debounce=\"500\" class=\"text\"/></div><div class=\"input-group\"><label class=\"caption\">Display:</label><select v-model=\"itemsPerPage\" class=\"text\"><option>5</option><option>10</option><option>25</option><option>50</option><option>100</option></select><a href=\"#\" @click.prevent=\"modal.display = true\" class=\"export-btn\"><i class=\"fa fa-chain\"></i><span>export database</span></a></div></div></div><ul v-show=\"totalPages &gt; 1\" class=\"links\"><li><a href=\"#\" @click.prevent=\"setPage(0)\"><div class=\"btn\"><i class=\"fa fa-angle-double-left\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage ? currentPage-1 : 0\"><div class=\"btn\"><i class=\"fa fa-angle-left\"></i></div></a></li><li v-for=\"pageNumber in totalPages\" v-show=\"pageNumber &gt;= firstPoint &amp;&amp; pageNumber &lt;= lastPoint\"><a href=\"#\" @click.prevent=\"setPage(pageNumber)\"><div :class=\"{'active': currentPage == pageNumber}\" class=\"btn\">{{ pageNumber+1 }}</div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage != (totalPages-1) ? currentPage+1 : currentPage\"><div class=\"btn\"><i class=\"fa fa-angle-right\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"setPage(totalPages-1)\"><div class=\"btn\"><i class=\"fa fa-angle-double-right\"></i></div></a></li></ul><p :class=\"[resultCount ? 'text-success':'text-warning']\" v-show=\"searchKey != ''\">\"<strong>{{ searchKey }}</strong>\" results <strong>{{ resultCount }}</strong> found</p>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "<div class=\"table-content\"><div class=\"table-container\"><p class=\"title\">Devices</p><table><thead><th v-for=\"thead in theads\">{{ thead }}</th></thead><tbody><tr v-for=\"device in devices | orderBy sortKey reverse | filterBy searchKey | count | paginate\"><td>{{ device.ip }}</td><td>{{ device.location }}</td><td><a href=\"#\" @click.prevent=\"setInput(device)\" class=\"action-btn\"><span>edit</span><i class=\"fa fa-edit\"></i></a><span>|</span><a href=\"#\" @click.prevent=\"deleteDevice(device)\" class=\"action-btn\"><span>delete</span><i class=\"fa fa-trash-o\"></i></a></td></tr></tbody></table></div><div class=\"table-tools\"><div class=\"input-group\"><label class=\"caption\">Search:</label><input type=\"text\" placeholder=\"Input keyword\" v-model=\"searchKey\" debounce=\"500\" class=\"text\"/></div><div class=\"input-group\"><label class=\"caption\">Display:</label><select v-model=\"itemsPerPage\" class=\"text\"><option>5</option><option>10</option><option>25</option><option>50</option><option>100</option></select><a href=\"#\" @click.prevent=\"modal.display = true\" class=\"export-btn\"><i class=\"fa fa-chain\"></i><span>Download Failed RH & Temperature Logs</span></a></div></div></div><ul v-show=\"totalPages &gt; 1\" class=\"links\"><li><a href=\"#\" @click.prevent=\"setPage(0)\"><div class=\"btn\"><i class=\"fa fa-angle-double-left\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage ? currentPage-1 : 0\"><div class=\"btn\"><i class=\"fa fa-angle-left\"></i></div></a></li><li v-for=\"pageNumber in totalPages\" v-show=\"pageNumber &gt;= firstPoint &amp;&amp; pageNumber &lt;= lastPoint\"><a href=\"#\" @click.prevent=\"setPage(pageNumber)\"><div :class=\"{'active': currentPage == pageNumber}\" class=\"btn\">{{ pageNumber+1 }}</div></a></li><li><a href=\"#\" @click.prevent=\"currentPage = currentPage != (totalPages-1) ? currentPage+1 : currentPage\"><div class=\"btn\"><i class=\"fa fa-angle-right\"></i></div></a></li><li><a href=\"#\" @click.prevent=\"setPage(totalPages-1)\"><div class=\"btn\"><i class=\"fa fa-angle-double-right\"></i></div></a></li></ul>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
   module.hot.dispose(function () {
-    __vueify_insert__.cache["table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\nth {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\ntr {\n  background: #fff;\n}\ntr:hover {\n  background: #e8e8f3;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools label.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n  display: block;\n  clear: both;\n}\n.table-tools .export-btn {\n  margin-top: 30px;\n  text-decoration: none;\n  text-transform: capitalize;\n  color: #80929d;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.table-tools .export-btn:hover {\n  color: #52616a;\n}\n.table-tools .export-btn span {\n  margin-left: 2px;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\np.title {\n  margin-top: -36px;\n  text-align: center;\n  font-size: 32px;\n  text-shadow: 2px 2px #39444a;\n  color: #dbe0e3;\n}\n"] = false
+    __vueify_insert__.cache["table {\n  border-collapse: collapse;\n}\nth,\ntd {\n  border: 1px solid #dbe0e3;\n}\ntd {\n  padding: 5px 25px;\n  color: #52616a;\n  text-transform: capitalize;\n}\ntd:first-child {\n  text-align: right;\n}\ntr {\n  background: #fff;\n}\ntr:hover {\n  background: #e8e8f3;\n}\n.table-content {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n}\n.table-content th {\n  text-align: center;\n  background-color: #dce7f4;\n  color: #52616a;\n  text-transform: capitalize;\n  font-size: 24px;\n}\n.table-tools {\n  margin-left: 10px;\n}\n.table-tools label.caption {\n  color: #52616a;\n  text-transform: capitalize;\n  font-weight: bold;\n  display: block;\n  clear: both;\n}\n.table-tools .export-btn {\n  margin-top: 30px;\n  text-decoration: none;\n  text-transform: capitalize;\n  color: #80929d;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.table-tools .export-btn:hover {\n  color: #52616a;\n}\n.table-tools .export-btn span {\n  margin-left: 2px;\n}\n.table-tools,\n.table-container {\n  min-height: 330px;\n  background-color: #fff;\n  box-shadow: 0px 2px 5px 2px #333;\n  padding: 3px;\n  border-radius: 5px;\n}\n.table-tools table,\n.table-container table {\n  width: 500px;\n}\n.table-tools table th:first-child,\n.table-container table th:first-child,\n.table-tools table td:first-child,\n.table-container table td:first-child {\n  max-width: 100px;\n  min-width: 100px;\n}\n.table-tools table th:nth-child(2),\n.table-container table th:nth-child(2),\n.table-tools table td:nth-child(2),\n.table-container table td:nth-child(2) {\n  max-width: 250px;\n  min-width: 250px;\n}\n.table-tools table th:last-child,\n.table-container table th:last-child,\n.table-tools table td:last-child,\n.table-container table td:last-child {\n  text-align: center;\n  max-width: 150px;\n  min-width: 150px;\n}\n.links {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n}\n.links li {\n  margin: 30px 5px;\n  list-style: none;\n}\n.links a {\n  color: #80929d;\n  font-weight: bold;\n  text-decoration: none;\n}\n.links .btn {\n  background-color: #fff;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: 1px solid #80929d;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  -webkit-transition: all 0.1s ease-in-out;\n  transition: all 0.1s ease-in-out;\n  box-shadow: 0px 1px 3px 0px #80929d;\n}\n.links .btn:hover {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.links .btn.active {\n  box-shadow: 0px 0px 0px 3px #84aad7;\n  color: #52616a;\n  -webkit-transform: scale(1.1);\n          transform: scale(1.1);\n  border: 1px solid #4f86c6;\n}\n.action-btn {\n  color: #80929d;\n  -webkit-transition: 0.3s ease-in-out;\n  transition: 0.3s ease-in-out;\n  box-sizing: border-box;\n  text-decoration: none;\n}\n.action-btn span {\n  text-decoration: none;\n}\n.action-btn i {\n  opacity: 0;\n  -webkit-transition: 0.1s ease-in-out;\n  transition: 0.1s ease-in-out;\n}\n.action-btn:hover {\n  color: #52616a;\n}\n.action-btn:hover i {\n  opacity: 1;\n}\np.title {\n  margin-top: -36px;\n  text-align: center;\n  font-size: 32px;\n  text-shadow: 2px 2px #39444a;\n  color: #dbe0e3;\n}\n"] = false
     document.head.removeChild(__vueify_style__)
   })
   if (!module.hot.data) {
@@ -16866,6 +16959,10 @@ var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _datepicker = require('./components/datepicker.vue');
+
+var _datepicker2 = _interopRequireDefault(_datepicker);
+
 var _vueSpinnerMin = require('vue-spinner/dist/vue-spinner.min.js');
 
 var _table = require('./components/table.vue');
@@ -16879,10 +16976,6 @@ var _atReady2 = _interopRequireDefault(_atReady);
 var _inputText = require('./components/inputText.vue');
 
 var _inputText2 = _interopRequireDefault(_inputText);
-
-var _dateYearMonth = require('./components/date-year-month.vue');
-
-var _dateYearMonth2 = _interopRequireDefault(_dateYearMonth);
 
 var _helper = require('./mixins/helper');
 
@@ -16900,9 +16993,12 @@ new _vue2.default({
     data: {
         devices: devices,
 
-        alert: { messages: [], class: 'success' },
+        date: {
+            from: (0, _moment2.default)().format('MM/DD/YYYY'),
+            to: (0, _moment2.default)().format('MM/DD/YYYY')
+        },
 
-        select: { year: '', month: '' },
+        alert: { messages: [], class: 'success' },
 
         modal: { display: false },
 
@@ -16911,14 +17007,9 @@ new _vue2.default({
         input: { id: null, ip: '', location: '', index: null }
     },
 
-    ready: function ready() {
-        this.setDate();
-    },
-
-
     mixins: [_atReady2.default, _helper2.default],
 
-    components: { deviceTable: _table2.default, inputText: _inputText2.default, PulseLoader: _vueSpinnerMin.PulseLoader, selectDate: _dateYearMonth2.default },
+    components: { deviceTable: _table2.default, inputText: _inputText2.default, PulseLoader: _vueSpinnerMin.PulseLoader, datepicker: _datepicker2.default },
 
     methods: {
         storeDevice: function storeDevice() {
@@ -16975,17 +17066,11 @@ new _vue2.default({
             }, 15000);
         },
         export: function _export() {
-            location.href = env_server + ('/export?month=' + this.select.month + '&year=' + this.select.year);
-        },
-        setDate: function setDate() {
-            var d = new Date();
-
-            this.select.year = (0, _moment2.default)().format('YYYY');
-            this.select.month = (0, _moment2.default)().format('M');
+            location.href = env_server + ('/export?from=' + this.date.from + '&to=' + this.date.to);
         }
     }
 });
 
-},{"./components/date-year-month.vue":40,"./components/inputText.vue":41,"./components/table.vue":42,"./mixins/atReady":44,"./mixins/helper":45,"moment":33,"vue":38,"vue-resource":36,"vue-spinner/dist/vue-spinner.min.js":37}]},{},[47]);
+},{"./components/datepicker.vue":40,"./components/inputText.vue":41,"./components/table.vue":42,"./mixins/atReady":44,"./mixins/helper":45,"moment":33,"vue":38,"vue-resource":36,"vue-spinner/dist/vue-spinner.min.js":37}]},{},[47]);
 
 //# sourceMappingURL=vue-device.js.map

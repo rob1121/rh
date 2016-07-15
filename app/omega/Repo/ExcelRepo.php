@@ -10,15 +10,8 @@ use Excel;
 class ExcelRepo
 {
     public $request;
-    use DateTime;
-
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
-    public function toExcel()
-    {   $columns = [
+    public $db;
+    const columns = [
             'devices.ip',
             'devices.location',
             'statuses.rh',
@@ -26,30 +19,50 @@ class ExcelRepo
             'statuses.is_recording',
             'statuses.created_at'
         ];
-        $clause['operator'] = $this->request->month > 0 ? 'LIKE' : '<>';
-        $clause['look_up_value'] = $this->request->month > 0 ? $this->request->month : 0;
 
-        $db = collect(
+    use DateTime;
 
-            DB::table('devices')
-                ->rightJoin('statuses', 'statuses.device_id', '=', 'devices.id')
-                ->whereMonth('statuses.created_at', $clause['operator'], $clause['look_up_value'])
-                ->whereYear('statuses.created_at', '=', $this->request->year)
-                ->get($columns)
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
-        )->map(function($item) {
+    public function fetchQuery()
+    {
+        $range = [
+            Carbon::parse($this->request->from)->format('Y-m-d'),
+            Carbon::parse($this->request->to)->format('Y-m-d')
+        ];
+
+        $this->db = DB::table('devices')
+            ->rightJoin('statuses', 'statuses.device_id', '=', 'devices.id')
+            ->whereBetween('statuses.created_at', $range)
+            ->get(static::columns);
+
+        return $this;
+    }
+
+    public function toArray()
+    {
+        $this->db = collect($this->db)->map(function($item)
+        {
             return collect($item)->toArray();
         });
 
+        return $this;
+    }
+
+    public function toExcel()
+    {
         $today = DateTime::today();
 
-        Excel::create("rh-temp {$today}", function($excel) use($db)
+        Excel::create("rh-temp {$today}", function($excel)
         {
             $year = DateTime::year();
 
-            $excel->sheet("{$year}", function($sheet) use($db)
+            $excel->sheet("{$year}", function($sheet)
             {
-                $sheet->fromArray($db);
+                $sheet->fromArray($this->db);
             });
         })->download('csv');
     }

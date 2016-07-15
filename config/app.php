@@ -1,10 +1,6 @@
 <?php
-
 return [
-
     /*
-    |--------------------------------------------------------------------------
-    | Application Environment
     |--------------------------------------------------------------------------
     |
     | This value determines the "environment" your application is currently
@@ -206,7 +202,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'JavaScript' => Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Carbon' => Carbon\Carbon::class
 
     ],
 

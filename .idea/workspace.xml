@@ -2,8 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="949231bc-1a5f-4623-8ac9-17aacab2b5da" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/DeviceController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/DeviceController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/omega/Repo/ExcelRepo.php" afterPath="$PROJECT_DIR$/app/omega/Repo/ExcelRepo.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/app.php" afterPath="$PROJECT_DIR$/config/app.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/seeds/omegaListSeeder.php" afterPath="$PROJECT_DIR$/database/seeds/omegaListSeeder.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/vue-device.css" afterPath="$PROJECT_DIR$/public/css/vue-device.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/css/vue-device.css.map" afterPath="$PROJECT_DIR$/public/css/vue-device.css.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/vue-device.js" afterPath="$PROJECT_DIR$/public/js/vue-device.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/js/vue-device.js.map" afterPath="$PROJECT_DIR$/public/js/vue-device.js.map" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/components/table.vue" afterPath="$PROJECT_DIR$/resources/assets/js/components/table.vue" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/js/vue-device.js" afterPath="$PROJECT_DIR$/resources/assets/js/vue-device.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/sass/vue-device.sass" afterPath="$PROJECT_DIR$/resources/assets/sass/vue-device.sass" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/assets/stylus/vue-table.sty" afterPath="$PROJECT_DIR$/resources/assets/stylus/vue-table.sty" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/device/list.blade.php" afterPath="$PROJECT_DIR$/resources/views/device/list.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" afterPath="$PROJECT_DIR$/resources/views/layouts/layout.blade.php" />
     </list>
     <ignored path="rh-temp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,9 +42,20 @@
           <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="621">
-                  <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-                  <folding />
+                <state relative-caret-position="483">
+                  <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+                  <folding>
+                    <marker date="1468456445817" expanded="true" signature="178:253" placeholder="..." />
+                    <marker date="1468456445817" expanded="true" signature="190:252" placeholder="..." />
+                    <marker date="1468456445817" expanded="true" signature="268:353" placeholder="..." />
+                    <marker date="1468456445817" expanded="true" signature="279:352" placeholder="..." />
+                    <marker date="1468456445817" expanded="true" signature="390:399" placeholder="..." />
+                    <marker date="1468456445817" expanded="true" signature="476:479" placeholder="//..." />
+                    <marker date="1468456445817" expanded="true" signature="493:584" placeholder="..." />
+                    <marker date="1468456445817" expanded="true" signature="513:583" placeholder="..." />
+                    <marker date="1468456445817" expanded="true" signature="600:691" placeholder="..." />
+                    <marker date="1468456445817" expanded="true" signature="620:690" placeholder="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -40,10 +63,10 @@
           <file leaf-file-name="vue-device.js" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/resources/assets/js/vue-device.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1173">
-                  <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
+                <state relative-caret-position="1035">
+                  <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
                   <folding>
-                    <element signature="e#45#67#0" expanded="true" />
+                    <marker date="1468552038874" expanded="true" signature="52:75" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -52,8 +75,8 @@
           <file leaf-file-name="vue-device.sass" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/resources/assets/sass/vue-device.sass">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="46">
-                  <caret line="122" column="19" selection-start-line="122" selection-start-column="19" selection-end-line="122" selection-end-column="19" />
+                <state relative-caret-position="230">
+                  <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -66,10 +89,12 @@
           <file leaf-file-name="DbTrans.php" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/omega/Repo/DbTrans.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="414">
-                  <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+                <state relative-caret-position="345">
+                  <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
                   <folding>
                     <element signature="e#33#61#0#PHP" expanded="true" />
+                    <marker date="1468456445830" expanded="true" signature="996:1002" placeholder="{...}" />
+                    <marker date="1468456445830" expanded="true" signature="996:1004" placeholder="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -250,15 +275,16 @@
       <workItem from="1468387822195" duration="10703000" />
       <workItem from="1468542798430" duration="215000" />
       <workItem from="1468545629090" duration="203000" />
+      <workItem from="1468559803161" duration="263000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61000000" />
+    <option name="totallyTimeSpent" value="61263000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2489019" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -296,7 +322,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/resources/assets/js/vue-device.js</url>
-          <line>26</line>
+          <line>22</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
@@ -552,10 +578,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/omega/Repo/DbTrans.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="23" column="16" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="16" />
+        <state relative-caret-position="345">
+          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
           <folding>
             <element signature="e#33#61#0#PHP" expanded="true" />
+            <marker date="1468456445830" expanded="true" signature="996:1002" placeholder="{...}" />
+            <marker date="1468456445830" expanded="true" signature="996:1004" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -576,9 +604,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="621">
-          <caret line="27" column="30" selection-start-line="27" selection-start-column="30" selection-end-line="27" selection-end-column="30" />
-          <folding />
+        <state relative-caret-position="483">
+          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+          <folding>
+            <marker date="1468456445817" expanded="true" signature="178:253" placeholder="..." />
+            <marker date="1468456445817" expanded="true" signature="190:252" placeholder="..." />
+            <marker date="1468456445817" expanded="true" signature="268:353" placeholder="..." />
+            <marker date="1468456445817" expanded="true" signature="279:352" placeholder="..." />
+            <marker date="1468456445817" expanded="true" signature="390:399" placeholder="..." />
+            <marker date="1468456445817" expanded="true" signature="476:479" placeholder="//..." />
+            <marker date="1468456445817" expanded="true" signature="493:584" placeholder="..." />
+            <marker date="1468456445817" expanded="true" signature="513:583" placeholder="..." />
+            <marker date="1468456445817" expanded="true" signature="600:691" placeholder="..." />
+            <marker date="1468456445817" expanded="true" signature="620:690" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -605,10 +644,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/vue-device.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="53" column="51" selection-start-line="53" selection-start-column="51" selection-end-line="53" selection-end-column="51" />
+        <state relative-caret-position="1035">
+          <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
           <folding>
-            <element signature="e#45#67#0" expanded="true" />
+            <marker date="1468552038874" expanded="true" signature="52:75" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -623,8 +662,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/sass/vue-device.sass">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="46">
-          <caret line="122" column="19" selection-start-line="122" selection-start-column="19" selection-end-line="122" selection-end-column="19" />
+        <state relative-caret-position="230">
+          <caret line="135" column="0" selection-start-line="135" selection-start-column="0" selection-end-line="135" selection-end-column="0" />
           <folding />
         </state>
       </provider>
