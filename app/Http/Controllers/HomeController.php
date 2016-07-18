@@ -18,8 +18,12 @@ class HomeController extends Controller
     public function status(StatusRepository $omega)
     {
         return $omega->statusOf();
-    	// return device::all()->map(function($item) use($omega){
-    	// 	return $omega->statusOf($item);
-    	// });
+    }
+
+    public function statuses(StatusRepository $omega)
+    {
+        return device::all()->map(function($item) use($omega){
+         return $omega->statusOf($item);
+        });
     }
 }

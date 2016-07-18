@@ -23,27 +23,25 @@ new Vue({
     ready() {
         this.statuses();
 
-        setInterval(() => {
-            this.statuses();
-        }, 60 * 60 * 1000);
+        setInterval(() => this.statuses(), 60 * 60 * 1000);
     },
 
     methods: {
         statuses() {
-            this.omegas.map((device) => {
-                this.updateStatus(device);
+            let delay = 0;
+            this.omegas.map(device => {
+                setTimeout(() =>this.updateStatus(device), delay += 500 );
             });
         },
 
         updateStatus(device) {
             this.$http.post(env_server + '/status', device)
                 .then(response => {
-
                     var index = this.helperFindIndex(this.omegas, 'ip', device.ip);
 
                     this.omegas.$set(index, response.json());
                     this.time = moment().format('MMMM Do YYYY, h:mm:ss a');
-                }, () => this.updateStatus(device))
+                }, () => setTimeout(() =>this.updateStatus(device), 1000))
                 .bind(this);
         }
     }

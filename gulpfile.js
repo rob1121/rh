@@ -18,6 +18,8 @@ elixir(function(mix) {
         .sass('vue-device.sass')
         .browserify('vue-device.js')
 
+        .browserify('vue-repeater.js')
+
         .browserSync({
             proxy: 'rh-temp.me'
         });

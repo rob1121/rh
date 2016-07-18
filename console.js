@@ -1,1 +1,1 @@
-setInterval(function(){console.log('log me every 5 sec');}, 5000);
+setInterval(function(){console.log('log me every 5 sec');}, 3000);

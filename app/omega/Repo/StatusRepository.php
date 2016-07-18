@@ -16,7 +16,7 @@ class StatusRepository {
     /**
      * StatusRepository constructor.
      */
-    public function __construct(Request $request)
+    public function __construct(Request $request = null)
     {
 		set_time_limit (0);
         $this->request = $request;
@@ -28,14 +28,14 @@ class StatusRepository {
      */
     public function statusOf($device = null)
 	{
-        $this->device = $this->request;
-        $this->site = "http://{$this->request->ip}/postReadHtml?a";
+        $this->device = $device == null ? $this->request : $device;
+        $this->site = "http://{$this->device->ip}/postReadHtml?a";
 
-        return static::isSiteAvailable($this->site)
-            ? $this->content()->temp()->humid()->record()->get()
-            : $this
-                // ->offline()
-                ->get();
+        if ($device == null)
+            return static::isSiteAvailable($this->site) ? $this->content()->temp()->humid()->record()->get() : $this->get();
+
+        else
+            static::isSiteAvailable($this->site) ? $this->content()->temp()->humid()->record()->save() : $this->save();
 	}
 
     /**
@@ -52,7 +52,7 @@ class StatusRepository {
 
         //make the connection with curl
         $cl = curl_init($url);
-        curl_setopt($cl,CURLOPT_CONNECTTIMEOUT,3);
+        curl_setopt($cl,CURLOPT_CONNECTTIMEOUT,5);
         curl_setopt($cl,CURLOPT_HEADER,true);
         curl_setopt($cl,CURLOPT_NOBODY,true);
         curl_setopt($cl,CURLOPT_RETURNTRANSFER,true);
@@ -84,14 +84,34 @@ class StatusRepository {
             'is_recording' => $this->is_recording
         ];
 
-        $isOnline = $this->temp != "Offline" || $this->rh != "Offline";
+    	return $collection;
+    }
+
+    protected function checkOutput() {
+        $isOnline = $this->rh != "Offline" && $this->temp != "Offline";
         $isRhNotPassed = $this->rh > 55.6 || $this->rh < 44.5;
         $isTempNotPassed = $this->temp > 25.6 || $this->temp < 19.5;
 
-        if ( ( $isTempNotPassed || $isRhNotPassed ) && $isOnline )
-            $this->device->status()->save(new status($collection));
+        return ($isTempNotPassed || $isRhNotPassed) && $isOnline;
 
-    	return $collection;
+    }
+
+    protected function save()
+    {
+        $collection = [
+            'ip' => $this->device->ip,
+            'location' => $this->device->location,
+            'temp' => $this->temp,
+            'rh' => $this->rh,
+            'is_recording' => $this->is_recording
+        ];
+
+        if ( $this->checkOutput() )
+        {
+            $device = device::whereIp($this->device->ip)->first();
+            $device->status()->save(new status($collection));
+        }
+
     }
 
     /**

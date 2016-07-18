@@ -16030,6 +16030,86 @@ exports.insert = function (css) {
 }
 
 },{}],8:[function(require,module,exports){
+'use strict';
+
+var _vue = require('vue');
+
+var _vue2 = _interopRequireDefault(_vue);
+
+var _moment = require('moment');
+
+var _moment2 = _interopRequireDefault(_moment);
+
+var _card = require('./components/card.vue');
+
+var _card2 = _interopRequireDefault(_card);
+
+var _atReady = require('./mixins/atReady');
+
+var _atReady2 = _interopRequireDefault(_atReady);
+
+var _helper = require('./mixins/helper');
+
+var _helper2 = _interopRequireDefault(_helper);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+_vue2.default.use(require('vue-resource'));
+
+_vue2.default.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_token').getAttribute('value');
+
+new _vue2.default({
+    el: "#app",
+
+    data: {
+        omegas: omegas,
+        time: (0, _moment2.default)().format('MMMM Do YYYY, h:mm:ss a')
+    },
+
+    mixins: [_atReady2.default, _helper2.default],
+
+    components: { card: _card2.default },
+
+    ready: function ready() {
+        var _this = this;
+
+        this.statuses();
+
+        setInterval(function () {
+            return _this.statuses();
+        }, 60 * 60 * 1000);
+    },
+
+
+    methods: {
+        statuses: function statuses() {
+            var _this2 = this;
+
+            var delay = 0;
+            this.omegas.map(function (device) {
+                setTimeout(function () {
+                    return _this2.updateStatus(device);
+                }, delay += 500);
+            });
+        },
+        updateStatus: function updateStatus(device) {
+            var _this3 = this;
+
+            this.$http.post(env_server + '/status', device).then(function (response) {
+                var index = _this3.helperFindIndex(_this3.omegas, 'ip', device.ip);
+
+                _this3.omegas.$set(index, response.json());
+                _this3.time = (0, _moment2.default)().format('MMMM Do YYYY, h:mm:ss a');
+            }, function () {
+                return setTimeout(function () {
+                    return _this3.updateStatus(device);
+                }, 1000);
+            }).bind(this);
+        }
+    }
+});
+
+},{"./components/card.vue":9,"./mixins/atReady":11,"./mixins/helper":12,"moment":1,"vue":6,"vue-resource":4}],9:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert(".alert-green {\n  background: #bcfe6d;\n}\n.alert-green .content .card-content .name {\n  color: #3b4e32;\n}\n.alert-red {\n  background: #b22222;\n  -webkit-animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both 1s;\n          animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both 1s;\n  -webkit-transform: translate3d(0, 0, 0);\n          transform: translate3d(0, 0, 0);\n}\n.alert-red .content .card-content .name {\n  color: #ec9b9b;\n}\n.alert-red .card-footer {\n  color: #ec9b9b;\n}\n.dateTime {\n  color: #b22222;\n  font-size: 14px;\n}\n.box {\n  overflow: hidden;\n}\n#title {\n  color: #222;\n  text-shadow: 1px 1px 3px #98b48b;\n  text-align: center;\n  font-weight: bold;\n  font-size: 24px;\n  margin-bottom: 24px;\n}\n.cards {\n  -webkit-animation: slideup 1s ease-in-out;\n          animation: slideup 1s ease-in-out;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -ms-flex-pack: distribute;\n      justify-content: space-around;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.card {\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  margin: 5px 0;\n  width: 180px;\n  height: 180px;\n  border: 1px solid #3b4e32;\n  box-shadow: 0px 2px 5px 0px #3b4e32;\n}\n.card-loader {\n  background: -webkit-linear-gradient(top left, #353866, #8a8ec2);\n  background: linear-gradient(to bottom right, #353866, #8a8ec2);\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  color: #fff;\n  font-weight: bold;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  position: absolute;\n  z-index: 1;\n  width: 180px;\n  height: 180px;\n}\n.title {\n  padding-left: 5px;\n  font-size: 14px;\n  margin-bottom: 20px;\n  text-transform: uppercase;\n  background: rgba(255,255,255,0.7);\n  font-weight: bold;\n  color: #3b4e32;\n}\n.card-content {\n  padding: 1px 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  font-size: 20px;\n}\n.card-content div {\n  width: 100%;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  font-weight: bold;\n}\n.card-content .name {\n  color: #3b4e32;\n  padding-right: 10px;\n  text-align: right;\n}\n.card-content .value {\n  -webkit-transition: all 1s ease-in-out;\n  transition: all 1s ease-in-out;\n  color: #3b4e32;\n  padding-left: 2px;\n  background: rgba(255,255,255,0.7);\n}\n.card-footer {\n  padding: 5px;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: end;\n      -ms-flex-pack: end;\n          justify-content: flex-end;\n  -webkit-box-flex: 1;\n      -ms-flex-positive: 1;\n          flex-grow: 1;\n  padding-top: 15px;\n  font-size: 14px;\n  color: #3b4e32;\n  text-transform: capitalize;\n  -webkit-box-align: end;\n      -ms-flex-align: end;\n          align-items: flex-end;\n}\n@-moz-keyframes slideup {\n  from {\n    transform: translateY(30px);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@-webkit-keyframes slideup {\n  from {\n    -webkit-transform: translateY(30px);\n            transform: translateY(30px);\n    opacity: 0;\n  }\n  to {\n    -webkit-transform: translateY(0px);\n            transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@-o-keyframes slideup {\n  from {\n    transform: translateY(30px);\n    opacity: 0;\n  }\n  to {\n    transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@keyframes slideup {\n  from {\n    -webkit-transform: translateY(30px);\n            transform: translateY(30px);\n    opacity: 0;\n  }\n  to {\n    -webkit-transform: translateY(0px);\n            transform: translateY(0px);\n    opacity: 1;\n  }\n}\n@-moz-keyframes shake {\n  10%, 90% {\n    transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n@-webkit-keyframes shake {\n  10%, 90% {\n    -webkit-transform: translate3d(-1px, 0, 0);\n            transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    -webkit-transform: translate3d(2px, 0, 0);\n            transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    -webkit-transform: translate3d(-4px, 0, 0);\n            transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n@-o-keyframes shake {\n  10%, 90% {\n    transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n@keyframes shake {\n  10%, 90% {\n    -webkit-transform: translate3d(-1px, 0, 0);\n            transform: translate3d(-1px, 0, 0);\n  }\n  20%, 80% {\n    -webkit-transform: translate3d(2px, 0, 0);\n            transform: translate3d(2px, 0, 0);\n  }\n  30%, 50%, 70% {\n    -webkit-transform: translate3d(-4px, 0, 0);\n            transform: translate3d(-4px, 0, 0);\n  }\n  40%, 60% {\n    -webkit-transform: translate3d(4px, 0, 0);\n            transform: translate3d(4px, 0, 0);\n  }\n  50% {\n    box-shadow: 0px 5px 10px 0px #3b4e32;\n  }\n  100% {\n    box-shadow: 0px 2px 5px 0px #3b4e32;\n  }\n}\n")
 'use strict';
@@ -16080,12 +16160,10 @@ exports.default = {
 		status: function status(rh, temp, is_recording) {
 			var alert = "";
 
-			if (typeof temp == "undefined" || typeof rh == "undefined" || temp == "Offline" || rh == "Offline") if (is_recording == "Off") alert = 'alert-red'; //originally alert-red
+			alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5 ? 'alert-red' //originally alert-red
+			: 'alert-green';
 
-			else {
-					alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5 ? 'alert-red' //originally alert-red
-					: 'alert-green';
-				}
+			if (typeof temp == "undefined" || typeof rh == "undefined" || temp == "Offline" || rh == "Offline") if (is_recording == "Off") alert = 'alert-red'; //originally alert-red
 
 			return alert;
 		}
@@ -16107,7 +16185,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-59d60084", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":6,"vue-hot-reload-api":3,"vue-spinner/dist/vue-spinner.min.js":5,"vueify/lib/insert-css":7}],9:[function(require,module,exports){
+},{"vue":6,"vue-hot-reload-api":3,"vue-spinner/dist/vue-spinner.min.js":5,"vueify/lib/insert-css":7}],10:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert(".export {\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: 2;\n  padding: 10px;\n}\n.export label[for=\"toggle-drop-down\"] {\n  cursor: pointer;\n  float: right;\n  font-weight: bold;\n  color: #999;\n  -webkit-transition: all 0.3s ease-in-out;\n  transition: all 0.3s ease-in-out;\n}\n.export label[for=\"toggle-drop-down\"]:hover {\n  color: #333;\n}\n#toggle-drop-down {\n  opacity: 0;\n}\n#toggle-drop-down:checked + .dropdown-box>.dropdown {\n  opacity: 1;\n  top: 0;\n}\n")
 "use strict";
@@ -16149,7 +16227,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-d8d4ac9e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":6,"vue-hot-reload-api":3,"vueify/lib/insert-css":7}],10:[function(require,module,exports){
+},{"vue":6,"vue-hot-reload-api":3,"vueify/lib/insert-css":7}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -16175,7 +16253,7 @@ exports.default = {
     components: { toggleGear: _toggleGear2.default }
 };
 
-},{"../components/toggleGear.vue":9}],11:[function(require,module,exports){
+},{"../components/toggleGear.vue":10}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -16194,82 +16272,6 @@ exports.default = {
 	}
 };
 
-},{}],12:[function(require,module,exports){
-'use strict';
-
-var _vue = require('vue');
-
-var _vue2 = _interopRequireDefault(_vue);
-
-var _moment = require('moment');
-
-var _moment2 = _interopRequireDefault(_moment);
-
-var _card = require('./components/card.vue');
-
-var _card2 = _interopRequireDefault(_card);
-
-var _atReady = require('./mixins/atReady');
-
-var _atReady2 = _interopRequireDefault(_atReady);
-
-var _helper = require('./mixins/helper');
-
-var _helper2 = _interopRequireDefault(_helper);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-_vue2.default.use(require('vue-resource'));
-
-_vue2.default.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#_token').getAttribute('value');
-
-new _vue2.default({
-    el: "#app",
-
-    data: {
-        omegas: omegas,
-        time: (0, _moment2.default)().format('MMMM Do YYYY, h:mm:ss a')
-    },
-
-    mixins: [_atReady2.default, _helper2.default],
-
-    components: { card: _card2.default },
-
-    ready: function ready() {
-        var _this = this;
-
-        this.statuses();
-
-        setInterval(function () {
-            _this.statuses();
-        }, 60 * 60 * 1000);
-    },
-
-
-    methods: {
-        statuses: function statuses() {
-            var _this2 = this;
-
-            this.omegas.map(function (device) {
-                _this2.updateStatus(device);
-            });
-        },
-        updateStatus: function updateStatus(device) {
-            var _this3 = this;
-
-            this.$http.post(env_server + '/status', device).then(function (response) {
-
-                var index = _this3.helperFindIndex(_this3.omegas, 'ip', device.ip);
-
-                _this3.omegas.$set(index, response.json());
-                _this3.time = (0, _moment2.default)().format('MMMM Do YYYY, h:mm:ss a');
-            }, function () {
-                return _this3.updateStatus(device);
-            }).bind(this);
-        }
-    }
-});
-
-},{"./components/card.vue":8,"./mixins/atReady":10,"./mixins/helper":11,"moment":1,"vue":6,"vue-resource":4}]},{},[12]);
+},{}]},{},[8]);
 
 //# sourceMappingURL=app.js.map

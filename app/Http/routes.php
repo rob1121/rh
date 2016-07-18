@@ -8,6 +8,7 @@ Route::get('/', [
 ]);
 
 Route::post('/status', 'HomeController@status'); //ajax request
+Route::get('/statuses', 'HomeController@statuses'); //ajax request
 
 Route::get('/devices',[
     'as' => 'devices',

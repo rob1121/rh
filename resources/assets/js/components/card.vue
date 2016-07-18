@@ -220,19 +220,16 @@ import { PulseLoader  } from 'vue-spinner/dist/vue-spinner.min.js';
 	        status(rh, temp, is_recording) {
 	            var alert = "";
 
+	            alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5
+	            	? 'alert-red' //originally alert-red
+	            	: 'alert-green';
+
 		        if ( typeof temp == "undefined"
                         || typeof rh == "undefined"
                         || temp == "Offline"
                         || rh == "Offline"
                 )
 		            if(is_recording == "Off") alert = 'alert-red'; //originally alert-red
-
-		        else
-		        {
-		            alert = temp > 25.6 || temp < 19.5 || rh > 55.6 || rh < 44.5
-		            	? 'alert-red' //originally alert-red
-		            	: 'alert-green';
-		        }
 
 		        return alert;
 	        }
