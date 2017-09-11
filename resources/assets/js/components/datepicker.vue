@@ -1,104 +1,129 @@
-<style lang="stylus">
-.datetime-picker
-    position: relative
-    display: inline-block
-    font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei"
-    -webkit-font-smoothing: antialiased
-    color: #333
+<style scoped>
+    .datetime-picker {
+        position: relative;
+        display: inline-block;
+        font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei";
+        -webkit-font-smoothing: antialiased;
+        color: #333;
+    }
 
-    *
-        box-sizing: border-box
+    .datetime-picker * {
+        box-sizing: border-box;
+    }
 
-    input
-        width: 100%
+    .datetime-picker input {
+        width: 100%;
+        padding: 5px 10px;
+        height: 30px;
+        outline: 0 none;
+        border: 1px solid #ccc;
+        font-size: 13px;
+    }
 
-    .picker-wrap
-        position: absolute
-        z-index: 1000
-        width: 238px
-        height: 280px
-        margin-top: 2px
-        background-color: #fff
-        box-shadow: 0 0 6px #ccc
+    .datetime-picker .picker-wrap {
+        position: absolute;
+        z-index: 1000;
+        width: 238px;
+        height: 280px;
+        margin-top: 2px;
+        background-color: #fff;
+        box-shadow: 0 0 6px #ccc;
+    }
 
-    table
-        width: 100%
-        border-collapse: collapse
-        border-spacing: 0
-        text-align: center
-        font-size: 13px
+    .datetime-picker table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        text-align: center;
+        font-size: 13px;
+    }
 
-    tr
-        height: 34px
-        border: 0 none
+    .datetime-picker tr {
+        height: 34px;
+        border: 0 none;
+    }
 
-    th
-    td
-        user-select: none
-        width: 34px
-        height: 34px
-        padding: 0
-        border: 0 none
-        line-height: 34px
-        text-align: center
+    .datetime-picker th, .datetime-picker td {
+        user-select: none;
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: 0 none;
+        line-height: 34px;
+        text-align: center;
+    }
 
-    td
-        cursor: pointer
+    .datetime-picker td {
+        cursor: pointer;
+    }
 
-        &:hover
-            background-color: #f0f0f0
+    .datetime-picker td:hover {
+        background-color: #f0f0f0;
+    }
 
-        &.date-pass
-        &.date-future
-            color: #aaa
+    .datetime-picker td.date-pass, .datetime-picker td.date-future {
+        color: #aaa;
+    }
 
-        &.date-active
-            background-color: #ececec
-            color: #3bb4f2
+    .datetime-picker td.date-active {
+        background-color: #ececec;
+        color: #3bb4f2;
+    }
 
-    .date-head
-        background-color: #3bb4f2
-        text-align: center
-        color: #fff
-        font-size: 14px
+    .datetime-picker .date-head {
+        background-color: #3bb4f2;
+        text-align: center;
+        color: #fff;
+        font-size: 14px;
+    }
 
-    .date-days
-        color: #3bb4f2
-        font-size: 14px
+    .datetime-picker .date-days {
+        color: #3bb4f2;
+        font-size: 14px;
+    }
 
-    .show-year
-        display: inline-block
-        min-width: 62px
-        vertical-align: middle
+    .datetime-picker .show-year {
+        display: inline-block;
+        min-width: 62px;
+        vertical-align: middle;
+    }
 
-    .show-month
-        display: inline-block
-        min-width: 28px
-        vertical-align: middle
+    .datetime-picker .show-month {
+        display: inline-block;
+        min-width: 28px;
+        vertical-align: middle;
+    }
 
-    .btn-prev,
-    .btn-next
-        cursor: pointer
-        display: inline-block
-        padding: 0 10px
-        vertical-align: middle
+    .datetime-picker .btn-prev,
+    .datetime-picker .btn-next {
+        cursor: pointer;
+        display: inline-block;
+        padding: 0 10px;
+        vertical-align: middle;
+    }
 
-    .btn-prev:hover,
-    .btn-next:hover
-        background: rgba(16, 160, 234, 0.5)
+    .datetime-picker .btn-prev:hover,
+    .datetime-picker .btn-next:hover {
+        background: rgba(16, 160, 234, 0.5);
+    }
 </style>
 
 <template>
-    <div class="datetime-picker" :style="{ width: width }">
-        <input class="text"
-            type="text"
-            :style="styleObj"
-            :readonly="readonly"
-            :value="value"
-            @click="show = !show">
-        <div class="picker-wrap" v-show="show">
-            <table class="date-picker">
-                <thead>
+    <div :class="['form-group',{'has-error' : error }, 'col-sm-'+col]">
+        <label class="control-label" v-text="capitalize(label ? label : name)"></label>
+        <input type="text"
+               class="form-control input-sm"
+               autocomplete="off"
+               :name="name"
+               :id="name"
+               :readonly="readonly"
+               :value="value"
+               @click="show = !show"
+        >
+        <div class="datetime-picker" :style="'width:' + width">
+            <div class="picker-wrap" v-show="show">
+                <table class="date-picker">
+                    <thead>
                     <tr class="date-head">
                         <th colspan="4">
                             <span class="btn-prev" @click="yearClick(-1)">&lt;</span>
@@ -114,35 +139,45 @@
                     <tr class="date-days">
                         <th v-for="day in days">{{day}}</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr v-for="i in 6">
                         <td v-for="j in 7"
-                            :class="date[i * 7 + j] && date[i * 7 + j].status"
-                            :date="date[i * 7 + j] && date[i * 7 + j].date"
+                            :class="getStatus(i,j)"
+                            :date="getDate(i,j)"
                             @click="pickDate(i * 7 + j)">{{date[i * 7 + j] && date[i * 7 + j].text}}</td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+    import store from "./../vuex/store";
+
     export default {
+        store,
+
         props: {
-            width: { type: String, default: '238px' },
+            name:{default:""},
+            error:{default:""},
+            label:{default:""},
+            col:{default:"12"},
+            width: { type: String, default: '100%' },
             readonly: { type: Boolean, default: false },
-            value: { type: String, default: '' },
-            format: { type: String, default: 'YYYY-MM-DD' }
+            format: { type: String, default: 'YYYY-MM-DD' },
         },
+
         data () {
             return {
                 show: false,
-                days: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                days: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
                 months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 date: [],
-                now: new Date()
+                now: new Date(),
+                value: ""
             };
         },
         watch: {
@@ -151,9 +186,25 @@
             },
             show () {
                 this.update();
+            },
+            value () {
+                this.$store.commit("SET_DATE_" + this.name.toUpperCase(), this.value);
             }
         },
         methods: {
+
+            getStatus(i, j) {
+                return this.date[i * 7 + j] && this.date[i * 7 + j].status
+            },
+
+            getDate(i, j) {
+                return this.date[i * 7 + j] && this.date[i * 7 + j].data
+            },
+
+            capitalize(string) {
+                return _.capitalize(string);
+            },
+
             close () {
                 this.show = false;
             },
@@ -240,10 +291,14 @@
                 }
             }
         },
-        ready () {
-            this.now = this.parse(this.value) || new Date();
-            document.addEventListener('click', this.leave, false);
+
+        mounted() {
+            this.$nextTick(() => {
+                this.now = this.parse(this.value) || new Date();
+                document.addEventListener('click', this.leave, false);
+            })
         },
+
         beforeDestroy () {
             document.removeEventListener('click', this.leave, false);
         }

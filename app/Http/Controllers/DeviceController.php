@@ -1,68 +1,41 @@
-<?php
+<?php namespace App\Http\Controllers;
 
-namespace App\Http\Controllers;
-
-use App\omega\Repo\DbTrans;
-use Illuminate\Http\Request;
-use App\omega\Repo\ExcelRepo;
-use App\omega\models\device;
-use JavaScript;
-
-class DeviceController extends Controller
-{
-    /**
-     * DeviceController constructor.
-     */
+class DeviceController extends Controller {
     public function __construct()
     {
         $this->middleware('auth');
     }
-
-    /**
-     * @param ExcelRepo $db
-     */
-    public function exportToCsv(ExcelRepo $db)
+    public function index()
     {
-        $db->fetchQuery()
-            ->toArray()
-            ->toExcel();
+//        $this->sendSMSNofitication();
+        return view('device.index');
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function show()
-    {
-        JavaScript::put(['devices' => device::all()]);
-        return view('device.list');
+    protected function itexmo($number,$message,$apicode){
+        $url = 'https://www.itexmo.com/php_api/api.php';
+        $itexmo = array('1' => $number, '2' => $message, '3' => $apicode);
+        $param = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
+                'content' => http_build_query($itexmo),
+            ),
+        );
+        $context  = stream_context_create($param);
+        return file_get_contents($url, false, $context);
     }
 
-    /**
-     * @param DbTrans $db
-     * @return static
-     */
-    public function store(DbTrans $db)
+    protected function sendSMSNofitication()
     {
-        return $db->validateRequest()
-            ->store();
-    }
-
-    /**
-     * @param device $device
-     * @throws \Exception
-     */
-    public function delete(device $device)
-    {
-        $device->delete();
-    }
-
-    /**
-     * @param device $device
-     * @param Request $request
-     */
-    public function update(DbTrans $db,device $device)
-    {
-        $db->validateRequest($device)
-            ->update();
+        $result = $this->itexmo("09232984610", "Test Message", "ROBIN984610_WNLUH");
+        if ($result == "") {
+            echo "iTexMo: No response from server!!!
+                Please check the METHOD used (CURL or CURL-LESS). If you are using CURL then try CURL-LESS and vice versa.	
+                Please CONTACT US for help. ";
+        } else if ($result == 0) {
+            echo "Message Sent!";
+        } else {
+            echo "Error Num " . $result . " was encountered!";
+        }
     }
 }

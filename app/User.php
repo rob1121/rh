@@ -1,18 +1,19 @@
-<?php
+<?php namespace App;
 
-namespace App;
-
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use Notifiable;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','username',
+        'employee_id','name', 'email', 'password', "is_admin"
     ];
 
     /**
@@ -21,6 +22,22 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'created_at', 'updated_at'
     ];
+
+
+    public function config()
+    {
+        return $this->hasOne(Configuration::class);
+    }
+
+    public function scopeEmployeeIdHighestCharCount($query)
+    {
+        return $query->orderBy("employee_id", "desc")->first()->employee_id;
+    }
+
+    public static function instance(Array $request)
+    {
+        return (new self($request))->getAttributes();
+    }
 }

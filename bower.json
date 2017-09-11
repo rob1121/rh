@@ -1,7 +1,0 @@
-{
-  "name": "rh-temp",
-  "dependencies": {
-    "font-awesome": "latest",
-    "bootstrap": "^3.3.6"
-  }
-}

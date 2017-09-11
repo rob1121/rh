@@ -1,0 +1,47 @@
+
+.card
+    box-shadow: 0 0 20px 0 rgba(0,0,0, 0.3)
+
+    &.failed
+        border: 1px solid firebrick
+        > .panel-body,
+        > .panel-footer
+            border-color: firebrick !important
+            background: firebrick
+            color: #fff
+
+
+    &.pass
+        border: 1px solid greenyellow
+        > .panel-body,
+        > .panel-footer
+            border-color: greenyellow !important
+            background: greenyellow
+            color: #222
+
+
+    .rate strong
+        color: #222
+        background: #fff
+        border-radius: 3px
+        padding: 1px 5px
+
+
+body
+    margin: 0
+    padding: 0
+
+
+    .no-border,
+    .no-border  *
+        border: none !important
+
+    [v-cloak]
+        display: none
+
+    .panel
+        box-shadow: 0 0 32px 0 rgba(0,0,0,0.1)
+
+    .table-responsive
+        overflow-y: scroll
+        max-height: 400px

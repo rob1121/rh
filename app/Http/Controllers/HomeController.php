@@ -2,28 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\omega\models\device;
-use JavaScript;
-use App\Http\Requests;
-use App\omega\Repo\StatusRepository;
+use App\Device;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    /**
+     * Create a new controller instance.
+     *
+     */
+    public function __construct()
     {
-        JavaScript::put(["omegas" => device::all()]);
-        return view('welcome');
-}
-
-    public function status(StatusRepository $omega)
-    {
-        return $omega->statusOf();
+        $this->middleware('auth');
     }
 
-    public function statuses(StatusRepository $omega)
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        return device::all()->map(function($item) use($omega){
-         return $omega->statusOf($item);
-        });
+        return view('home', [
+            "devices" => Device::get(["ip","location","position"])
+        ]);
     }
 }
